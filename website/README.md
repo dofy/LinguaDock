@@ -1,6 +1,6 @@
 # LinguaDock Product Site
 
-LinguaDock 的静态产品介绍站，使用 Vite 构建并部署到 Cloudflare Pages。
+LinguaDock 的静态产品介绍站，使用 Vite 构建并通过 Cloudflare Workers Static Assets 部署。
 
 ```bash
 pnpm install
