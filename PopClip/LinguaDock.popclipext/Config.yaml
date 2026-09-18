@@ -1,0 +1,15 @@
+name:
+  en: LinguaDock Translate
+  zh-hans: LinguaDock 翻译
+  zh-hant: LinguaDock 翻譯
+icon: icon.png
+identifier: xyz.phpz.popclip.extension.linguadock
+popclip version: 6159
+description:
+  en: Send selected text to LinguaDock for local-first AI translation.
+  zh-hans: 将选中文本发送到 LinguaDock，使用本地优先的 AI 翻译。
+  zh-hant: 將選取文字傳送到 LinguaDock，使用本機優先的 AI 翻譯。
+keywords: translate translation ollama ai local
+entitlements:
+  - dynamic
+module: Main.js

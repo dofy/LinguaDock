@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1CB2EF0A41644A560FA8AECD /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5825C95CAA0BF4CB800EB083 /* ApplicationServices.framework */; };
+		22BC1FC366C2444277AB418C /* SelectedTextReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EF99952A462464265A065E /* SelectedTextReader.swift */; };
+		3C17DF571AB4D039CA8C86AD /* ShortcutRecorderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A942CB8F848BAC434944567 /* ShortcutRecorderField.swift */; };
+		6156FF476EA4AAE6333CFE3A /* TranslationDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69178290541A0C33BBEAAA98 /* TranslationDirection.swift */; };
+		68C49008714CD25F40D1A076 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BEAFCAF3180C42B6D3D4A7 /* SettingsView.swift */; };
+		6D5C805E7B57E1905E36CB98 /* APIKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FAB266DF54F609FDFA2B37 /* APIKeyStore.swift */; };
+		6DE7AA669C1B7A543A41B4ED /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA20A358B7A9B72017C0835 /* AppState.swift */; };
+		7368EF9B766559CBDBBD4D9F /* LinguaDockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2F178140EC3CC2826DA82 /* LinguaDockApp.swift */; };
+		7F1E8B94638901CAEA681E0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1CEB92F1ED6869F7EC3FED /* AppDelegate.swift */; };
+		8B2F49F4359418BC943D33C8 /* ProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D552EFBACE48B68903A8DBD /* ProviderConfiguration.swift */; };
+		8C739EE2E8D55A74D03E3DE8 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D980F76ADAE6D0CEC0240B /* TranslationService.swift */; };
+		94FC045681C800C93E9C3B89 /* URLRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18011C4E18D5E91C0265FA /* URLRoute.swift */; };
+		A0F9A6DD5E8735A6F7A84136 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 483786DC0DA5EEB8F427D8D8 /* Assets.xcassets */; };
+		A55BBEB58266557730CB4160 /* TranslatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4ABE8ED1148D9FE65F5B470 /* TranslatorView.swift */; };
+		B50A97B2F064F74D4DFA713C /* WindowAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0002452BD63D4D0B064E7570 /* WindowAccessor.swift */; };
+		B8CB22F7AF396459A7019816 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */; };
+		BC87422117025133D7D937B1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C7169CE7623B7B0329BAA7F /* Security.framework */; };
+		CF678ADFB77F7B63F5CEBD7A /* URLRouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52FD5770B348FCA51D227A8 /* URLRouteTests.swift */; };
+		D1CDD193CC83B8DF40515C89 /* HotkeyNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433D576828CFE47A00430456 /* HotkeyNames.swift */; };
+		E98ADB2581D2286BF6530026 /* TranslationDirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B312227DAAAADF353DD33300 /* TranslationDirectionTests.swift */; };
+		F500E13D9605BDB44DA4707C /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 25D966D4217C1C51AA9EB03D /* KeyboardShortcuts */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		592D2A434AC41E14847D433D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38548B9C0E38E1600C9BC018 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8EF9D6AD02CDB77170664DB9;
+			remoteInfo = LinguaDock;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0002452BD63D4D0B064E7570 /* WindowAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowAccessor.swift; sourceTree = "<group>"; };
+		3A942CB8F848BAC434944567 /* ShortcutRecorderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRecorderField.swift; sourceTree = "<group>"; };
+		41D980F76ADAE6D0CEC0240B /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
+		41FAB266DF54F609FDFA2B37 /* APIKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyStore.swift; sourceTree = "<group>"; };
+		433D576828CFE47A00430456 /* HotkeyNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyNames.swift; sourceTree = "<group>"; };
+		483786DC0DA5EEB8F427D8D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F18011C4E18D5E91C0265FA /* URLRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRoute.swift; sourceTree = "<group>"; };
+		54984B16E48F2A59D07D9381 /* LinguaDock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinguaDock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5825C95CAA0BF4CB800EB083 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		69178290541A0C33BBEAAA98 /* TranslationDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationDirection.swift; sourceTree = "<group>"; };
+		7BB1F9701A241C475573F640 /* LinguaDockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LinguaDockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D552EFBACE48B68903A8DBD /* ProviderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderConfiguration.swift; sourceTree = "<group>"; };
+		86B2F178140EC3CC2826DA82 /* LinguaDockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinguaDockApp.swift; sourceTree = "<group>"; };
+		8C7169CE7623B7B0329BAA7F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A8BEAFCAF3180C42B6D3D4A7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		AEA20A358B7A9B72017C0835 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		B312227DAAAADF353DD33300 /* TranslationDirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationDirectionTests.swift; sourceTree = "<group>"; };
+		BE1CEB92F1ED6869F7EC3FED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C52FD5770B348FCA51D227A8 /* URLRouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRouteTests.swift; sourceTree = "<group>"; };
+		D7EF99952A462464265A065E /* SelectedTextReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTextReader.swift; sourceTree = "<group>"; };
+		E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
+		E4ABE8ED1148D9FE65F5B470 /* TranslatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DEE3FD0EAC9A4F3708D494C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F500E13D9605BDB44DA4707C /* KeyboardShortcuts in Frameworks */,
+				1CB2EF0A41644A560FA8AECD /* ApplicationServices.framework in Frameworks */,
+				BC87422117025133D7D937B1 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1BC26083F1420B28F27A0F5D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				54984B16E48F2A59D07D9381 /* LinguaDock.app */,
+				7BB1F9701A241C475573F640 /* LinguaDockTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1DB3A99BEBDA8A815AD4875D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5825C95CAA0BF4CB800EB083 /* ApplicationServices.framework */,
+				8C7169CE7623B7B0329BAA7F /* Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		26D61C736F545A9EA83016F8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				41FAB266DF54F609FDFA2B37 /* APIKeyStore.swift */,
+				D7EF99952A462464265A065E /* SelectedTextReader.swift */,
+				41D980F76ADAE6D0CEC0240B /* TranslationService.swift */,
+				4F18011C4E18D5E91C0265FA /* URLRoute.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4F2DAD1F04535EC08B3B6E6E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				483786DC0DA5EEB8F427D8D8 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6255275F1C0F73B828DBC9AE = {
+			isa = PBXGroup;
+			children = (
+				AFCA55C03394613B0357B41B /* LinguaDock */,
+				D31A5FD76A50189F02EC2182 /* LinguaDockTests */,
+				1DB3A99BEBDA8A815AD4875D /* Frameworks */,
+				1BC26083F1420B28F27A0F5D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		978882D311FDBE92B97C27D8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A8BEAFCAF3180C42B6D3D4A7 /* SettingsView.swift */,
+				3A942CB8F848BAC434944567 /* ShortcutRecorderField.swift */,
+				E4ABE8ED1148D9FE65F5B470 /* TranslatorView.swift */,
+				0002452BD63D4D0B064E7570 /* WindowAccessor.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9F18130AE96660743B3F1543 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7D552EFBACE48B68903A8DBD /* ProviderConfiguration.swift */,
+				69178290541A0C33BBEAAA98 /* TranslationDirection.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AFCA55C03394613B0357B41B /* LinguaDock */ = {
+			isa = PBXGroup;
+			children = (
+				C7B3816BCBBFCD9D92008E97 /* App */,
+				9F18130AE96660743B3F1543 /* Models */,
+				4F2DAD1F04535EC08B3B6E6E /* Resources */,
+				26D61C736F545A9EA83016F8 /* Services */,
+				978882D311FDBE92B97C27D8 /* Views */,
+			);
+			path = LinguaDock;
+			sourceTree = "<group>";
+		};
+		C7B3816BCBBFCD9D92008E97 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				BE1CEB92F1ED6869F7EC3FED /* AppDelegate.swift */,
+				AEA20A358B7A9B72017C0835 /* AppState.swift */,
+				433D576828CFE47A00430456 /* HotkeyNames.swift */,
+				86B2F178140EC3CC2826DA82 /* LinguaDockApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D31A5FD76A50189F02EC2182 /* LinguaDockTests */ = {
+			isa = PBXGroup;
+			children = (
+				B312227DAAAADF353DD33300 /* TranslationDirectionTests.swift */,
+				E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */,
+				C52FD5770B348FCA51D227A8 /* URLRouteTests.swift */,
+			);
+			path = LinguaDockTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6A35B7E816C1E24FE6355E19 /* LinguaDockTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4D436F4C6C31D3802FA61D3 /* Build configuration list for PBXNativeTarget "LinguaDockTests" */;
+			buildPhases = (
+				3715B79FFAB480CCEF9A1A04 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2298620301589B2823F39CAA /* PBXTargetDependency */,
+			);
+			name = LinguaDockTests;
+			packageProductDependencies = (
+			);
+			productName = LinguaDockTests;
+			productReference = 7BB1F9701A241C475573F640 /* LinguaDockTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8EF9D6AD02CDB77170664DB9 /* LinguaDock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 86736BD4E3108F6B49759AC7 /* Build configuration list for PBXNativeTarget "LinguaDock" */;
+			buildPhases = (
+				09977833B32C38DE3DAC0EDF /* Sources */,
+				2BEFAEB6B6913A1C31D0B757 /* Resources */,
+				DEE3FD0EAC9A4F3708D494C6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LinguaDock;
+			packageProductDependencies = (
+				25D966D4217C1C51AA9EB03D /* KeyboardShortcuts */,
+			);
+			productName = LinguaDock;
+			productReference = 54984B16E48F2A59D07D9381 /* LinguaDock.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		38548B9C0E38E1600C9BC018 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					8EF9D6AD02CDB77170664DB9 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 31872A157BC23C0D3A5E6283 /* Build configuration list for PBXProject "LinguaDock" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 6255275F1C0F73B828DBC9AE;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9F26FAB8CB5402627B2A4975 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1BC26083F1420B28F27A0F5D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8EF9D6AD02CDB77170664DB9 /* LinguaDock */,
+				6A35B7E816C1E24FE6355E19 /* LinguaDockTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2BEFAEB6B6913A1C31D0B757 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0F9A6DD5E8735A6F7A84136 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		09977833B32C38DE3DAC0EDF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D5C805E7B57E1905E36CB98 /* APIKeyStore.swift in Sources */,
+				7F1E8B94638901CAEA681E0D /* AppDelegate.swift in Sources */,
+				6DE7AA669C1B7A543A41B4ED /* AppState.swift in Sources */,
+				D1CDD193CC83B8DF40515C89 /* HotkeyNames.swift in Sources */,
+				7368EF9B766559CBDBBD4D9F /* LinguaDockApp.swift in Sources */,
+				8B2F49F4359418BC943D33C8 /* ProviderConfiguration.swift in Sources */,
+				22BC1FC366C2444277AB418C /* SelectedTextReader.swift in Sources */,
+				68C49008714CD25F40D1A076 /* SettingsView.swift in Sources */,
+				3C17DF571AB4D039CA8C86AD /* ShortcutRecorderField.swift in Sources */,
+				6156FF476EA4AAE6333CFE3A /* TranslationDirection.swift in Sources */,
+				8C739EE2E8D55A74D03E3DE8 /* TranslationService.swift in Sources */,
+				A55BBEB58266557730CB4160 /* TranslatorView.swift in Sources */,
+				94FC045681C800C93E9C3B89 /* URLRoute.swift in Sources */,
+				B50A97B2F064F74D4DFA713C /* WindowAccessor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3715B79FFAB480CCEF9A1A04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E98ADB2581D2286BF6530026 /* TranslationDirectionTests.swift in Sources */,
+				B8CB22F7AF396459A7019816 /* TranslationServiceTests.swift in Sources */,
+				CF678ADFB77F7B63F5CEBD7A /* URLRouteTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2298620301589B2823F39CAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8EF9D6AD02CDB77170664DB9 /* LinguaDock */;
+			targetProxy = 592D2A434AC41E14847D433D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		396FF649E2A921C05C603A0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.mac.linguadock.tests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LinguaDock.app/Contents/MacOS/LinguaDock";
+			};
+			name = Debug;
+		};
+		68BADB3CAA9B49FFFE8C3409 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LinguaDock/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.mac.linguadock;
+				PRODUCT_NAME = LinguaDock;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		78B9DFD73315041BC9C0C511 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LinguaDock/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.mac.linguadock;
+				PRODUCT_NAME = LinguaDock;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		891AAB5E6F3365AA7D87D1BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		D27C927B50C36EAF973D4C77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		D418E7972EED35526F4E9E55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.mac.linguadock.tests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LinguaDock.app/Contents/MacOS/LinguaDock";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		31872A157BC23C0D3A5E6283 /* Build configuration list for PBXProject "LinguaDock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D27C927B50C36EAF973D4C77 /* Debug */,
+				891AAB5E6F3365AA7D87D1BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		86736BD4E3108F6B49759AC7 /* Build configuration list for PBXNativeTarget "LinguaDock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78B9DFD73315041BC9C0C511 /* Debug */,
+				68BADB3CAA9B49FFFE8C3409 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D4D436F4C6C31D3802FA61D3 /* Build configuration list for PBXNativeTarget "LinguaDockTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				396FF649E2A921C05C603A0C /* Debug */,
+				D418E7972EED35526F4E9E55 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9F26FAB8CB5402627B2A4975 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = exactVersion;
+				version = 3.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		25D966D4217C1C51AA9EB03D /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F26FAB8CB5402627B2A4975 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 38548B9C0E38E1600C9BC018 /* Project object */;
+}

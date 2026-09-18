@@ -1,0 +1,69 @@
+name: LinguaDock
+options:
+  bundleIdPrefix: xyz.phpz.app.mac
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "27.0"
+  createIntermediateGroups: true
+
+packages:
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    exactVersion: 3.0.1
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+
+targets:
+  LinguaDock:
+    type: application
+    platform: macOS
+    sources:
+      - path: LinguaDock
+        excludes:
+          - "Resources/Info.plist"
+    dependencies:
+      - package: KeyboardShortcuts
+      - sdk: ApplicationServices.framework
+      - sdk: Security.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.phpz.app.mac.linguadock
+        PRODUCT_NAME: LinguaDock
+        INFOPLIST_FILE: LinguaDock/Resources/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        GENERATE_INFOPLIST_FILE: NO
+        ENABLE_APP_SANDBOX: NO
+        CODE_SIGN_STYLE: Automatic
+
+  LinguaDockTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: LinguaDockTests
+    dependencies:
+      - target: LinguaDock
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.phpz.app.mac.linguadock.tests
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  LinguaDock:
+    build:
+      targets:
+        LinguaDock: all
+        LinguaDockTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - LinguaDockTests
+    archive:
+      config: Release
