@@ -33,4 +33,5 @@ struct ProviderConfiguration: Equatable, Sendable {
     var baseURL: String
     var apiKey: String
     var model: String
+    var targetLanguage: TargetLanguage
 }

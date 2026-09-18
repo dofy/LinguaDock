@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08EF4B6AF0D8F8D3B1656F2F /* TargetLanguageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799006A2F82294F8F3DA3C88 /* TargetLanguageTests.swift */; };
 		1CB2EF0A41644A560FA8AECD /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5825C95CAA0BF4CB800EB083 /* ApplicationServices.framework */; };
 		22BC1FC366C2444277AB418C /* SelectedTextReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EF99952A462464265A065E /* SelectedTextReader.swift */; };
 		3C17DF571AB4D039CA8C86AD /* ShortcutRecorderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A942CB8F848BAC434944567 /* ShortcutRecorderField.swift */; };
-		6156FF476EA4AAE6333CFE3A /* TranslationDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69178290541A0C33BBEAAA98 /* TranslationDirection.swift */; };
 		68C49008714CD25F40D1A076 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BEAFCAF3180C42B6D3D4A7 /* SettingsView.swift */; };
 		6D5C805E7B57E1905E36CB98 /* APIKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FAB266DF54F609FDFA2B37 /* APIKeyStore.swift */; };
 		6DE7AA669C1B7A543A41B4ED /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA20A358B7A9B72017C0835 /* AppState.swift */; };
 		7368EF9B766559CBDBBD4D9F /* LinguaDockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2F178140EC3CC2826DA82 /* LinguaDockApp.swift */; };
+		79AC75267064D5185DB6E98D /* APIKeyStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C47DC8A97FBE607F0390B6 /* APIKeyStoreTests.swift */; };
 		7F1E8B94638901CAEA681E0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1CEB92F1ED6869F7EC3FED /* AppDelegate.swift */; };
 		8B2F49F4359418BC943D33C8 /* ProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D552EFBACE48B68903A8DBD /* ProviderConfiguration.swift */; };
 		8C739EE2E8D55A74D03E3DE8 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D980F76ADAE6D0CEC0240B /* TranslationService.swift */; };
@@ -24,9 +25,9 @@
 		B50A97B2F064F74D4DFA713C /* WindowAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0002452BD63D4D0B064E7570 /* WindowAccessor.swift */; };
 		B8CB22F7AF396459A7019816 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */; };
 		BC87422117025133D7D937B1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C7169CE7623B7B0329BAA7F /* Security.framework */; };
+		CBFDA3D5CE97E93D015FCDF9 /* TargetLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1DB3DC058EEE9BFF8D5464 /* TargetLanguage.swift */; };
 		CF678ADFB77F7B63F5CEBD7A /* URLRouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52FD5770B348FCA51D227A8 /* URLRouteTests.swift */; };
 		D1CDD193CC83B8DF40515C89 /* HotkeyNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433D576828CFE47A00430456 /* HotkeyNames.swift */; };
-		E98ADB2581D2286BF6530026 /* TranslationDirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B312227DAAAADF353DD33300 /* TranslationDirectionTests.swift */; };
 		F500E13D9605BDB44DA4707C /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 25D966D4217C1C51AA9EB03D /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
@@ -50,15 +51,16 @@
 		4F18011C4E18D5E91C0265FA /* URLRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRoute.swift; sourceTree = "<group>"; };
 		54984B16E48F2A59D07D9381 /* LinguaDock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinguaDock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5825C95CAA0BF4CB800EB083 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		69178290541A0C33BBEAAA98 /* TranslationDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationDirection.swift; sourceTree = "<group>"; };
+		73C47DC8A97FBE607F0390B6 /* APIKeyStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyStoreTests.swift; sourceTree = "<group>"; };
+		799006A2F82294F8F3DA3C88 /* TargetLanguageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetLanguageTests.swift; sourceTree = "<group>"; };
 		7BB1F9701A241C475573F640 /* LinguaDockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LinguaDockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D552EFBACE48B68903A8DBD /* ProviderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderConfiguration.swift; sourceTree = "<group>"; };
 		86B2F178140EC3CC2826DA82 /* LinguaDockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinguaDockApp.swift; sourceTree = "<group>"; };
 		8C7169CE7623B7B0329BAA7F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A8BEAFCAF3180C42B6D3D4A7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AEA20A358B7A9B72017C0835 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		B312227DAAAADF353DD33300 /* TranslationDirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationDirectionTests.swift; sourceTree = "<group>"; };
 		BE1CEB92F1ED6869F7EC3FED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BF1DB3DC058EEE9BFF8D5464 /* TargetLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetLanguage.swift; sourceTree = "<group>"; };
 		C52FD5770B348FCA51D227A8 /* URLRouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRouteTests.swift; sourceTree = "<group>"; };
 		D7EF99952A462464265A065E /* SelectedTextReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTextReader.swift; sourceTree = "<group>"; };
 		E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
@@ -141,7 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				7D552EFBACE48B68903A8DBD /* ProviderConfiguration.swift */,
-				69178290541A0C33BBEAAA98 /* TranslationDirection.swift */,
+				BF1DB3DC058EEE9BFF8D5464 /* TargetLanguage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -172,7 +174,8 @@
 		D31A5FD76A50189F02EC2182 /* LinguaDockTests */ = {
 			isa = PBXGroup;
 			children = (
-				B312227DAAAADF353DD33300 /* TranslationDirectionTests.swift */,
+				73C47DC8A97FBE607F0390B6 /* APIKeyStoreTests.swift */,
+				799006A2F82294F8F3DA3C88 /* TargetLanguageTests.swift */,
 				E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */,
 				C52FD5770B348FCA51D227A8 /* URLRouteTests.swift */,
 			);
@@ -282,7 +285,7 @@
 				22BC1FC366C2444277AB418C /* SelectedTextReader.swift in Sources */,
 				68C49008714CD25F40D1A076 /* SettingsView.swift in Sources */,
 				3C17DF571AB4D039CA8C86AD /* ShortcutRecorderField.swift in Sources */,
-				6156FF476EA4AAE6333CFE3A /* TranslationDirection.swift in Sources */,
+				CBFDA3D5CE97E93D015FCDF9 /* TargetLanguage.swift in Sources */,
 				8C739EE2E8D55A74D03E3DE8 /* TranslationService.swift in Sources */,
 				A55BBEB58266557730CB4160 /* TranslatorView.swift in Sources */,
 				94FC045681C800C93E9C3B89 /* URLRoute.swift in Sources */,
@@ -294,7 +297,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E98ADB2581D2286BF6530026 /* TranslationDirectionTests.swift in Sources */,
+				79AC75267064D5185DB6E98D /* APIKeyStoreTests.swift in Sources */,
+				08EF4B6AF0D8F8D3B1656F2F /* TargetLanguageTests.swift in Sources */,
 				B8CB22F7AF396459A7019816 /* TranslationServiceTests.swift in Sources */,
 				CF678ADFB77F7B63F5CEBD7A /* URLRouteTests.swift in Sources */,
 			);

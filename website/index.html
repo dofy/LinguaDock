@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="LinguaDock 是一款原生 macOS 翻译工具。选中文字，用全局快捷键或 PopClip 唤起，并通过本地模型或 OpenAI-compatible API 完成翻译。"
+    />
+    <meta name="theme-color" content="#fffdfc" />
+    <meta property="og:title" content="LinguaDock — 选中，唤起，读懂" />
+    <meta
+      property="og:description"
+      content="一款连接你自己的模型服务的原生 macOS 翻译工具。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/app-icon.png" />
+    <link rel="icon" type="image/png" href="/app-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>LinguaDock — 选中，唤起，读懂</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="LinguaDock 首页">
+        <img src="/app-icon.png" width="34" height="34" alt="" />
+        <span>LinguaDock</span>
+      </a>
+      <nav aria-label="主要导航">
+        <a href="#workflow">使用方式</a>
+        <a href="#models">模型服务</a>
+        <a href="#privacy">隐私</a>
+      </nav>
+      <a
+        class="header-link"
+        href="https://github.com/dofy/LinguaDock"
+        target="_blank"
+        rel="noreferrer"
+      >
+        GitHub <span aria-hidden="true">↗</span>
+      </a>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="product-note">原生 macOS 翻译工具</p>
+          <h1><span>选中，</span><span>唤起，</span><span>读懂。</span></h1>
+          <p class="hero-description">
+            LinguaDock 把其他 App 中选中的文字直接带进翻译窗口。连接本机
+            Ollama 或你自己的 OpenAI-compatible 服务，不再绕远路。
+          </p>
+          <div class="hero-actions">
+            <a
+              class="button button-primary"
+              href="https://github.com/dofy/LinguaDock"
+              target="_blank"
+              rel="noreferrer"
+              >在 GitHub 查看项目</a
+            >
+            <a class="button button-secondary" href="#start">查看安装方式</a>
+          </div>
+          <p class="hero-meta">macOS 14+ · SwiftUI · MIT License</p>
+        </div>
+
+        <div class="hero-demo" aria-label="LinguaDock 翻译流程演示">
+          <div class="source-pane">
+            <div class="mock-toolbar">
+              <span class="traffic-lights" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </span>
+              <span>Notes</span>
+            </div>
+            <p>
+              A good tool shortens the distance between a question and its
+              answer.
+            </p>
+            <p class="selection">
+              It should stay close to the work, then disappear when the work
+              continues.
+            </p>
+          </div>
+
+          <div class="shortcut" aria-label="快捷键 Command Shift T">
+            <kbd>⌘</kbd><kbd>⇧</kbd><kbd>T</kbd>
+          </div>
+
+          <div class="translation-pane">
+            <div class="translation-heading">
+              <span class="mini-brand">
+                <img src="/app-icon.png" width="28" height="28" alt="" />
+                LinguaDock
+              </span>
+              <span class="model-chip">本机或云端模型</span>
+            </div>
+            <div class="language-switch" aria-label="演示目标语言">
+              <button type="button" data-language="zh" aria-pressed="true">
+                简体中文
+              </button>
+              <button type="button" data-language="ja" aria-pressed="false">
+                日本語
+              </button>
+              <button type="button" data-language="fr" aria-pressed="false">
+                Français
+              </button>
+            </div>
+            <p class="translation-output" id="demo-output" aria-live="polite">
+              好工具会贴近正在进行的工作，缩短问题与答案之间的距离；工作继续时，它便安静退场。
+            </p>
+            <div class="translation-footer">
+              <span>保留语气与段落</span>
+              <span class="copy-control">复制译文</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="workflow section" id="workflow">
+        <div class="section-heading">
+          <h2>把翻译留在阅读现场</h2>
+          <p>不必复制到网页，不必先决定模型，也不必打断手上的内容。</p>
+        </div>
+        <ol class="workflow-rail">
+          <li>
+            <span class="step-mark">选择</span>
+            <div>
+              <h3>在任意 App 中选中文字</h3>
+              <p>邮件、网页、文档、聊天消息和代码评论，都从当前上下文开始。</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-mark">唤起</span>
+            <div>
+              <h3>使用自己的全局快捷键</h3>
+              <p>也可以点击 PopClip 图标，或通过 URL Scheme 接入其他工具。</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-mark">读懂</span>
+            <div>
+              <h3>复制准确、干净的译文</h3>
+              <p>保留语气、专有名词、Markdown、段落与代码块，不附加解释。</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="models section" id="models">
+        <div class="model-statement">
+          <p>翻译服务不该成为产品锁定。</p>
+          <h2>模型由你决定，LinguaDock 负责把它放到手边。</h2>
+        </div>
+        <div class="model-options">
+          <article>
+            <span class="option-symbol" aria-hidden="true">◎</span>
+            <h3>Ollama</h3>
+            <p>连接本机模型。适合离线内容、私密文本，以及不想把请求发出 Mac 的时候。</p>
+            <code>http://localhost:11434</code>
+          </article>
+          <article>
+            <span class="option-symbol" aria-hidden="true">↗</span>
+            <h3>OpenAI-compatible</h3>
+            <p>填写自己的 Base URL、API Key 与模型名，接入兼容的云端或自托管服务。</p>
+            <code>/v1/chat/completions</code>
+          </article>
+        </div>
+      </section>
+
+      <section class="details section">
+        <div class="detail-intro">
+          <h2>轻，不代表简陋。</h2>
+          <p>该出现时迅速出现，该记住的设置会记住，其余时候保持安静。</p>
+        </div>
+        <div class="detail-list">
+          <div>
+            <h3>全局快捷键</h3>
+            <p>直接录制并修改，不把按键写死在提示里。</p>
+          </div>
+          <div>
+            <h3>PopClip</h3>
+            <p>选中文字后，从熟悉的浮动菜单打开 LinguaDock。</p>
+          </div>
+          <div>
+            <h3>多语言目标</h3>
+            <p>自动识别原文，目标语言可随时选择并记住。</p>
+          </div>
+          <div>
+            <h3>原生体验</h3>
+            <p>SwiftUI 构建，支持系统辅助功能与 macOS Keychain。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="privacy section" id="privacy">
+        <div class="privacy-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div>
+          <h2>你的文本，按你的路线走。</h2>
+          <p>
+            LinguaDock 不内置遥测。文本只会发送到设置中指定的 API；使用本机
+            Ollama 时，翻译请求无需离开本机。API Key 分协议保存在 macOS Keychain。
+          </p>
+        </div>
+      </section>
+
+      <section class="start section" id="start">
+        <div>
+          <h2>从自己的模型开始。</h2>
+          <p>项目保持开源。克隆、构建，然后配置你信任的翻译服务。</p>
+        </div>
+        <div class="terminal" aria-label="安装命令">
+          <div class="terminal-bar"><span></span><span></span><span></span></div>
+          <pre><code>git clone https://github.com/dofy/LinguaDock.git
+cd LinguaDock
+xcodegen generate
+open LinguaDock.xcodeproj</code></pre>
+        </div>
+        <a
+          class="button button-primary"
+          href="https://github.com/dofy/LinguaDock#本地开发"
+          target="_blank"
+          rel="noreferrer"
+          >打开完整安装说明</a
+        >
+      </section>
+    </main>
+
+    <footer>
+      <div class="brand footer-brand">
+        <img src="/app-icon.png" width="30" height="30" alt="" />
+        <span>LinguaDock</span>
+      </div>
+      <p>为不中断的阅读而做。</p>
+      <div class="footer-links">
+        <a href="https://github.com/dofy/LinguaDock">GitHub</a>
+        <a href="https://github.com/dofy/LinguaDock/issues">问题反馈</a>
+        <a href="https://github.com/dofy/LinguaDock/blob/main/LICENSE">MIT License</a>
+      </div>
+      <p class="copyright">© <span id="year">2026</span> LinguaDock</p>
+    </footer>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

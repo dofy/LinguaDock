@@ -12,6 +12,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
     }
 
+    func applicationDidBecomeActive(_ notification: Notification) {
+        AppState.shared.refreshAccessibilityStatus()
+    }
+
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
         if !hasVisibleWindows {
             AppState.shared.showMainWindow()

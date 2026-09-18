@@ -28,12 +28,7 @@ struct TranslationService: Sendable {
     }
 
     func translate(_ text: String, using configuration: ProviderConfiguration) async throws -> String {
-        let direction = TranslationDirection.detect(for: text)
-        let systemPrompt = """
-        You are LinguaDock, a professional translation engine. \(direction.prompt)
-        Preserve meaning, tone, names, Markdown, paragraph breaks, and code blocks.
-        Return only the translated text. Do not explain, label, quote, or comment on it.
-        """
+        let systemPrompt = Self.systemPrompt(targetLanguage: configuration.targetLanguage)
 
         let endpoint: URL
         let body: Data
@@ -91,6 +86,15 @@ struct TranslationService: Sendable {
         let trimmed = result.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { throw TranslationServiceError.emptyTranslation }
         return trimmed
+    }
+
+    static func systemPrompt(targetLanguage: TargetLanguage) -> String {
+        """
+        You are LinguaDock, a professional translation engine. Detect the source language and translate the user's text into natural, precise \(targetLanguage.promptName).
+        Always return the result in \(targetLanguage.promptName), even when the source language is ambiguous or already matches the target language.
+        Preserve meaning, tone, names, Markdown, paragraph breaks, and code blocks.
+        Return only the translated text. Do not explain, label, quote, or comment on it.
+        """
     }
 
     func checkConnection(using configuration: ProviderConfiguration) async throws {

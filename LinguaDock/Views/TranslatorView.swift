@@ -21,7 +21,7 @@ struct TranslatorView: View {
                 editorCard(
                     title: "原文",
                     text: $appState.sourceText,
-                    placeholder: "输入文本，或在任意 App 中选中文本后按 ⇧⌘T…",
+                    placeholder: sourcePlaceholder,
                     editable: true
                 )
                 resultCard
@@ -58,20 +58,20 @@ struct TranslatorView: View {
     }
 
     private var header: some View {
-        HStack(spacing: 12) {
-            Image(nsImage: NSApp.applicationIconImage)
+        HStack(spacing: 14) {
+            Image("BrandIcon")
                 .resizable()
-                .frame(width: 36, height: 36)
-            VStack(alignment: .leading, spacing: 1) {
+                .frame(width: 40, height: 40)
+            VStack(alignment: .leading, spacing: 2) {
                 Text("LinguaDock")
-                    .font(.headline)
-                Text("本地优先的 AI 翻译")
-                    .font(.caption)
+                    .font(.system(size: 17, weight: .semibold))
+                Text("轻松读懂不同语言")
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(.secondary)
             }
             Spacer()
             Label(appState.model, systemImage: "cpu")
-                .font(.caption)
+                .font(.system(size: 12, weight: .medium, design: .rounded))
                 .lineLimit(1)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
@@ -91,8 +91,8 @@ struct TranslatorView: View {
         HStack(spacing: 10) {
             Image(systemName: "hand.raised.fill")
                 .foregroundStyle(.orange)
-            Text("授予辅助功能权限后，⇧⌘T 可直接读取其他 App 的选中文本。")
-                .font(.callout)
+            Text(accessibilityHint)
+                .font(.system(size: 13, weight: .medium))
             Spacer()
             Button("授权") { appState.requestAccessibilityPermission() }
                 .buttonStyle(.borderedProminent)
@@ -104,17 +104,20 @@ struct TranslatorView: View {
 
     private var directionBar: some View {
         HStack {
-            Text(appState.direction.sourceLabel)
+            Text("自动检测")
                 .frame(maxWidth: .infinity)
-            Button { appState.swapText() } label: {
-                Image(systemName: "arrow.left.arrow.right")
+            Image(systemName: "arrow.right")
+                .accessibilityHidden(true)
+            Picker("目标语言", selection: $appState.targetLanguage) {
+                ForEach(TargetLanguage.allCases) { language in
+                    Text(language.displayName).tag(language)
+                }
             }
-            .buttonStyle(.borderless)
-            .disabled(appState.translatedText.isEmpty)
-            Text(appState.direction.targetLabel)
-                .frame(maxWidth: .infinity)
+            .labelsHidden()
+            .pickerStyle(.menu)
+            .frame(maxWidth: .infinity)
         }
-        .font(.subheadline.weight(.semibold))
+        .font(.system(size: 13, weight: .semibold))
         .foregroundStyle(.secondary)
     }
 
@@ -126,23 +129,29 @@ struct TranslatorView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text(title).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                Text(title)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.secondary)
                 Spacer()
                 Text("\(text.wrappedValue.count) 字符")
-                    .font(.caption2)
+                    .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.tertiary)
             }
             ZStack(alignment: .topLeading) {
                 if text.wrappedValue.isEmpty {
                     Text(placeholder)
+                        .font(.system(size: 16, weight: .regular))
+                        .lineSpacing(4)
                         .foregroundStyle(.tertiary)
                         .padding(.horizontal, 5)
                         .padding(.vertical, 8)
                         .allowsHitTesting(false)
                 }
                 TextEditor(text: text)
-                    .font(.body)
+                    .font(.system(size: 16, weight: .regular))
+                    .lineSpacing(4)
                     .scrollContentBackground(.hidden)
+                    .padding(.vertical, 8)
                     .focused($sourceFocused)
                     .disabled(!editable)
             }
@@ -156,18 +165,23 @@ struct TranslatorView: View {
     private var resultCard: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("译文").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                Text("译文")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.secondary)
                 Spacer()
                 if !appState.translatedText.isEmpty {
                     Button { appState.copyTranslation() } label: {
                         Label("复制", systemImage: "doc.on.doc")
                     }
+                    .font(.system(size: 12, weight: .medium))
                     .buttonStyle(.borderless)
                     .controlSize(.small)
                 }
             }
             ScrollView {
                 Text(appState.translatedText.isEmpty ? "译文会出现在这里" : appState.translatedText)
+                    .font(.system(size: 16, weight: .regular))
+                    .lineSpacing(4)
                     .foregroundStyle(appState.translatedText.isEmpty ? .tertiary : .primary)
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -185,12 +199,12 @@ struct TranslatorView: View {
         HStack {
             if let status = appState.statusMessage {
                 Text(status)
-                    .font(.caption)
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             } else {
-                Text("⇧⌘T 读取选中文本 · ⌘↩ 翻译")
-                    .font(.caption)
+                Text(footerShortcutHint)
+                    .font(.system(size: 12, weight: .regular))
                     .foregroundStyle(.tertiary)
             }
             Spacer()
@@ -210,5 +224,30 @@ struct TranslatorView: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 14)
         .background(.bar)
+    }
+
+    private var shortcutDescription: String? {
+        appState.globalShortcut?.description
+    }
+
+    private var sourcePlaceholder: String {
+        guard let shortcutDescription else {
+            return "输入文本，或先在设置中配置全局快捷键…"
+        }
+        return "输入文本，或在任意 App 中选中文本后按 \(shortcutDescription)…"
+    }
+
+    private var accessibilityHint: String {
+        guard let shortcutDescription else {
+            return "授予辅助功能权限并设置全局快捷键后，可直接读取其他 App 的选中文本。"
+        }
+        return "授予辅助功能权限后，\(shortcutDescription) 可直接读取其他 App 的选中文本。"
+    }
+
+    private var footerShortcutHint: String {
+        guard let shortcutDescription else {
+            return "设置全局快捷键以读取选中文本 · ⌘↩ 翻译"
+        }
+        return "\(shortcutDescription) 读取选中文本 · ⌘↩ 翻译"
     }
 }

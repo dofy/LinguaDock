@@ -1,10 +1,8 @@
 import AppKit
-import KeyboardShortcuts
 import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject private var appState: AppState
-    @State private var shortcut = KeyboardShortcuts.getShortcut(for: .openTranslator)
 
     var body: some View {
         Form {
@@ -18,7 +16,7 @@ struct SettingsView: View {
 
                 TextField("API URL", text: $appState.baseURL)
                     .textFieldStyle(.roundedBorder)
-                SecureField("API Key（Ollama 可留空）", text: $appState.apiKey)
+                SecureField(apiKeyPrompt, text: $appState.apiKey)
                     .textFieldStyle(.roundedBorder)
                 TextField("模型", text: $appState.model)
                     .textFieldStyle(.roundedBorder)
@@ -40,10 +38,7 @@ struct SettingsView: View {
 
             Section("快捷操作") {
                 LabeledContent("全局快捷键") {
-                    ShortcutRecorderField(shortcut: $shortcut)
-                }
-                .onChange(of: shortcut) { _, newValue in
-                    KeyboardShortcuts.setShortcut(newValue, for: .openTranslator)
+                    ShortcutRecorderField(shortcut: $appState.globalShortcut)
                 }
 
                 LabeledContent("PopClip URL Scheme") {
@@ -87,11 +82,27 @@ struct SettingsView: View {
             }
 
             Section("默认行为") {
-                Text("中文 → English；其他语言 → 简体中文。API Key 保存在 macOS Keychain。")
+                Text("自动检测输入语言；目标语言默认为简体中文，可在主窗口随时切换。各协议的 API Key 分别保存在 macOS Keychain。")
                     .foregroundStyle(.secondary)
                 Text("Ollama 默认：\(APIProvider.ollama.defaultBaseURL) · \(APIProvider.ollama.defaultModel)")
                     .font(.caption)
                     .foregroundStyle(.tertiary)
+            }
+
+            Section("关于") {
+                LabeledContent("GitHub 项目") {
+                    Link(destination: Self.githubURL) {
+                        HStack(spacing: 6) {
+                            Text("github.com/dofy/LinguaDock")
+                            Image(systemName: "arrow.up.right")
+                                .font(.caption)
+                        }
+                    }
+                }
+
+                Text("查看源代码、安装说明与更新记录，或提交问题反馈。")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
         .formStyle(.grouped)
@@ -105,4 +116,10 @@ struct SettingsView: View {
             set: { appState.selectProvider($0) }
         )
     }
+
+    private var apiKeyPrompt: String {
+        appState.provider == .ollama ? "API Key（Ollama 可留空）" : "API Key"
+    }
+
+    private static let githubURL = URL(string: "https://github.com/dofy/LinguaDock")!
 }
