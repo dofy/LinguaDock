@@ -3,6 +3,12 @@
   "name": "linguadock",
   "compatibility_date": "2026-09-18",
   "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "linguadock.phpz.org",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "./dist"
   }
