@@ -22,7 +22,7 @@
 阅读邮件、文档、网页或代码时，不必复制文字、切换网页、寻找输入框，再把结果带回来。
 
 1. 在任意 App 中选中文字。
-2. 按下自定义全局快捷键，或点击 PopClip 中的 LinguaDock。
+2. 按下自定义全局快捷键、点击 PopClip 中的 LinguaDock，或运行 Raycast 的 Translate Text。
 3. 在原生窗口中查看、复制译文，并随时切换目标语言。
 
 LinguaDock 会自动识别原文语言。翻译提示专注于保留语气、专有名词、Markdown、段落和代码块，不添加额外解释。
@@ -44,7 +44,7 @@ LinguaDock 不绑定单一翻译供应商：
 - 主流目标语言列表，选择会被记住
 - 辅助功能授权状态自动刷新
 - `linguadock://translate?text=...` URL Scheme
-- 随仓库提供可安装的 PopClip 扩展
+- 随仓库提供可安装的 PopClip 扩展和独立运行的 Raycast 扩展
 - 读取选区失败时回退到模拟 `⌘C`，并恢复原剪贴板内容
 
 ## 开始使用
@@ -76,6 +76,18 @@ open PopClip/LinguaDock.popclipextz
 ```text
 linguadock://translate?text=<URL-encoded selected text>
 ```
+
+## Raycast 扩展
+
+仓库中的 [`Raycast/`](Raycast/) 是一个独立的 Raycast 翻译客户端，不要求安装或运行 LinguaDock macOS App。它直接调用用户配置的 OpenAI-compatible API，支持读取选中文本、自动中英目标判断、手动目标语言选择、列表格式恢复，以及复制或粘贴译文。
+
+```bash
+cd Raycast
+pnpm install
+pnpm dev
+```
+
+首次启动时在 Raycast 中填写 API Base URL、API Key 和模型。API Key 由 Raycast 作为密码偏好保存，不会写入仓库。
 
 ## 本地开发
 
