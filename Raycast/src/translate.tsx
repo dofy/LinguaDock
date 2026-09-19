@@ -202,7 +202,7 @@ export default function TranslateCommand() {
       navigationTitle={isLoading ? "Translating…" : "Translate with LinguaDock"}
       actions={
         <ActionPanel>
-          <Action.SubmitForm
+          <Action.SubmitForm<TranslationFormValues>
             title={isLoading ? "Translating…" : "Translate"}
             icon={Icon.Stars}
             onSubmit={(values) => {

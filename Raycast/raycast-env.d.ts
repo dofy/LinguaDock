@@ -30,3 +30,4 @@ declare namespace Arguments {
   /** Arguments passed to the `translate` command */
   export type Translate = {}
 }
+
