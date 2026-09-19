@@ -67,7 +67,7 @@ xcodebuild \
     build
 
 codesign --force --deep --sign "$signing_identity" \
-    --identifier xyz.phpz.app.mac.linguadock \
+    --identifier xyz.phpz.app.linguadock \
     "$built_app"
 codesign --verify --deep --strict --verbose=2 "$built_app"
 
@@ -77,4 +77,6 @@ ditto "$built_app" "$installed_app"
     -f "$installed_app"
 
 codesign --verify --deep --strict --verbose=2 "$installed_app"
-open -n "$installed_app"
+# 不用 open -n：-n 强制开新实例，pkill 万一没杀掉就会出现两个 LinguaDock
+# 进程各带一个窗口。普通 open 会复用已在运行的实例。
+open "$installed_app"

@@ -326,7 +326,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.mac.linguadock.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.linguadock.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LinguaDock.app/Contents/MacOS/LinguaDock";
 			};
@@ -346,7 +346,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.mac.linguadock;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.linguadock;
 				PRODUCT_NAME = LinguaDock;
 				SDKROOT = macosx;
 			};
@@ -366,7 +366,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.mac.linguadock;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.linguadock;
 				PRODUCT_NAME = LinguaDock;
 				SDKROOT = macosx;
 			};
@@ -506,7 +506,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.mac.linguadock.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.linguadock.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LinguaDock.app/Contents/MacOS/LinguaDock";
 			};

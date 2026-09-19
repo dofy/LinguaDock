@@ -20,7 +20,7 @@
     <array>
         <dict>
             <key>CFBundleURLName</key>
-            <string>xyz.phpz.app.mac.linguadock.url</string>
+            <string>xyz.phpz.app.linguadock.url</string>
             <key>CFBundleURLSchemes</key>
             <array>
                 <string>linguadock</string>

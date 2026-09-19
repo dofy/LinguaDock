@@ -2,6 +2,11 @@ import Foundation
 import Security
 
 enum APIKeyStore {
+    /// 钥匙串 service 名，故意停留在旧的 bundle ID 上。
+    ///
+    /// bundle ID 已改为 `xyz.phpz.app.linguadock`（去掉了 `mac` 一层），但这个
+    /// 字符串只是钥匙串条目的查找键，改了会让已存的 API key 读不回来。除非补一
+    /// 段迁移逻辑，否则保持原值。
     private static let service = "xyz.phpz.app.mac.linguadock"
     private static let legacyAccount = "translation-api-key"
 
