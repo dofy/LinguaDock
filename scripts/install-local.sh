@@ -18,9 +18,20 @@ ensure_signing_identity() {
     (
         local temporary_directory
         local pkcs12_password
+        local pkcs12_legacy
         temporary_directory="$(mktemp -d)"
         pkcs12_password="$(openssl rand -hex 24)"
         trap 'rm -rf -- "$temporary_directory"' EXIT
+
+        # OpenSSL 3 defaults PKCS#12 to AES/PBKDF2, which `security import`
+        # rejects, so it needs -legacy. The openssl shipped with macOS is
+        # LibreSSL, which already writes the older algorithms and has no
+        # -legacy option at all — passing it there aborts with a usage dump.
+        # Probe instead of assuming either one is on PATH.
+        pkcs12_legacy=()
+        if openssl pkcs12 -help 2>&1 | grep -q -- '-legacy'; then
+            pkcs12_legacy=(-legacy)
+        fi
 
         openssl req -x509 -newkey rsa:2048 -sha256 -nodes -days 3650 \
             -subj "/CN=$signing_identity/O=Local Development" \
@@ -29,7 +40,7 @@ ensure_signing_identity() {
             -keyout "$temporary_directory/private-key.pem" \
             -out "$temporary_directory/certificate.pem" >/dev/null 2>&1
 
-        openssl pkcs12 -export -legacy \
+        openssl pkcs12 -export ${pkcs12_legacy[@]+"${pkcs12_legacy[@]}"} \
             -inkey "$temporary_directory/private-key.pem" \
             -in "$temporary_directory/certificate.pem" \
             -name "$signing_identity" \
