@@ -230,12 +230,21 @@ final class AppState: ObservableObject {
         }
     }
 
+    /// 重新打开主窗口场景。由主窗口的根视图注入 `openWindow(id:)`。
+    ///
+    /// 主窗口是单例 `Window` 场景，关掉后窗口对象就不存在了，而 app 不随最后一个
+    /// 窗口退出，所以只靠 `NSApp.windows` 查找会找不到目标、热键和 URL 静默失效。
+    /// 存下 `openWindow` 动作作为兜底：闭包在窗口关闭后依然有效。
+    var reopenMainWindow: (() -> Void)?
+
     func showMainWindow() {
         NSApp.activate(ignoringOtherApps: true)
         if let window = NSApp.windows.first(where: { $0.identifier?.rawValue == "LinguaDock.Main" }) {
             window.makeKeyAndOrderFront(nil)
         } else if let window = NSApp.windows.first(where: { $0.title == "LinguaDock" }) {
             window.makeKeyAndOrderFront(nil)
+        } else {
+            reopenMainWindow?()
         }
     }
 }
