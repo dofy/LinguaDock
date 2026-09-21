@@ -37,8 +37,18 @@ struct SettingsView: View {
             }
 
             Section("快捷操作") {
-                LabeledContent("全局快捷键") {
+                LabeledContent("读取选中文本") {
                     ShortcutRecorderField(shortcut: $appState.globalShortcut)
+                }
+
+                LabeledContent("截屏识别翻译") {
+                    ShortcutRecorderField(shortcut: $appState.captureShortcut)
+                }
+
+                LabeledContent("识别剪贴板图片") {
+                    Text("⌘⇧V")
+                        .font(.system(.body, design: .monospaced))
+                        .foregroundStyle(.secondary)
                 }
 
                 LabeledContent("PopClip URL Scheme") {
@@ -76,7 +86,24 @@ struct SettingsView: View {
                         Button("刷新") { appState.refreshAccessibilityStatus() }
                     }
                 }
-                Text("权限只用于读取当前选中文本和发送复制快捷键；文本仅发送到你配置的 API。")
+                HStack {
+                    Label(
+                        appState.hasScreenRecordingPermission
+                            ? "屏幕录制已授权"
+                            : "尚未授权屏幕录制（截屏识别需要）",
+                        systemImage: appState.hasScreenRecordingPermission
+                            ? "checkmark.seal.fill"
+                            : "exclamationmark.triangle.fill"
+                    )
+                    .foregroundStyle(appState.hasScreenRecordingPermission ? .green : .orange)
+                    Spacer()
+                    if appState.hasScreenRecordingPermission {
+                        Button("刷新") { appState.refreshScreenRecordingStatus() }
+                    } else {
+                        Button("打开设置") { appState.openScreenRecordingSettings() }
+                    }
+                }
+                Text("辅助功能权限用于读取当前选中文本和发送复制快捷键；屏幕录制权限只在你按下截屏识别快捷键时用于截取所框选的区域。文字识别在本机完成，识别结果仅发送到你配置的 API。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -105,9 +132,13 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
         }
+        .onAppear {
+            appState.refreshAccessibilityStatus()
+            appState.refreshScreenRecordingStatus()
+        }
         .formStyle(.grouped)
         .padding(12)
-        .frame(width: 560, height: 510)
+        .frame(width: 560, height: 610)
     }
 
     private var providerBinding: Binding<APIProvider> {

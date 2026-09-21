@@ -16,6 +16,12 @@ struct TranslatorView: View {
                     .padding(.top, 14)
             }
 
+            if appState.needsScreenRecordingPermission {
+                screenRecordingBanner
+                    .padding(.horizontal, 20)
+                    .padding(.top, 14)
+            }
+
             VStack(spacing: 14) {
                 directionBar
                 editorCard(
@@ -102,6 +108,42 @@ struct TranslatorView: View {
         .background(.orange.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
     }
 
+    private var screenRecordingBanner: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "rectangle.dashed.badge.record")
+                .foregroundStyle(.orange)
+            Text("截屏识别需要「屏幕录制」权限。在系统设置中允许 LinguaDock 后重试即可。")
+                .font(.system(size: 13, weight: .medium))
+            Spacer()
+            Button("打开设置") { appState.openScreenRecordingSettings() }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+        }
+        .padding(12)
+        .background(.orange.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+    }
+
+    /// 图片入口：框选截屏识别 + 识别剪贴板里的图片。
+    private var imageInputButtons: some View {
+        HStack(spacing: 2) {
+            Button { appState.captureScreenAndTranslate() } label: {
+                Label("截屏识别", systemImage: "viewfinder")
+            }
+            .help(captureHelp)
+
+            Button { appState.translatePasteboardImage() } label: {
+                Label("识别剪贴板图片", systemImage: "photo.on.rectangle")
+            }
+            .keyboardShortcut("v", modifiers: [.command, .shift])
+            .help("识别剪贴板里的图片并翻译（⌘⇧V）")
+        }
+        .labelStyle(.iconOnly)
+        .font(.system(size: 12, weight: .medium))
+        .buttonStyle(.borderless)
+        .controlSize(.small)
+        .disabled(appState.isRecognizing)
+    }
+
     private var directionBar: some View {
         HStack {
             Text("自动检测")
@@ -128,11 +170,14 @@ struct TranslatorView: View {
         editable: Bool
     ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
+            HStack(spacing: 8) {
                 Text(title)
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
+                if editable {
+                    imageInputButtons
+                }
                 Text("\(text.wrappedValue.count) 字符")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.tertiary)
@@ -208,7 +253,9 @@ struct TranslatorView: View {
                     .foregroundStyle(.tertiary)
             }
             Spacer()
-            if appState.isTranslating {
+            if appState.isRecognizing {
+                ProgressView().controlSize(.small)
+            } else if appState.isTranslating {
                 ProgressView().controlSize(.small)
                 Button("取消") { appState.cancelTranslation() }
             } else {
@@ -230,11 +277,23 @@ struct TranslatorView: View {
         appState.globalShortcut?.description
     }
 
+    private var captureShortcutDescription: String? {
+        appState.captureShortcut?.description
+    }
+
+    private var captureHelp: String {
+        guard let captureShortcutDescription else {
+            return "框选屏幕区域，识别其中文字并翻译"
+        }
+        return "框选屏幕区域，识别其中文字并翻译（\(captureShortcutDescription)）"
+    }
+
     private var sourcePlaceholder: String {
         guard let shortcutDescription else {
-            return "输入文本，或先在设置中配置全局快捷键…"
+            return "输入文本，或先在设置中配置全局快捷键；⌘⇧V 可识别剪贴板里的图片…"
         }
-        return "输入文本，或在任意 App 中选中文本后按 \(shortcutDescription)…"
+        return "输入文本，在任意 App 中选中文本后按 \(shortcutDescription)，"
+            + "或 ⌘⇧V 识别剪贴板里的图片…"
     }
 
     private var accessibilityHint: String {
@@ -245,9 +304,17 @@ struct TranslatorView: View {
     }
 
     private var footerShortcutHint: String {
-        guard let shortcutDescription else {
-            return "设置全局快捷键以读取选中文本 · ⌘↩ 翻译"
+        var parts: [String] = []
+        if let shortcutDescription {
+            parts.append("\(shortcutDescription) 读取选中文本")
+        } else {
+            parts.append("设置全局快捷键以读取选中文本")
         }
-        return "\(shortcutDescription) 读取选中文本 · ⌘↩ 翻译"
+        if let captureShortcutDescription {
+            parts.append("\(captureShortcutDescription) 截屏识别")
+        }
+        parts.append("⌘⇧V 识别剪贴板图片")
+        parts.append("⌘↩ 翻译")
+        return parts.joined(separator: " · ")
     }
 }

@@ -6,7 +6,7 @@ struct WindowAccessor: NSViewRepresentable {
         let view = NSView()
         DispatchQueue.main.async {
             guard let window = view.window else { return }
-            window.identifier = NSUserInterfaceItemIdentifier("LinguaDock.Main")
+            window.identifier = NSUserInterfaceItemIdentifier(AppState.mainWindowIdentifier)
             window.isReleasedWhenClosed = false
             window.titlebarAppearsTransparent = true
         }

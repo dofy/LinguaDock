@@ -30,6 +30,8 @@ targets:
       - package: KeyboardShortcuts
       - sdk: ApplicationServices.framework
       - sdk: Security.framework
+      - sdk: Vision.framework            # 图片 OCR：文字识别
+      - sdk: ScreenCaptureKit.framework  # 截屏识别：屏幕区域截图
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: xyz.phpz.app.linguadock
