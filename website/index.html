@@ -35,6 +35,7 @@
         <a href="#workflow">How it works</a>
         <a href="#models">Models</a>
         <a href="#privacy">Privacy</a>
+        <a href="#get">Availability</a>
       </nav>
       <div class="header-end">
         <nav class="lang-switch" aria-label="Language">
@@ -71,9 +72,9 @@
               rel="noreferrer"
               >View the project on GitHub</a
             >
-            <a class="button button-secondary" href="#start">How to install it</a>
+            <a class="button button-secondary" href="#get">When you can get it</a>
           </div>
-          <p class="hero-meta">macOS 14+ · SwiftUI · MIT License</p>
+          <p class="hero-meta">macOS 14 and later</p>
         </div>
 
         <div class="hero-demo" aria-label="A demonstration of the LinguaDock flow">
@@ -188,7 +189,7 @@
               Talk to a model on this machine. Right for offline content, private
               text, and any time you'd rather the request never left your Mac.
             </p>
-            <code>http://localhost:11434</code>
+            <code>runs on your Mac · works offline</code>
           </article>
           <article>
             <span class="option-symbol" aria-hidden="true">↗</span>
@@ -197,7 +198,7 @@
               Fill in your own base URL, API key and model name to reach any
               compatible cloud or self-hosted service.
             </p>
-            <code>/v1/chat/completions</code>
+            <code>your base URL · your key · your model</code>
           </article>
         </div>
       </section>
@@ -225,7 +226,7 @@
           </div>
           <div>
             <h3>Native throughout</h3>
-            <p>Built in SwiftUI, with system accessibility support and the macOS Keychain.</p>
+            <p>A real Mac window, and your keys kept where the system keeps secrets.</p>
           </div>
         </div>
       </section>
@@ -237,36 +238,29 @@
         <div>
           <h2>Your text takes the route you choose.</h2>
           <p>
-            LinguaDock ships no telemetry. Text goes only to the API you named in
-            Settings; with a local Ollama, a translation request never has to
-            leave the machine. API keys are stored per protocol in the macOS
-            Keychain.
+            LinguaDock ships no telemetry. Your text goes only to the service you
+            chose yourself; with a local model, a translation never has to leave
+            the machine at all. Your keys are handed to the system to keep, not
+            to us — there is no "us" to send them to.
           </p>
         </div>
       </section>
 
-      <section class="start section" id="start">
-        <div>
-          <h2>Start from your own model.</h2>
+      <section class="release section" id="get">
+        <div class="release-copy">
+          <h2>Not out yet.</h2>
           <p>
-            The project stays open source. Clone it, build it, then point it at a
-            translation service you trust.
+            When it is, it arrives the way the rest of it works: no account, no
+            telemetry, and a translation service you chose yourself.
           </p>
         </div>
-        <div class="terminal" aria-label="Install commands">
-          <div class="terminal-bar"><span></span><span></span><span></span></div>
-          <pre><code>git clone https://github.com/dofy/LinguaDock.git
-cd LinguaDock
-xcodegen generate
-open LinguaDock.xcodeproj</code></pre>
+        <div class="release-card">
+          <span class="release-badge">Coming soon</span>
+          <p>
+            A downloadable build is being prepared. The project is public on
+            GitHub in the meantime, and the issue tracker is open.
+          </p>
         </div>
-        <a
-          class="button button-primary"
-          href="https://github.com/dofy/LinguaDock#local-development"
-          target="_blank"
-          rel="noreferrer"
-          >Read the full install notes</a
-        >
       </section>
     </main>
 
@@ -279,7 +273,6 @@ open LinguaDock.xcodeproj</code></pre>
       <div class="footer-links">
         <a href="https://github.com/dofy/LinguaDock">GitHub</a>
         <a href="https://github.com/dofy/LinguaDock/issues">Issues</a>
-        <a href="https://github.com/dofy/LinguaDock/blob/main/LICENSE">MIT License</a>
       </div>
       <p class="copyright">© <span id="year">2026</span> LinguaDock</p>
     </footer>

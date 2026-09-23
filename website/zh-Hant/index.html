@@ -35,6 +35,7 @@
         <a href="#workflow">使用方式</a>
         <a href="#models">模型服務</a>
         <a href="#privacy">隱私</a>
+        <a href="#get">上市狀態</a>
       </nav>
       <div class="header-end">
         <nav class="lang-switch" aria-label="語言">
@@ -70,9 +71,9 @@
               rel="noreferrer"
               >在 GitHub 查看專案</a
             >
-            <a class="button button-secondary" href="#start">查看安裝方式</a>
+            <a class="button button-secondary" href="#get">什麼時候能用</a>
           </div>
-          <p class="hero-meta">macOS 14+ · SwiftUI · MIT License</p>
+          <p class="hero-meta">macOS 14 以上</p>
         </div>
 
         <div class="hero-demo" aria-label="LinguaDock 翻譯流程示範">
@@ -167,13 +168,13 @@
             <span class="option-symbol" aria-hidden="true">◎</span>
             <h3>Ollama</h3>
             <p>接上本機模型。適合離線內容、私密文字，以及不想讓請求離開 Mac 的時候。</p>
-            <code>http://localhost:11434</code>
+            <code>跑在你自己的 Mac 上 · 斷網可用</code>
           </article>
           <article>
             <span class="option-symbol" aria-hidden="true">↗</span>
             <h3>OpenAI-compatible</h3>
             <p>填寫自己的 Base URL、API Key 與模型名稱，接上相容的雲端或自架服務。</p>
-            <code>/v1/chat/completions</code>
+            <code>你的位址 · 你的密鑰 · 你的模型</code>
           </article>
         </div>
       </section>
@@ -198,7 +199,7 @@
           </div>
           <div>
             <h3>原生體驗</h3>
-            <p>以 SwiftUI 建置，支援系統輔助使用與 macOS 鑰匙串。</p>
+            <p>一個真正的 Mac 視窗，密鑰交給系統去保管。</p>
           </div>
         </div>
       </section>
@@ -210,31 +211,28 @@
         <div>
           <h2>你的文字，走你選的路線。</h2>
           <p>
-            LinguaDock 不內建遙測。文字只會傳送到設定中指定的 API；用本機的
-            Ollama 時，翻譯請求不需要離開這台機器。API Key 依協定分開存在 macOS 鑰匙串裡。
+            LinguaDock 不內建遙測。你的文字只會傳送到你自己選的那個服務；
+            用本機模型時，翻譯根本不必離開這台機器。密鑰交給系統保管，
+            不經我們手——也沒有一個「我們」可以收。
           </p>
         </div>
       </section>
 
-      <section class="start section" id="start">
-        <div>
-          <h2>從你自己的模型開始。</h2>
-          <p>專案保持開源。複製、建置，然後設定一個你信任的翻譯服務。</p>
+      <section class="release section" id="get">
+        <div class="release-copy">
+          <h2>還沒發佈。</h2>
+          <p>
+            發佈的時候會和它其餘部分一個樣子：不用註冊帳號，不做遙測，
+            翻譯服務是你自己挑的。
+          </p>
         </div>
-        <div class="terminal" aria-label="安裝指令">
-          <div class="terminal-bar"><span></span><span></span><span></span></div>
-          <pre><code>git clone https://github.com/dofy/LinguaDock.git
-cd LinguaDock
-xcodegen generate
-open LinguaDock.xcodeproj</code></pre>
+        <div class="release-card">
+          <span class="release-badge">即將推出</span>
+          <p>
+            可下載的版本正在準備。在那之前專案在 GitHub 上公開，
+            issue 也是開著的。
+          </p>
         </div>
-        <a
-          class="button button-primary"
-          href="https://github.com/dofy/LinguaDock/blob/main/README.zh-Hant.md#本機開發"
-          target="_blank"
-          rel="noreferrer"
-          >打開完整安裝說明</a
-        >
       </section>
     </main>
 
@@ -247,7 +245,6 @@ open LinguaDock.xcodeproj</code></pre>
       <div class="footer-links">
         <a href="https://github.com/dofy/LinguaDock">GitHub</a>
         <a href="https://github.com/dofy/LinguaDock/issues">問題回報</a>
-        <a href="https://github.com/dofy/LinguaDock/blob/main/LICENSE">MIT License</a>
       </div>
       <p class="copyright">© <span id="year">2026</span> LinguaDock</p>
     </footer>
