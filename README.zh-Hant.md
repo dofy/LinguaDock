@@ -2,6 +2,8 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · **繁體中文**
 
+[**linguadock.phpz.org** ↗](https://linguadock.phpz.org)
+
 <p align="center">
   <img src="Design/icon-master.png" width="156" alt="LinguaDock app icon">
 </p>
@@ -168,4 +170,5 @@ xcodebuild test \
 
 - GitHub：[github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
 - 問題回報：[GitHub Issues](https://github.com/dofy/LinguaDock/issues)
+- 網站：[`website/`](website/README.md) → [linguadock.phpz.org](https://linguadock.phpz.org)
 - License：[MIT](LICENSE)

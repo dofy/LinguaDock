@@ -17,8 +17,11 @@ pnpm preview
 完成 Cloudflare 登录后部署：
 
 ```bash
-pnpm deploy
+pnpm run deploy
 ```
+
+> `pnpm deploy` 是 pnpm 自己的内置命令（把工作区包部署到一个目录），会直接报
+> `ERR_PNPM_INVALID_DEPLOY_TARGET`。必须写 `pnpm run deploy` 才会跑 package.json 里的脚本。
 
 ## 三语页面
 

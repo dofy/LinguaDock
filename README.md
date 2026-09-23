@@ -2,6 +2,8 @@
 
 **English** · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md)
 
+[**linguadock.phpz.org** ↗](https://linguadock.phpz.org)
+
 <p align="center">
   <img src="Design/icon-master.png" width="156" alt="LinguaDock app icon">
 </p>
@@ -192,4 +194,5 @@ updates. That identity is for development on this machine only.
 
 - GitHub: [github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
 - Issues: [GitHub Issues](https://github.com/dofy/LinguaDock/issues)
+- Website: [`website/`](website/README.md) → [linguadock.phpz.org](https://linguadock.phpz.org)
 - License: [MIT](LICENSE)
