@@ -1,0 +1,30 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "NSAccessibilityUsageDescription" : {
+      "comment" : "辅助功能权限说明，出现在系统授权弹窗里",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinguaDock needs Accessibility permission so it can read the text you select in other apps and translate it from a global shortcut."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinguaDock 需要辅助功能权限，以读取其他 App 中的选中文本并通过全局快捷键翻译。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinguaDock 需要輔助使用權限，才能讀取其他 App 中選取的文字，並用全域快速鍵翻譯。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -18,11 +18,14 @@ enum ScreenCapturer {
         var errorDescription: String? {
             switch self {
             case .noDisplay:
-                return "找不到选区所在的显示器，请重试。"
+                return String(localized: "error.capture.noDisplay",
+                              defaultValue: "The display holding that selection couldn’t be found. Try again.")
             case .permissionDenied:
-                return "需要「屏幕录制」权限才能截屏识别，请在系统设置中允许 LinguaDock。"
+                return String(localized: "error.capture.permissionDenied",
+                              defaultValue: "Screen capture needs Screen Recording permission. Allow LinguaDock in System Settings.")
             case .cropFailed:
-                return "截屏裁剪失败，请重新框选。"
+                return String(localized: "error.capture.cropFailed",
+                              defaultValue: "Cropping the capture failed. Drag out the region again.")
             }
         }
     }

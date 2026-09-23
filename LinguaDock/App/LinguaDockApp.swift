@@ -9,7 +9,7 @@ struct LinguaDockApp: App {
         // 单例 Window 而非 WindowGroup：WindowGroup 能容纳任意多个窗口，
         // 每个进来的 linguadock:// URL 以及每次启动时的窗口恢复都会再叠一个，
         // 结果是屏幕上堆着好几个一模一样的翻译窗口。
-        Window("LinguaDock", id: "translator") {
+        Window(String(localized: "app.name", defaultValue: "LinguaDock"), id: "translator") {
             MainWindowRoot()
                 .environmentObject(appState)
         }
@@ -17,10 +17,14 @@ struct LinguaDockApp: App {
         .windowResizability(.contentMinSize)
         .commands {
             CommandGroup(replacing: .newItem) {}
-            CommandMenu("翻译") {
-                Button("翻译") { appState.translate() }
+            CommandMenu(String(localized: "menu.translate", defaultValue: "Translate")) {
+                Button(String(localized: "menu.translate.run", defaultValue: "Translate")) {
+                    appState.translate()
+                }
                     .keyboardShortcut(.return, modifiers: [.command])
-                Button("复制译文") { appState.copyTranslation() }
+                Button(String(localized: "menu.copy", defaultValue: "Copy Translation")) {
+                    appState.copyTranslation()
+                }
                     .keyboardShortcut("c", modifiers: [.command, .shift])
                     .disabled(appState.translatedText.isEmpty)
             }

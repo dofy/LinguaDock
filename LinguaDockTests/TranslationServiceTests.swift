@@ -29,6 +29,14 @@ final class TranslationServiceTests: XCTestCase {
         XCTAssertTrue(prompt.contains("omit nothing"))
     }
 
+    /// 两个客户端(macOS app 与 Raycast 扩展)发的是同一个 prompt。列表标记那一行
+    /// 曾经只有 `Raycast/src/api.ts` 有，导致同一段文本在两边译出不同排版。
+    func testPromptRestoresFlattenedListMarkers() {
+        let prompt = TranslationService.systemPrompt(targetLanguage: .simplifiedChinese)
+
+        XCTAssertTrue(prompt.contains("restore each bullet, checkbox, or numbered item onto its own line"))
+    }
+
     func testPlainPromptMentionsNoDelimiters() {
         let prompt = TranslationService.systemPrompt(targetLanguage: .simplifiedChinese, delimited: false)
 

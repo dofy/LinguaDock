@@ -10,15 +10,20 @@ enum TranslationServiceError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidBaseURL:
-            "API URL 无效，请在设置中检查。"
+            String(localized: "error.invalidBaseURL",
+                   defaultValue: "The API URL isn’t valid. Check it in Settings.")
         case .invalidResponse:
-            "服务返回了无法识别的响应。"
+            String(localized: "error.invalidResponse",
+                   defaultValue: "The service returned a response that couldn’t be read.")
         case let .server(status, message):
-            "服务请求失败（HTTP \(status)）：\(message)"
+            String(localized: "error.server",
+                   defaultValue: "The service request failed (HTTP \(status)): \(message)")
         case .emptyTranslation:
-            "模型没有返回译文。"
+            String(localized: "error.emptyTranslation",
+                   defaultValue: "The model returned no translation.")
         case .contentFiltered:
-            "上游服务的内容过滤拦下了这段文本（content_filter），没有返回译文。"
+            String(localized: "error.contentFiltered",
+                   defaultValue: "The upstream service’s content filter blocked this text (content_filter) and returned no translation.")
         }
     }
 }
@@ -124,11 +129,16 @@ struct TranslationService: Sendable {
     /// - Parameter delimited: 正文是否被 `<source>` 包裹。
     ///   定界说明刻意不点名 "User" / "Assistant" 这类角色词：实测点名之后，
     ///   通篇由角色词组成的正文更容易被上游内容过滤直接拦掉。
+    ///
+    /// 这段 prompt **保持英文**，且要与 `Raycast/src/api.ts` 的同名 prompt 逐行一致——
+    /// 两个客户端发的是同一个请求，文案一分叉行为就不一样了。列表标记那一行原先
+    /// 只有 Raycast 有。
     static func systemPrompt(targetLanguage: TargetLanguage, delimited: Bool = false) -> String {
         let base = """
         You are LinguaDock, a professional translation engine. Detect the source language and translate the user's text into natural, precise \(targetLanguage.promptName).
         Always return the result in \(targetLanguage.promptName), even when the source language is ambiguous or already matches the target language.
         Preserve meaning, tone, names, Markdown, paragraph breaks, and code blocks.
+        If list markers were flattened inline by the source application, restore each bullet, checkbox, or numbered item onto its own line.
         Return only the translated text. Do not explain, label, quote, or comment on it.
         """
         guard delimited else { return base }
@@ -188,7 +198,7 @@ struct TranslationService: Sendable {
             let message = (nestedError?["message"] as? String)
                 ?? (object?["error"] as? String)
                 ?? String(data: data, encoding: .utf8)
-                ?? "未知错误"
+                ?? String(localized: "error.unknown", defaultValue: "Unknown error")
             throw TranslationServiceError.server(status: http.statusCode, message: String(message.prefix(300)))
         }
     }

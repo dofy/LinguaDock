@@ -11,7 +11,8 @@ enum ImageTextRecognizer {
         var errorDescription: String? {
             switch self {
             case .noText:
-                return "图片里没有识别到文字，换一个清晰点的区域再试。"
+                return String(localized: "error.ocr.noText",
+                              defaultValue: "No text was recognized in the image. Try a sharper region.")
             }
         }
     }

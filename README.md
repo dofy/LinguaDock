@@ -1,14 +1,18 @@
 # LinguaDock
 
+**English** · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md)
+
 <p align="center">
   <img src="Design/icon-master.png" width="156" alt="LinguaDock app icon">
 </p>
 
-<p align="center"><strong>选中，唤起，读懂。</strong></p>
+<p align="center"><strong>Select, summon, understand.</strong></p>
 
 <p align="center">
-  LinguaDock 是一款原生 macOS 翻译工具。它把其他 App 中选中的文字、屏幕上框选的区域，
-  或剪贴板里的图片带进一个干净的翻译窗口，并使用你选择的本地模型或 OpenAI-compatible 服务完成翻译。
+  LinguaDock is a native macOS translation tool. It carries text you selected in
+  another app, a region you dragged out on screen, or an image on the clipboard
+  into one clean translation window, and translates it with the local model or
+  OpenAI-compatible service of your choice.
 </p>
 
 <p align="center">
@@ -17,81 +21,109 @@
   <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-52717A">
 </p>
 
-## 一条更短的翻译路径
+## A shorter route to a translation
 
-阅读邮件、文档、网页或代码时，不必复制文字、切换网页、寻找输入框，再把结果带回来。
+Reading mail, a document, a web page or some code, you shouldn't have to copy the
+text, switch to a web page, find the input field, and carry the result back.
 
-1. 在任意 App 中选中文字。
-2. 按下自定义全局快捷键、点击 PopClip 中的 LinguaDock，或运行 Raycast 的 Translate Text。
-3. 在原生窗口中查看、复制译文，并随时切换目标语言。
+1. Select text in any app.
+2. Press your own global shortcut, click LinguaDock in PopClip, or run Translate
+   Text in Raycast.
+3. Read and copy the translation in a native window, switching the target
+   language whenever you like.
 
-LinguaDock 会自动识别原文语言。翻译提示专注于保留语气、专有名词、Markdown、段落和代码块，不添加额外解释。
+LinguaDock detects the source language itself. The prompt is built around keeping
+tone, proper nouns, Markdown, paragraphs and code blocks intact, and adding no
+commentary.
 
-## 选不中的文字，也能翻
+## Text you can't select, translated anyway
 
-图片、视频字幕、扫描件、别人发来的截图——这些地方的文字复制不出来。LinguaDock 用系统自带的
-文字识别把它们取出来再翻译，识别全程在本机完成：
+Images, video subtitles, scans, a screenshot someone sent you — that text can't
+be copied. LinguaDock pulls it out with the system's own text recognition and
+then translates it. Recognition happens entirely on this machine:
 
-- **截屏识别**（默认 `⌃⇧⌘O`，可在设置中改）：像系统截图一样框选屏幕上任意区域，识别结果直接进原文框并开始翻译。
-- **粘贴图片**（`⌘⇧V`）：剪贴板里是图片时识别它。如果剪贴板里只有图片、没有文字，直接按 `⌘V` 也会走识图。
-- 也可以点原文框右上角的取景框 / 图片按钮触发。
+- **Screen capture** (`⌃⇧⌘O` by default, changeable in Settings): drag out any
+  region of the screen just like a system screenshot. The result lands in the
+  source field and translation starts.
+- **Paste an image** (`⌘⇧V`): recognizes the image on the clipboard. If the
+  clipboard holds an image and no text, plain `⌘V` goes through recognition too.
+- The viewfinder and image buttons at the top right of the source field do the
+  same thing.
 
-截屏识别需要一次性的「屏幕录制」权限；LinguaDock 会在需要时给出一键跳转系统设置的提示。
+Screen capture needs a one-time Screen Recording permission; LinguaDock offers a
+one-click jump to the right System Settings pane when it's needed.
 
-## 模型由你决定
+## The model is yours to pick
 
-LinguaDock 不绑定单一翻译供应商：
+LinguaDock isn't tied to one translation vendor:
 
-- 使用 **Ollama**，让文本和模型都留在本机。
-- 使用任意 **OpenAI-compatible API**，配置自己的 Base URL、API Key 和模型名称。
-- 不同协议的 API Key 分开保存在 macOS Keychain 中。
+- Use **Ollama** and keep both the text and the model on this machine.
+- Use any **OpenAI-compatible API** with your own base URL, API key and model
+  name.
+- API keys for different protocols are stored separately in the macOS Keychain.
 
-应用不内置遥测。文本只会发送到你在设置中选择的服务；使用本机 Ollama 时，翻译请求无需离开 Mac。
+The app ships no telemetry. Text goes only to the service you chose in Settings;
+with a local Ollama, a translation request never has to leave the Mac.
 
-## 为 macOS 交互而生
+## Built for the way macOS works
 
-- 原生 SwiftUI 窗口与系统设置体验
-- 可录制、可随时修改的全局快捷键（读取选中文本 / 截屏识别各一组）
-- 基于系统 Vision 框架的本机 OCR，支持中英日韩等常见语言，自动检测语种
-- 主流目标语言列表，选择会被记住
-- 辅助功能授权状态自动刷新
-- `linguadock://translate?text=...` URL Scheme
-- 随仓库提供可安装的 PopClip 扩展和独立运行的 Raycast 扩展
-- 读取选区失败时回退到模拟 `⌘C`，并恢复原剪贴板内容
+- Native SwiftUI windows and a native Settings experience
+- Recordable, changeable global shortcuts — one for reading the selection, one
+  for screen capture
+- On-device OCR through the system Vision framework, covering Chinese, English,
+  Japanese, Korean and other common languages, with automatic detection
+- A list of the major target languages; your choice is remembered
+- Accessibility authorization status refreshes itself
+- A `linguadock://translate?text=...` URL scheme
+- An installable PopClip extension and a standalone Raycast extension, both in
+  this repo
+- Falls back to a simulated `⌘C` when reading the selection fails, restoring the
+  original clipboard afterwards
+- A trilingual interface — English, 简体中文, 繁體中文 — following the system
+  language
 
-## 开始使用
+## Getting started
 
-### 本机模型
+### A local model
 
 ```bash
 ollama pull qwen3.5:9b
 ollama serve
 ```
 
-在 LinguaDock 设置中选择 **Ollama**。默认地址为 `http://localhost:11434`，本地服务通常不需要 API Key。
+Pick **Ollama** in LinguaDock's settings. The default address is
+`http://localhost:11434`, and a local service usually needs no API key.
 
-### OpenAI-compatible 服务
+### An OpenAI-compatible service
 
-在设置中选择 **OpenAI Compatible**，填写 Base URL、API Key 与模型。Base URL 可以是版本根路径（例如 `https://api.openai.com/v1`）或完整的 `/chat/completions` 地址，LinguaDock 会正确补全请求路径。
+Pick **OpenAI Compatible** in Settings and fill in the base URL, API key and
+model. The base URL can be a version root (`https://api.openai.com/v1`, say) or a
+complete `/chat/completions` address — LinguaDock completes the request path
+correctly either way.
 
-首次从其他 App 读取选中文本时，请在“系统设置 → 隐私与安全性 → 辅助功能”中允许 LinguaDock。
+The first time it reads selected text from another app, allow LinguaDock under
+System Settings → Privacy & Security → Accessibility.
 
-## PopClip 扩展
+## The PopClip extension
 
 ```bash
 ./scripts/build-popclip.sh
 open PopClip/LinguaDock.popclipextz
 ```
 
-扩展通过 URL Scheme 把选中的文本交给 LinguaDock：
+The extension hands the selected text to LinguaDock through the URL scheme:
 
 ```text
 linguadock://translate?text=<URL-encoded selected text>
 ```
 
-## Raycast 扩展
+## The Raycast extension
 
-仓库中的 [`Raycast/`](Raycast/) 是一个独立的 Raycast 翻译客户端，不要求安装或运行 LinguaDock macOS App。它直接调用用户配置的 OpenAI-compatible API，支持读取选中文本、自动中英目标判断、手动目标语言选择、列表格式恢复，以及复制或粘贴译文。
+[`Raycast/`](Raycast/) in this repo is a standalone Raycast translation client
+that neither installs nor runs the LinguaDock macOS app. It calls the
+OpenAI-compatible API you configured directly, and supports reading the
+selection, automatic Chinese/English target choice, picking a target language by
+hand, restoring list formatting, and copying or pasting the result.
 
 ```bash
 cd Raycast
@@ -99,11 +131,32 @@ pnpm install
 pnpm dev
 ```
 
-首次启动时在 Raycast 中填写 API Base URL、API Key 和模型。API Key 由 Raycast 作为密码偏好保存，不会写入仓库。
+Fill in the API base URL, API key and model in Raycast on first launch. Raycast
+stores the API key as a password preference; it never lands in the repo.
 
-## 本地开发
+## Localization
 
-要求：macOS 14+、Xcode 27（兼容 Swift 6）和 [XcodeGen](https://github.com/yonaskolb/XcodeGen)。
+The UI ships in English, Simplified Chinese and Traditional Chinese, following the
+system language. There is no in-app language picker — set it per app under System
+Settings → General → Language & Region.
+
+- Source language is `en`. Every `defaultValue` in the Swift code is English.
+- Copy lives in `LinguaDock/Resources/Localizable.xcstrings`, and the permission
+  string in `LinguaDock/Resources/InfoPlist.xcstrings`.
+- `./scripts/check-localization.sh` (also a CI step) fails on a missing key, a
+  missing translation, an orphaned catalog entry, or Chinese hardcoded in Swift.
+  Legitimate exceptions carry a trailing `// i18n-exempt` comment.
+- **`TargetLanguage.promptName` must stay English** — it goes into the system
+  prompt sent to the model. Only `displayName` is localized, and
+  `LinguaDockTests/TargetLanguageTests.swift` guards the difference.
+- The PopClip extension carries its own trilingual strings in
+  `PopClip/LinguaDock.popclipext/Config.yaml` and `Main.js`. Raycast extensions
+  have no localization mechanism and stay English by convention.
+
+## Local development
+
+Requirements: macOS 14+, Xcode 27 (Swift 6 compatible) and
+[XcodeGen](https://github.com/yonaskolb/XcodeGen).
 
 ```bash
 brew install xcodegen
@@ -113,7 +166,7 @@ xcodegen generate
 open LinguaDock.xcodeproj
 ```
 
-运行测试：
+Running the tests:
 
 ```bash
 xcodegen generate
@@ -122,18 +175,21 @@ xcodebuild test \
   -scheme LinguaDock \
   -destination 'platform=macOS' \
   CODE_SIGNING_ALLOWED=NO
+./scripts/check-localization.sh
 ```
 
-安装本机调试版：
+Installing a local debug build:
 
 ```bash
 ./scripts/install-local.sh
 ```
 
-首次运行安装脚本时会在登录钥匙串中创建 LinguaDock 专用的本地代码签名身份，让辅助功能授权在后续本地更新中保持有效。该身份只用于本机开发。
+The first run of that script creates a LinguaDock-specific local code-signing
+identity in your login keychain, so the Accessibility grant survives later local
+updates. That identity is for development on this machine only.
 
-## 项目
+## Project
 
-- GitHub：[github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
-- 问题反馈：[GitHub Issues](https://github.com/dofy/LinguaDock/issues)
-- License：[MIT](LICENSE)
+- GitHub: [github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
+- Issues: [GitHub Issues](https://github.com/dofy/LinguaDock/issues)
+- License: [MIT](LICENSE)

@@ -110,8 +110,26 @@ nav a:hover,
   color: var(--coral-deep);
 }
 
-.header-link {
+/* 语言切换器 + GitHub 链接共用站点头最后一列：站点头是三列 grid，
+   直接摆两个子元素会把居中的主导航挤歪。 */
+.header-end {
   justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.lang-switch {
+  gap: 11px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.lang-switch a[aria-current="page"] {
+  color: var(--coral-deep);
+}
+
+.header-link {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -709,6 +727,11 @@ footer {
 
   nav {
     display: none;
+  }
+
+  /* 语言切换器也是 <nav>，但它在窄屏也要留着 —— 上面那条只想藏主导航。 */
+  .lang-switch {
+    display: inline-flex;
   }
 
   .hero {

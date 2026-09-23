@@ -11,7 +11,8 @@ enum PasteboardImage {
         var errorDescription: String? {
             switch self {
             case .noImage:
-                return "剪贴板里没有图片。先截图或复制一张图，再按 ⌘⇧V。"
+                return String(localized: "error.paste.noImage",
+                              defaultValue: "There is no image on the clipboard. Take a screenshot or copy an image first, then press ⌘⇧V.")
             }
         }
     }

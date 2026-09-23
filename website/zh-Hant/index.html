@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hant">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="LinguaDock is a native macOS translation tool. Select text, summon it with a global shortcut or PopClip, and translate through a local model or any OpenAI-compatible API."
+      content="LinguaDock 是一款原生 macOS 翻譯工具。選取文字，用全域快速鍵或 PopClip 喚起，並透過本機模型或 OpenAI-compatible API 完成翻譯。"
     />
     <meta name="theme-color" content="#fffdfc" />
-    <meta property="og:title" content="LinguaDock — Select, summon, understand" />
+    <meta property="og:title" content="LinguaDock — 選取，喚起，讀懂" />
     <meta
       property="og:description"
-      content="A native macOS translation tool that talks to your own model service."
+      content="一款連接你自己的模型服務的原生 macOS 翻譯工具。"
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/app-icon.png" />
@@ -21,26 +21,26 @@
     <link rel="alternate" hreflang="zh-Hans" href="https://linguadock.phpz.org/zh-Hans/" />
     <link rel="alternate" hreflang="zh-Hant" href="https://linguadock.phpz.org/zh-Hant/" />
     <link rel="alternate" hreflang="x-default" href="https://linguadock.phpz.org/" />
-    <title>LinguaDock — Select, summon, understand</title>
+    <title>LinguaDock — 選取，喚起，讀懂</title>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to main content</a>
+    <a class="skip-link" href="#main">跳到主要內容</a>
 
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="LinguaDock home">
+      <a class="brand" href="#top" aria-label="LinguaDock 首頁">
         <img src="/app-icon.png" width="34" height="34" alt="" />
         <span>LinguaDock</span>
       </a>
-      <nav aria-label="Main navigation">
-        <a href="#workflow">How it works</a>
-        <a href="#models">Models</a>
-        <a href="#privacy">Privacy</a>
+      <nav aria-label="主要導覽">
+        <a href="#workflow">使用方式</a>
+        <a href="#models">模型服務</a>
+        <a href="#privacy">隱私</a>
       </nav>
       <div class="header-end">
-        <nav class="lang-switch" aria-label="Language">
-          <a href="/" hreflang="en" aria-current="page">EN</a>
+        <nav class="lang-switch" aria-label="語言">
+          <a href="/" hreflang="en" lang="en">EN</a>
           <a href="/zh-Hans/" hreflang="zh-Hans" lang="zh-Hans">简</a>
-          <a href="/zh-Hant/" hreflang="zh-Hant" lang="zh-Hant">繁</a>
+          <a href="/zh-Hant/" hreflang="zh-Hant" aria-current="page">繁</a>
         </nav>
         <a
           class="header-link"
@@ -56,12 +56,11 @@
     <main id="main">
       <section class="hero" id="top">
         <div class="hero-copy">
-          <p class="product-note">A native macOS translation tool</p>
-          <h1><span>Select,</span><span>summon,</span><span>understand.</span></h1>
+          <p class="product-note">原生 macOS 翻譯工具</p>
+          <h1><span>選取，</span><span>喚起，</span><span>讀懂。</span></h1>
           <p class="hero-description">
-            LinguaDock carries the text you selected in another app straight into
-            a translation window. Point it at a local Ollama or your own
-            OpenAI-compatible service and stop taking the long way round.
+            LinguaDock 把你在其他 App 中選取的文字直接帶進翻譯視窗。接上本機的
+            Ollama 或你自己的 OpenAI-compatible 服務，不用再繞遠路。
           </p>
           <div class="hero-actions">
             <a
@@ -69,14 +68,14 @@
               href="https://github.com/dofy/LinguaDock"
               target="_blank"
               rel="noreferrer"
-              >View the project on GitHub</a
+              >在 GitHub 查看專案</a
             >
-            <a class="button button-secondary" href="#start">How to install it</a>
+            <a class="button button-secondary" href="#start">查看安裝方式</a>
           </div>
           <p class="hero-meta">macOS 14+ · SwiftUI · MIT License</p>
         </div>
 
-        <div class="hero-demo" aria-label="A demonstration of the LinguaDock flow">
+        <div class="hero-demo" aria-label="LinguaDock 翻譯流程示範">
           <div class="source-pane">
             <div class="mock-toolbar">
               <span class="traffic-lights" aria-hidden="true">
@@ -94,7 +93,7 @@
             </p>
           </div>
 
-          <div class="shortcut" aria-label="The Command Shift T shortcut">
+          <div class="shortcut" aria-label="快速鍵 Command Shift T">
             <kbd>⌘</kbd><kbd>⇧</kbd><kbd>T</kbd>
           </div>
 
@@ -104,30 +103,25 @@
                 <img src="/app-icon.png" width="28" height="28" alt="" />
                 LinguaDock
               </span>
-              <span class="model-chip">Local or cloud model</span>
+              <span class="model-chip">本機或雲端模型</span>
             </div>
-            <div class="language-switch" aria-label="Demo target language">
-              <button type="button" data-language="zh" aria-pressed="true" lang="zh-Hans">
+            <div class="language-switch" aria-label="示範目標語言">
+              <button type="button" data-language="zh" aria-pressed="true">
                 简体中文
               </button>
-              <button type="button" data-language="ja" aria-pressed="false" lang="ja">
+              <button type="button" data-language="ja" aria-pressed="false">
                 日本語
               </button>
-              <button type="button" data-language="fr" aria-pressed="false" lang="fr">
+              <button type="button" data-language="fr" aria-pressed="false">
                 Français
               </button>
             </div>
-            <p
-              class="translation-output"
-              id="demo-output"
-              aria-live="polite"
-              lang="zh-Hans"
-            >
+            <p class="translation-output" id="demo-output" aria-live="polite" lang="zh-Hans">
               好工具会贴近正在进行的工作，缩短问题与答案之间的距离；工作继续时，它便安静退场。
             </p>
             <div class="translation-footer">
-              <span>Tone and paragraphs preserved</span>
-              <span class="copy-control">Copy translation</span>
+              <span>保留語氣與段落</span>
+              <span class="copy-control">複製譯文</span>
             </div>
           </div>
         </div>
@@ -135,41 +129,29 @@
 
       <section class="workflow section" id="workflow">
         <div class="section-heading">
-          <h2>Keep translation where the reading happens</h2>
-          <p>
-            No copying into a web page, no deciding on a model first, no breaking
-            off what you were reading.
-          </p>
+          <h2>把翻譯留在閱讀現場</h2>
+          <p>不必複製到網頁，不必先決定模型，也不必打斷手上的內容。</p>
         </div>
         <ol class="workflow-rail">
           <li>
-            <span class="step-mark">Select</span>
+            <span class="step-mark">選取</span>
             <div>
-              <h3>Select text in any app</h3>
-              <p>
-                Mail, web pages, documents, chat messages and code comments — it
-                all starts from the context you're already in.
-              </p>
+              <h3>在任何 App 中選取文字</h3>
+              <p>郵件、網頁、文件、聊天訊息和程式碼註解，都從當下的脈絡開始。</p>
             </div>
           </li>
           <li>
-            <span class="step-mark">Summon</span>
+            <span class="step-mark">喚起</span>
             <div>
-              <h3>Use your own global shortcut</h3>
-              <p>
-                Or click the PopClip icon, or wire it into another tool through
-                the URL scheme.
-              </p>
+              <h3>使用自己的全域快速鍵</h3>
+              <p>也可以點一下 PopClip 圖像，或透過 URL Scheme 接進其他工具。</p>
             </div>
           </li>
           <li>
-            <span class="step-mark">Understand</span>
+            <span class="step-mark">讀懂</span>
             <div>
-              <h3>Copy an accurate, clean translation</h3>
-              <p>
-                Tone, proper nouns, Markdown, paragraphs and code blocks are kept
-                intact, with no commentary added.
-              </p>
+              <h3>複製準確、乾淨的譯文</h3>
+              <p>保留語氣、專有名詞、Markdown、段落與程式碼區塊，不附加解釋。</p>
             </div>
           </li>
         </ol>
@@ -177,26 +159,20 @@
 
       <section class="models section" id="models">
         <div class="model-statement">
-          <p>A translation service shouldn't be a lock-in.</p>
-          <h2>You pick the model. LinguaDock just puts it within reach.</h2>
+          <p>翻譯服務不該變成產品綁定。</p>
+          <h2>模型由你決定，LinguaDock 負責把它放到手邊。</h2>
         </div>
         <div class="model-options">
           <article>
             <span class="option-symbol" aria-hidden="true">◎</span>
             <h3>Ollama</h3>
-            <p>
-              Talk to a model on this machine. Right for offline content, private
-              text, and any time you'd rather the request never left your Mac.
-            </p>
+            <p>接上本機模型。適合離線內容、私密文字，以及不想讓請求離開 Mac 的時候。</p>
             <code>http://localhost:11434</code>
           </article>
           <article>
             <span class="option-symbol" aria-hidden="true">↗</span>
             <h3>OpenAI-compatible</h3>
-            <p>
-              Fill in your own base URL, API key and model name to reach any
-              compatible cloud or self-hosted service.
-            </p>
+            <p>填寫自己的 Base URL、API Key 與模型名稱，接上相容的雲端或自架服務。</p>
             <code>/v1/chat/completions</code>
           </article>
         </div>
@@ -204,28 +180,25 @@
 
       <section class="details section">
         <div class="detail-intro">
-          <h2>Light isn't the same as thin.</h2>
-          <p>
-            It shows up fast when you need it, remembers the settings worth
-            remembering, and stays quiet the rest of the time.
-          </p>
+          <h2>輕，不代表簡陋。</h2>
+          <p>該出現時立刻出現，該記住的設定會記住，其餘時候保持安靜。</p>
         </div>
         <div class="detail-list">
           <div>
-            <h3>Global shortcuts</h3>
-            <p>Record and change them directly, rather than hard-coded in a hint.</p>
+            <h3>全域快速鍵</h3>
+            <p>直接錄製並修改，不把按鍵寫死在提示裡。</p>
           </div>
           <div>
             <h3>PopClip</h3>
-            <p>Select text and open LinguaDock from the floating menu you already use.</p>
+            <p>選取文字之後，從你熟悉的浮動選單打開 LinguaDock。</p>
           </div>
           <div>
-            <h3>Many target languages</h3>
-            <p>The source language is detected; your target language is remembered.</p>
+            <h3>多語言目標</h3>
+            <p>自動偵測原文，目標語言可隨時選擇並記住。</p>
           </div>
           <div>
-            <h3>Native throughout</h3>
-            <p>Built in SwiftUI, with system accessibility support and the macOS Keychain.</p>
+            <h3>原生體驗</h3>
+            <p>以 SwiftUI 建置，支援系統輔助使用與 macOS 鑰匙串。</p>
           </div>
         </div>
       </section>
@@ -235,25 +208,20 @@
           <span></span><span></span><span></span>
         </div>
         <div>
-          <h2>Your text takes the route you choose.</h2>
+          <h2>你的文字，走你選的路線。</h2>
           <p>
-            LinguaDock ships no telemetry. Text goes only to the API you named in
-            Settings; with a local Ollama, a translation request never has to
-            leave the machine. API keys are stored per protocol in the macOS
-            Keychain.
+            LinguaDock 不內建遙測。文字只會傳送到設定中指定的 API；用本機的
+            Ollama 時，翻譯請求不需要離開這台機器。API Key 依協定分開存在 macOS 鑰匙串裡。
           </p>
         </div>
       </section>
 
       <section class="start section" id="start">
         <div>
-          <h2>Start from your own model.</h2>
-          <p>
-            The project stays open source. Clone it, build it, then point it at a
-            translation service you trust.
-          </p>
+          <h2>從你自己的模型開始。</h2>
+          <p>專案保持開源。複製、建置，然後設定一個你信任的翻譯服務。</p>
         </div>
-        <div class="terminal" aria-label="Install commands">
+        <div class="terminal" aria-label="安裝指令">
           <div class="terminal-bar"><span></span><span></span><span></span></div>
           <pre><code>git clone https://github.com/dofy/LinguaDock.git
 cd LinguaDock
@@ -262,10 +230,10 @@ open LinguaDock.xcodeproj</code></pre>
         </div>
         <a
           class="button button-primary"
-          href="https://github.com/dofy/LinguaDock#local-development"
+          href="https://github.com/dofy/LinguaDock/blob/main/README.zh-Hant.md#本機開發"
           target="_blank"
           rel="noreferrer"
-          >Read the full install notes</a
+          >打開完整安裝說明</a
         >
       </section>
     </main>
@@ -275,10 +243,10 @@ open LinguaDock.xcodeproj</code></pre>
         <img src="/app-icon.png" width="30" height="30" alt="" />
         <span>LinguaDock</span>
       </div>
-      <p>Made for reading that doesn't get interrupted.</p>
+      <p>為不被打斷的閱讀而做。</p>
       <div class="footer-links">
         <a href="https://github.com/dofy/LinguaDock">GitHub</a>
-        <a href="https://github.com/dofy/LinguaDock/issues">Issues</a>
+        <a href="https://github.com/dofy/LinguaDock/issues">問題回報</a>
         <a href="https://github.com/dofy/LinguaDock/blob/main/LICENSE">MIT License</a>
       </div>
       <p class="copyright">© <span id="year">2026</span> LinguaDock</p>

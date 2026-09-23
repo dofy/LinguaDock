@@ -31,9 +31,11 @@
 		B8CB22F7AF396459A7019816 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */; };
 		BC87422117025133D7D937B1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C7169CE7623B7B0329BAA7F /* Security.framework */; };
 		CBFDA3D5CE97E93D015FCDF9 /* TargetLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1DB3DC058EEE9BFF8D5464 /* TargetLanguage.swift */; };
+		CC1D70D274A3BE4CC93B2058 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 929880E48F9D3640CA58043E /* InfoPlist.xcstrings */; };
 		CF678ADFB77F7B63F5CEBD7A /* URLRouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52FD5770B348FCA51D227A8 /* URLRouteTests.swift */; };
 		D1CDD193CC83B8DF40515C89 /* HotkeyNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433D576828CFE47A00430456 /* HotkeyNames.swift */; };
 		EE6CFDFBC9C1A1A07134BA60 /* ScreenCaptureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15DBEF058E04D55F6F21DD4 /* ScreenCaptureKit.framework */; };
+		F3D86A088F579962565E6E18 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 278854573AAC6EEB64D61FF6 /* Localizable.xcstrings */; };
 		F500E13D9605BDB44DA4707C /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 25D966D4217C1C51AA9EB03D /* KeyboardShortcuts */; };
 		F83CC4C5886A8143D32031DB /* PasteboardImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B002F386C9B469D56BD8F92D /* PasteboardImage.swift */; };
 /* End PBXBuildFile section */
@@ -50,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		0002452BD63D4D0B064E7570 /* WindowAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowAccessor.swift; sourceTree = "<group>"; };
+		278854573AAC6EEB64D61FF6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		3A942CB8F848BAC434944567 /* ShortcutRecorderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRecorderField.swift; sourceTree = "<group>"; };
 		41D980F76ADAE6D0CEC0240B /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
 		41FAB266DF54F609FDFA2B37 /* APIKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyStore.swift; sourceTree = "<group>"; };
@@ -66,6 +69,7 @@
 		7F1FD8F008005C92FABC5504 /* ScreenCapturer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapturer.swift; sourceTree = "<group>"; };
 		86B2F178140EC3CC2826DA82 /* LinguaDockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinguaDockApp.swift; sourceTree = "<group>"; };
 		8C7169CE7623B7B0329BAA7F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		929880E48F9D3640CA58043E /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		977537C9669A3BE72152ECEF /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT; };
 		A4BCA33582BD004E2549C8BD /* ImageTextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTextRecognizer.swift; sourceTree = "<group>"; };
 		A8BEAFCAF3180C42B6D3D4A7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				483786DC0DA5EEB8F427D8D8 /* Assets.xcassets */,
+				929880E48F9D3640CA58043E /* InfoPlist.xcstrings */,
+				278854573AAC6EEB64D61FF6 /* Localizable.xcstrings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -266,6 +272,8 @@
 			knownRegions = (
 				Base,
 				en,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 6255275F1C0F73B828DBC9AE;
 			minimizedProjectReferenceProxies = 1;
@@ -289,6 +297,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0F9A6DD5E8735A6F7A84136 /* Assets.xcassets in Resources */,
+				CC1D70D274A3BE4CC93B2058 /* InfoPlist.xcstrings in Resources */,
+				F3D86A088F579962565E6E18 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

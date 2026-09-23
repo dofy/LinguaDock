@@ -4,10 +4,14 @@ export type TargetLanguage = {
   promptName: string;
 };
 
+// `title` 是 Raycast 界面上显示的名字。Raycast 扩展没有本地化机制、按惯例是英文界面，
+// 所以这里用各语言自己的本名(endonym)，只有 "Auto" 这一项用英文——它不是语言名。
+// macOS app 侧的对应表是 LinguaDock/Models/TargetLanguage.swift 的 `displayName`
+// (走 String Catalog)；`promptName` 两边必须一致且保持英文，它是发给模型的载荷。
 export const TARGET_LANGUAGES: TargetLanguage[] = [
   {
     id: "auto",
-    title: "自动（中文 ⇄ 英文）",
+    title: "Auto (Chinese \u21c4 English)",
     promptName: "Automatic",
   },
   { id: "zh-Hans", title: "简体中文", promptName: "Simplified Chinese" },

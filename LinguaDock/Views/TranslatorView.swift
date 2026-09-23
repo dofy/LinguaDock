@@ -25,7 +25,7 @@ struct TranslatorView: View {
             VStack(spacing: 14) {
                 directionBar
                 editorCard(
-                    title: "原文",
+                    title: String(localized: "translator.source", defaultValue: "Source"),
                     text: $appState.sourceText,
                     placeholder: sourcePlaceholder,
                     editable: true
@@ -50,16 +50,21 @@ struct TranslatorView: View {
             sourceFocused = appState.sourceText.isEmpty
         }
         .alert(
-            "翻译失败",
+            String(localized: "translator.alert.title", defaultValue: "Translation failed"),
             isPresented: Binding(
                 get: { appState.errorMessage != nil },
                 set: { if !$0 { appState.errorMessage = nil } }
             )
         ) {
-            Button("好") { appState.errorMessage = nil }
-            SettingsLink { Text("打开设置") }
+            Button(String(localized: "common.ok", defaultValue: "OK")) {
+                appState.errorMessage = nil
+            }
+            SettingsLink {
+                Text(String(localized: "common.opensettings", defaultValue: "Open Settings"))
+            }
         } message: {
-            Text(appState.errorMessage ?? "未知错误")
+            Text(appState.errorMessage
+                 ?? String(localized: "error.unknown", defaultValue: "Unknown error"))
         }
     }
 
@@ -69,9 +74,9 @@ struct TranslatorView: View {
                 .resizable()
                 .frame(width: 40, height: 40)
             VStack(alignment: .leading, spacing: 2) {
-                Text("LinguaDock")
+                Text(verbatim: "LinguaDock")
                     .font(.system(size: 17, weight: .semibold))
-                Text("轻松读懂不同语言")
+                Text(String(localized: "app.tagline", defaultValue: "Read any language with ease"))
                     .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(.secondary)
             }
@@ -87,7 +92,7 @@ struct TranslatorView: View {
                     .font(.title3)
             }
             .buttonStyle(.plain)
-            .help("设置")
+            .help(String(localized: "common.settings", defaultValue: "Settings"))
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 14)
@@ -100,9 +105,11 @@ struct TranslatorView: View {
             Text(accessibilityHint)
                 .font(.system(size: 13, weight: .medium))
             Spacer()
-            Button("授权") { appState.requestAccessibilityPermission() }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
+            Button(String(localized: "translator.banner.grant", defaultValue: "Grant access")) {
+                appState.requestAccessibilityPermission()
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.small)
         }
         .padding(12)
         .background(.orange.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
@@ -112,12 +119,15 @@ struct TranslatorView: View {
         HStack(spacing: 10) {
             Image(systemName: "rectangle.dashed.badge.record")
                 .foregroundStyle(.orange)
-            Text("截屏识别需要「屏幕录制」权限。在系统设置中允许 LinguaDock 后重试即可。")
+            Text(String(localized: "translator.banner.screenrecording",
+                        defaultValue: "Screen capture needs Screen Recording permission. Allow LinguaDock in System Settings, then try again."))
                 .font(.system(size: 13, weight: .medium))
             Spacer()
-            Button("打开设置") { appState.openScreenRecordingSettings() }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
+            Button(String(localized: "common.opensettings", defaultValue: "Open Settings")) {
+                appState.openScreenRecordingSettings()
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.small)
         }
         .padding(12)
         .background(.orange.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
@@ -127,15 +137,19 @@ struct TranslatorView: View {
     private var imageInputButtons: some View {
         HStack(spacing: 2) {
             Button { appState.captureScreenAndTranslate() } label: {
-                Label("截屏识别", systemImage: "viewfinder")
+                Label(String(localized: "translator.capture", defaultValue: "Capture the screen"),
+                      systemImage: "viewfinder")
             }
             .help(captureHelp)
 
             Button { appState.translatePasteboardImage() } label: {
-                Label("识别剪贴板图片", systemImage: "photo.on.rectangle")
+                Label(String(localized: "translator.pasteboard",
+                             defaultValue: "Recognize a clipboard image"),
+                      systemImage: "photo.on.rectangle")
             }
             .keyboardShortcut("v", modifiers: [.command, .shift])
-            .help("识别剪贴板里的图片并翻译（⌘⇧V）")
+            .help(String(localized: "translator.pasteboard.help",
+                         defaultValue: "Recognize the image on the clipboard and translate it (⌘⇧V)"))
         }
         .labelStyle(.iconOnly)
         .font(.system(size: 12, weight: .medium))
@@ -146,11 +160,12 @@ struct TranslatorView: View {
 
     private var directionBar: some View {
         HStack {
-            Text("自动检测")
+            Text(String(localized: "translator.detect", defaultValue: "Detect language"))
                 .frame(maxWidth: .infinity)
             Image(systemName: "arrow.right")
                 .accessibilityHidden(true)
-            Picker("目标语言", selection: $appState.targetLanguage) {
+            Picker(String(localized: "translator.target", defaultValue: "Target language"),
+                   selection: $appState.targetLanguage) {
                 ForEach(TargetLanguage.allCases) { language in
                     Text(language.displayName).tag(language)
                 }
@@ -178,7 +193,8 @@ struct TranslatorView: View {
                 if editable {
                     imageInputButtons
                 }
-                Text("\(text.wrappedValue.count) 字符")
+                Text(String(localized: "translator.charcount",
+                            defaultValue: "\(text.wrappedValue.count) characters"))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.tertiary)
             }
@@ -210,13 +226,14 @@ struct TranslatorView: View {
     private var resultCard: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("译文")
+                Text(String(localized: "translator.result", defaultValue: "Translation"))
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
                 if !appState.translatedText.isEmpty {
                     Button { appState.copyTranslation() } label: {
-                        Label("复制", systemImage: "doc.on.doc")
+                        Label(String(localized: "translator.copy", defaultValue: "Copy"),
+                              systemImage: "doc.on.doc")
                     }
                     .font(.system(size: 12, weight: .medium))
                     .buttonStyle(.borderless)
@@ -224,7 +241,10 @@ struct TranslatorView: View {
                 }
             }
             ScrollView {
-                Text(appState.translatedText.isEmpty ? "译文会出现在这里" : appState.translatedText)
+                Text(appState.translatedText.isEmpty
+                     ? String(localized: "translator.result.placeholder",
+                              defaultValue: "The translation will appear here")
+                     : appState.translatedText)
                     .font(.system(size: 16, weight: .regular))
                     .lineSpacing(4)
                     .foregroundStyle(appState.translatedText.isEmpty ? .tertiary : .primary)
@@ -257,10 +277,13 @@ struct TranslatorView: View {
                 ProgressView().controlSize(.small)
             } else if appState.isTranslating {
                 ProgressView().controlSize(.small)
-                Button("取消") { appState.cancelTranslation() }
+                Button(String(localized: "common.cancel", defaultValue: "Cancel")) {
+                    appState.cancelTranslation()
+                }
             } else {
                 Button { appState.translate() } label: {
-                    Label("翻译", systemImage: "sparkles")
+                    Label(String(localized: "translator.translate", defaultValue: "Translate"),
+                          systemImage: "sparkles")
                         .frame(minWidth: 74)
                 }
                 .buttonStyle(.borderedProminent)
@@ -283,38 +306,51 @@ struct TranslatorView: View {
 
     private var captureHelp: String {
         guard let captureShortcutDescription else {
-            return "框选屏幕区域，识别其中文字并翻译"
+            return String(localized: "translator.capture.help",
+                          defaultValue: "Drag out a screen region, recognize the text in it, and translate that")
         }
-        return "框选屏幕区域，识别其中文字并翻译（\(captureShortcutDescription)）"
+        return String(localized: "translator.capture.help.shortcut",
+                      defaultValue: "Drag out a screen region, recognize the text in it, and translate that (\(captureShortcutDescription))")
     }
 
     private var sourcePlaceholder: String {
         guard let shortcutDescription else {
-            return "输入文本，或先在设置中配置全局快捷键；⌘⇧V 可识别剪贴板里的图片…"
+            return String(localized: "translator.placeholder",
+                          defaultValue: "Type some text, or set a global shortcut in Settings first. ⌘⇧V recognizes an image on the clipboard…")
         }
-        return "输入文本，在任意 App 中选中文本后按 \(shortcutDescription)，"
-            + "或 ⌘⇧V 识别剪贴板里的图片…"
+        return String(localized: "translator.placeholder.shortcut",
+                      defaultValue: "Type some text, or select text in any app and press \(shortcutDescription). ⌘⇧V recognizes an image on the clipboard…")
     }
 
     private var accessibilityHint: String {
         guard let shortcutDescription else {
-            return "授予辅助功能权限并设置全局快捷键后，可直接读取其他 App 的选中文本。"
+            return String(localized: "translator.accessibility.hint",
+                          defaultValue: "Grant Accessibility permission and set a global shortcut to read the selected text in other apps directly.")
         }
-        return "授予辅助功能权限后，\(shortcutDescription) 可直接读取其他 App 的选中文本。"
+        return String(localized: "translator.accessibility.hint.shortcut",
+                      defaultValue: "Once Accessibility permission is granted, \(shortcutDescription) reads the selected text in other apps directly.")
     }
 
+    /// 页脚快捷键提示。
+    ///
+    /// 每个 part 都是一句完整的、可独立翻译的提示；` · ` 只是视觉分隔符，不参与翻译。
+    /// 不要把某一句再拆成片段拼装——拼出来的句子没法按语言调整语序。
     private var footerShortcutHint: String {
         var parts: [String] = []
         if let shortcutDescription {
-            parts.append("\(shortcutDescription) 读取选中文本")
+            parts.append(String(localized: "footer.selection.shortcut",
+                                defaultValue: "\(shortcutDescription) reads the selection"))
         } else {
-            parts.append("设置全局快捷键以读取选中文本")
+            parts.append(String(localized: "footer.selection",
+                                defaultValue: "Set a global shortcut to read the selection"))
         }
         if let captureShortcutDescription {
-            parts.append("\(captureShortcutDescription) 截屏识别")
+            parts.append(String(localized: "footer.capture",
+                                defaultValue: "\(captureShortcutDescription) captures the screen"))
         }
-        parts.append("⌘⇧V 识别剪贴板图片")
-        parts.append("⌘↩ 翻译")
+        parts.append(String(localized: "footer.pasteboard",
+                            defaultValue: "⌘⇧V recognizes a clipboard image"))
+        parts.append(String(localized: "footer.translate", defaultValue: "⌘↩ translates"))
         return parts.joined(separator: " · ")
     }
 }

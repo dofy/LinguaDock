@@ -6,54 +6,63 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section("模型服务") {
-                Picker("协议", selection: providerBinding) {
+            Section(String(localized: "settings.section.service", defaultValue: "Model service")) {
+                Picker(String(localized: "settings.protocol", defaultValue: "Protocol"),
+                       selection: providerBinding) {
                     ForEach(APIProvider.allCases) { provider in
                         Text(provider.title).tag(provider)
                     }
                 }
                 .pickerStyle(.segmented)
 
-                TextField("API URL", text: $appState.baseURL)
+                TextField(String(localized: "settings.apiurl", defaultValue: "API URL"),
+                          text: $appState.baseURL)
                     .textFieldStyle(.roundedBorder)
                 SecureField(apiKeyPrompt, text: $appState.apiKey)
                     .textFieldStyle(.roundedBorder)
-                TextField("模型", text: $appState.model)
+                TextField(String(localized: "settings.model", defaultValue: "Model"),
+                          text: $appState.model)
                     .textFieldStyle(.roundedBorder)
 
                 HStack {
-                    Button("测试连接") { appState.testConnection() }
-                        .disabled(appState.isTestingConnection)
+                    Button(String(localized: "settings.test", defaultValue: "Test connection")) {
+                        appState.testConnection()
+                    }
+                    .disabled(appState.isTestingConnection)
                     if appState.isTestingConnection {
                         ProgressView().controlSize(.small)
                     }
                     if let status = appState.settingsStatus {
-                        Text(status)
+                        Text(status.message)
                             .font(.caption)
-                            .foregroundStyle(status == "连接成功" ? .green : .secondary)
+                            .foregroundStyle(status.isSuccess ? .green : .secondary)
                             .lineLimit(2)
                     }
                 }
             }
 
-            Section("快捷操作") {
-                LabeledContent("读取选中文本") {
+            Section(String(localized: "settings.section.shortcuts", defaultValue: "Shortcuts")) {
+                LabeledContent(String(localized: "settings.shortcut.selection",
+                                      defaultValue: "Read selected text")) {
                     ShortcutRecorderField(shortcut: $appState.globalShortcut)
                 }
 
-                LabeledContent("截屏识别翻译") {
+                LabeledContent(String(localized: "settings.shortcut.capture",
+                                      defaultValue: "Capture the screen and translate")) {
                     ShortcutRecorderField(shortcut: $appState.captureShortcut)
                 }
 
-                LabeledContent("识别剪贴板图片") {
-                    Text("⌘⇧V")
+                LabeledContent(String(localized: "settings.shortcut.pasteboard",
+                                      defaultValue: "Recognize a clipboard image")) {
+                    Text(verbatim: "⌘⇧V")
                         .font(.system(.body, design: .monospaced))
                         .foregroundStyle(.secondary)
                 }
 
-                LabeledContent("PopClip URL Scheme") {
+                LabeledContent(String(localized: "settings.popclip",
+                                      defaultValue: "PopClip URL scheme")) {
                     HStack {
-                        Text("linguadock://translate?text=…")
+                        Text(verbatim: "linguadock://translate?text=…")
                             .font(.system(.caption, design: .monospaced))
                             .foregroundStyle(.secondary)
                         Button {
@@ -70,10 +79,14 @@ struct SettingsView: View {
                 }
             }
 
-            Section("权限") {
+            Section(String(localized: "settings.section.permissions", defaultValue: "Permissions")) {
                 HStack {
                     Label(
-                        appState.needsAccessibilityPermission ? "尚未授权辅助功能" : "辅助功能已授权",
+                        appState.needsAccessibilityPermission
+                            ? String(localized: "settings.permission.accessibility.missing",
+                                     defaultValue: "Accessibility not granted")
+                            : String(localized: "settings.permission.accessibility.granted",
+                                     defaultValue: "Accessibility granted"),
                         systemImage: appState.needsAccessibilityPermission
                             ? "exclamationmark.triangle.fill"
                             : "checkmark.seal.fill"
@@ -81,16 +94,23 @@ struct SettingsView: View {
                     .foregroundStyle(appState.needsAccessibilityPermission ? .orange : .green)
                     Spacer()
                     if appState.needsAccessibilityPermission {
-                        Button("打开授权提示") { appState.requestAccessibilityPermission() }
+                        Button(String(localized: "settings.permission.prompt",
+                                      defaultValue: "Open the permission prompt")) {
+                            appState.requestAccessibilityPermission()
+                        }
                     } else {
-                        Button("刷新") { appState.refreshAccessibilityStatus() }
+                        Button(String(localized: "settings.refresh", defaultValue: "Refresh")) {
+                            appState.refreshAccessibilityStatus()
+                        }
                     }
                 }
                 HStack {
                     Label(
                         appState.hasScreenRecordingPermission
-                            ? "屏幕录制已授权"
-                            : "尚未授权屏幕录制（截屏识别需要）",
+                            ? String(localized: "settings.permission.screen.granted",
+                                     defaultValue: "Screen Recording granted")
+                            : String(localized: "settings.permission.screen.missing",
+                                     defaultValue: "Screen Recording not granted (needed for screen capture)"),
                         systemImage: appState.hasScreenRecordingPermission
                             ? "checkmark.seal.fill"
                             : "exclamationmark.triangle.fill"
@@ -98,36 +118,46 @@ struct SettingsView: View {
                     .foregroundStyle(appState.hasScreenRecordingPermission ? .green : .orange)
                     Spacer()
                     if appState.hasScreenRecordingPermission {
-                        Button("刷新") { appState.refreshScreenRecordingStatus() }
+                        Button(String(localized: "settings.refresh", defaultValue: "Refresh")) {
+                            appState.refreshScreenRecordingStatus()
+                        }
                     } else {
-                        Button("打开设置") { appState.openScreenRecordingSettings() }
+                        Button(String(localized: "settings.opensettings",
+                                      defaultValue: "Open System Settings")) {
+                            appState.openScreenRecordingSettings()
+                        }
                     }
                 }
-                Text("辅助功能权限用于读取当前选中文本和发送复制快捷键；屏幕录制权限只在你按下截屏识别快捷键时用于截取所框选的区域。文字识别在本机完成，识别结果仅发送到你配置的 API。")
+                Text(String(localized: "settings.permission.explain",
+                            defaultValue: "Accessibility is used to read the current selection and to send the copy shortcut. Screen Recording is used only to grab the region you drag out, and only when you press the capture shortcut. Text recognition happens on this machine; only its result is sent to the API you configured."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
-            Section("默认行为") {
-                Text("自动检测输入语言；目标语言默认为简体中文，可在主窗口随时切换。各协议的 API Key 分别保存在 macOS Keychain。")
+            Section(String(localized: "settings.section.defaults", defaultValue: "Default behavior")) {
+                Text(String(localized: "settings.defaults.body",
+                            defaultValue: "The input language is detected automatically. The target language defaults to Simplified Chinese and can be changed in the main window at any time. Each protocol's API key is stored separately in the macOS Keychain."))
                     .foregroundStyle(.secondary)
-                Text("Ollama 默认：\(APIProvider.ollama.defaultBaseURL) · \(APIProvider.ollama.defaultModel)")
+                Text(String(localized: "settings.defaults.ollama",
+                            defaultValue: "Ollama defaults: \(APIProvider.ollama.defaultBaseURL) · \(APIProvider.ollama.defaultModel)"))
                     .font(.caption)
                     .foregroundStyle(.tertiary)
             }
 
-            Section("关于") {
-                LabeledContent("GitHub 项目") {
+            Section(String(localized: "settings.section.about", defaultValue: "About")) {
+                LabeledContent(String(localized: "settings.about.github",
+                                      defaultValue: "GitHub project")) {
                     Link(destination: Self.githubURL) {
                         HStack(spacing: 6) {
-                            Text("github.com/dofy/LinguaDock")
+                            Text(verbatim: "github.com/dofy/LinguaDock")
                             Image(systemName: "arrow.up.right")
                                 .font(.caption)
                         }
                     }
                 }
 
-                Text("查看源代码、安装说明与更新记录，或提交问题反馈。")
+                Text(String(localized: "settings.about.body",
+                            defaultValue: "Read the source, the install notes and the changelog there, or file an issue."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -149,7 +179,10 @@ struct SettingsView: View {
     }
 
     private var apiKeyPrompt: String {
-        appState.provider == .ollama ? "API Key（Ollama 可留空）" : "API Key"
+        appState.provider == .ollama
+            ? String(localized: "settings.apikey.ollama",
+                     defaultValue: "API Key (optional for Ollama)")
+            : String(localized: "settings.apikey", defaultValue: "API Key")
     }
 
     private static let githubURL = URL(string: "https://github.com/dofy/LinguaDock")!

@@ -3,6 +3,30 @@ import CoreGraphics
 import KeyboardShortcuts
 import SwiftUI
 
+/// 设置页「测试连接」的结果。
+///
+/// 以前这里存的是已经本地化好的字符串，设置页再拿 `status == "连接成功"` 比字面量来决定
+/// 要不要染绿——文案一换语言，绿色就没了。状态本身和它的文案分开，才不会再踩这个坑。
+enum SettingsStatus: Equatable, Sendable {
+    case connecting
+    case connected
+    case failed(String)
+
+    /// 展示给用户的文案。失败分支带的是上游已经本地化过的错误描述。
+    var message: String {
+        switch self {
+        case .connecting:
+            String(localized: "settings.status.connecting", defaultValue: "Connecting…")
+        case .connected:
+            String(localized: "settings.status.connected", defaultValue: "Connected")
+        case let .failed(reason):
+            reason
+        }
+    }
+
+    var isSuccess: Bool { self == .connected }
+}
+
 @MainActor
 final class AppState: ObservableObject {
     static let shared = AppState()
@@ -42,7 +66,7 @@ final class AppState: ObservableObject {
             }
         }
     }
-    @Published var settingsStatus: String?
+    @Published var settingsStatus: SettingsStatus?
     @Published var isTestingConnection = false
     @Published var globalShortcut: KeyboardShortcuts.Shortcut? {
         didSet {
@@ -125,18 +149,21 @@ final class AppState: ObservableObject {
         refreshAccessibilityStatus()
         guard !needsAccessibilityPermission else {
             showMainWindow()
-            statusMessage = "尚未获得辅助功能权限。请先点击授权，然后在系统设置中允许 LinguaDock。"
+            statusMessage = String(localized: "status.accessibility.missing",
+                                   defaultValue: "No Accessibility permission yet. Grant access here first, then allow LinguaDock in System Settings.")
             return
         }
 
-        statusMessage = "正在读取选中文本…"
+        statusMessage = String(localized: "status.reading",
+                               defaultValue: "Reading the selected text…")
         Task { @MainActor in
             let selected = await SelectedTextReader.readSelectedText()
             needsAccessibilityPermission = !SelectedTextReader.isTrusted
             showMainWindow()
 
             guard let selected, !selected.isEmpty else {
-                statusMessage = "没有读到选中文本。请确认原应用中已有选区，然后重试。"
+                statusMessage = String(localized: "status.noselection",
+                                       defaultValue: "Nothing selected was read. Check that there is a selection in the other app, then try again.")
                 return
             }
             sourceText = selected
@@ -205,7 +232,8 @@ final class AppState: ObservableObject {
     private func recognizeAndTranslate(_ image: CGImage) async {
         isRecognizing = true
         errorMessage = nil
-        statusMessage = "正在识别图片文字…"
+        statusMessage = String(localized: "status.recognizing",
+                               defaultValue: "Recognizing the text in the image…")
         defer { isRecognizing = false }
 
         do {
@@ -254,7 +282,8 @@ final class AppState: ObservableObject {
     func translate() {
         let text = sourceText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else {
-            statusMessage = "先输入或选中要翻译的文本。"
+            statusMessage = String(localized: "status.needtext",
+                                   defaultValue: "Type or select the text to translate first.")
             return
         }
 
@@ -266,21 +295,23 @@ final class AppState: ObservableObject {
             targetLanguage: targetLanguage
         )
         guard !configuration.model.isEmpty else {
-            errorMessage = "请先在设置中填写模型名称。"
+            errorMessage = String(localized: "error.nomodel",
+                                 defaultValue: "Fill in a model name in Settings first.")
             return
         }
 
         translationTask?.cancel()
         isTranslating = true
         errorMessage = nil
-        statusMessage = "正在用 \(configuration.model) 翻译…"
+        statusMessage = String(localized: "status.translating",
+                               defaultValue: "Translating with \(configuration.model)…")
 
         translationTask = Task { @MainActor in
             do {
                 let result = try await translationService.translate(text, using: configuration)
                 try Task.checkCancellation()
                 translatedText = result
-                statusMessage = "翻译完成"
+                statusMessage = String(localized: "status.done", defaultValue: "Translation complete")
             } catch is CancellationError {
                 return
             } catch {
@@ -295,14 +326,14 @@ final class AppState: ObservableObject {
         translationTask?.cancel()
         translationTask = nil
         isTranslating = false
-        statusMessage = "已取消"
+        statusMessage = String(localized: "status.cancelled", defaultValue: "Cancelled")
     }
 
     func copyTranslation() {
         guard !translatedText.isEmpty else { return }
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(translatedText, forType: .string)
-        statusMessage = "译文已复制"
+        statusMessage = String(localized: "status.copied", defaultValue: "Translation copied")
     }
 
     func requestAccessibilityPermission() {
@@ -342,7 +373,7 @@ final class AppState: ObservableObject {
     func testConnection() {
         guard !isTestingConnection else { return }
         isTestingConnection = true
-        settingsStatus = "正在连接…"
+        settingsStatus = .connecting
         let configuration = ProviderConfiguration(
             provider: provider,
             baseURL: baseURL,
@@ -353,9 +384,9 @@ final class AppState: ObservableObject {
         Task { @MainActor in
             do {
                 try await translationService.checkConnection(using: configuration)
-                settingsStatus = "连接成功"
+                settingsStatus = .connected
             } catch {
-                settingsStatus = error.localizedDescription
+                settingsStatus = .failed(error.localizedDescription)
             }
             isTestingConnection = false
         }

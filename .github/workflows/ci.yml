@@ -21,3 +21,8 @@ jobs:
           -scheme LinguaDock
           -destination 'platform=macOS'
           CODE_SIGNING_ALLOWED=NO
+
+      # Guards en / zh-Hans / zh-Hant coverage in the String Catalogs and the
+      # no-hardcoded-Chinese rule.
+      - name: Check String Catalogs
+        run: ./scripts/check-localization.sh

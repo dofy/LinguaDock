@@ -30,8 +30,11 @@ struct ShortcutRecorderField: View {
     }
 
     private var label: String {
-        if isRecording { return "按下快捷键…" }
-        return shortcut?.description ?? "点击录制"
+        if isRecording {
+            return String(localized: "recorder.press", defaultValue: "Press a shortcut…")
+        }
+        return shortcut?.description
+            ?? String(localized: "recorder.empty", defaultValue: "Click to record")
     }
 
     private func handleCapture(_ event: NSEvent) {

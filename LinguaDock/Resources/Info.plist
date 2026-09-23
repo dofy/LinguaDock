@@ -32,7 +32,7 @@
     <key>LSMinimumSystemVersion</key>
     <string>$(MACOSX_DEPLOYMENT_TARGET)</string>
     <key>NSAccessibilityUsageDescription</key>
-    <string>LinguaDock 需要辅助功能权限，以读取其他 App 中的选中文本并通过全局快捷键翻译。</string>
+    <string>LinguaDock needs Accessibility permission so it can read the text you select in other apps and translate it from a global shortcut.</string>
     <key>NSAppTransportSecurity</key>
     <dict>
         <key>NSAllowsArbitraryLoads</key>

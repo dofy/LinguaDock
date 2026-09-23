@@ -86,7 +86,12 @@ enum APIKeyStore {
         NSError(
             domain: NSOSStatusErrorDomain,
             code: Int(status),
-            userInfo: [NSLocalizedDescriptionKey: "无法把 API Key 保存到 Keychain（\(status)）。"]
+            userInfo: [
+                NSLocalizedDescriptionKey: String(
+                    localized: "error.keychain.save",
+                    defaultValue: "The API key couldn’t be saved to the Keychain (\(status))."
+                )
+            ]
         )
     }
 }
