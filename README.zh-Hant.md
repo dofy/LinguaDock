@@ -169,6 +169,12 @@ xcodebuild test \
 第一次執行安裝腳本時，會在登入鑰匙串中建立 LinguaDock 專用的本機程式碼簽署身分，讓輔助
 使用授權在之後的本機更新中保持有效。這個身分只用於這台機器上的開發。
 
+狀態列圖示由 app 圖示生成，不另外畫，兩者不會走樣。改過 `AppIcon` 後重新執行：
+
+```bash
+swift scripts/generate_menubar_icon.swift
+```
+
 ## 專案
 
 - GitHub：[github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)

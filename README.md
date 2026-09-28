@@ -192,6 +192,13 @@ Installing a local debug build:
 ./scripts/install-local.sh
 ```
 
+The menu bar icon is generated from the app icon rather than drawn separately,
+so the two cannot drift apart. Re-run it after changing `AppIcon`:
+
+```bash
+swift scripts/generate_menubar_icon.swift
+```
+
 The first run of that script creates a LinguaDock-specific local code-signing
 identity in your login keychain, so the Accessibility grant survives later local
 updates. That identity is for development on this machine only.

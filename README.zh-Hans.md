@@ -156,6 +156,12 @@ xcodebuild test \
 
 首次运行安装脚本时会在登录钥匙串中创建 LinguaDock 专用的本地代码签名身份，让辅助功能授权在后续本地更新中保持有效。该身份只用于本机开发。
 
+状态栏图标由 app 图标生成，不单独画，两者不会走样。改过 `AppIcon` 后重新跑：
+
+```bash
+swift scripts/generate_menubar_icon.swift
+```
+
 ## 项目
 
 - GitHub：[github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
