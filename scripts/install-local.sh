@@ -73,6 +73,10 @@ codesign --verify --deep --strict --verbose=2 "$built_app"
 
 pkill -x LinguaDock 2>/dev/null || true
 ditto "$built_app" "$installed_app"
+# ditto 会保留源的时间戳，拷过去的 bundle 还带着构建时的 mtime，而改 Contents/ 里的
+# 文件不会让它前进。IconServices 按这个 mtime 判断要不要重读 app 图标，所以图标换了
+# 也仍然从缓存里渲染；下面的 lsregister 撬不动它，只有 touch 能。
+touch "$installed_app"
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
     -f "$installed_app"
 
