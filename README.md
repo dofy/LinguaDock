@@ -190,6 +190,39 @@ The first run of that script creates a LinguaDock-specific local code-signing
 identity in your login keychain, so the Accessibility grant survives later local
 updates. That identity is for development on this machine only.
 
+Packaging a build for someone else:
+
+```bash
+./scripts/package-release.sh          # → dist/LinguaDock-<version>.dmg
+```
+
+That script builds Release as a universal binary (both `x86_64` and `arm64`, and
+it fails rather than shipping one slice), signs it, and writes a DMG containing
+the app, an `Applications` symlink and a trilingual first-run note covering
+Gatekeeper, the Accessibility and Screen Recording grants, and pointing the app
+at Ollama or an OpenAI-compatible endpoint.
+
+LinguaDock cannot ship on the Mac App Store: reading the selection in another app
+needs the Accessibility API, which the sandbox forbids. That leaves a Developer
+ID signature with notarization, or a self-signed one. By default the script signs
+with a self-signed `LinguaDock Distribution` certificate, so macOS blocks the app
+on first launch and the recipient approves it once in System Settings > Privacy &
+Security. Back that certificate up and sign every later build with it, or macOS
+stops recognising the builds as the same app and everyone has to grant
+Accessibility again.
+
+With a paid Apple Developer account, pass the real identity instead and the
+warning disappears:
+
+```bash
+SIGNING_IDENTITY="Developer ID Application: Name (TEAMID)" \
+  ./scripts/package-release.sh
+```
+
+That path also enables the hardened runtime and a secure timestamp, which
+notarization requires. Notarization itself (`xcrun notarytool submit` and
+`stapler staple`) is not yet wired up.
+
 ## Project
 
 - GitHub: [github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
