@@ -70,6 +70,12 @@ with a local Ollama, a translation request never has to leave the Mac.
 ## Built for the way macOS works
 
 - Native SwiftUI windows and a native Settings experience
+- A menu bar icon, so the app is reachable without a window: open it, read
+  the selection, capture the screen, or open Settings
+- Stays out of the Dock: `⌘W` puts the window away and takes the Dock icon
+  with it. LinguaDock keeps running from the menu bar, the shortcuts keep
+  working, and reopening restores the window as you left it. Switch it off
+  under Settings > General
 - Recordable, changeable global shortcuts — one for reading the selection, one
   for screen capture
 - On-device OCR through the system Vision framework, covering Chinese, English,

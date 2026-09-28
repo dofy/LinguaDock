@@ -80,6 +80,14 @@ final class AppState: ObservableObject {
             KeyboardShortcuts.setShortcut(captureShortcut, for: .captureAndTranslate)
         }
     }
+    /// 窗口全收起后是否隐藏 Dock 图标，只留状态栏图标。
+    ///
+    /// 持久化由 `DockVisibility` 负责，这里只是设置页能绑定的镜像。
+    @Published var hidesDockWhenClosed: Bool = DockVisibility.shared.hidesDockWhenClosed {
+        didSet {
+            DockVisibility.shared.hidesDockWhenClosed = hidesDockWhenClosed
+        }
+    }
 
     private let defaults = UserDefaults.standard
     private let translationService = TranslationService()
@@ -402,6 +410,9 @@ final class AppState: ObservableObject {
     var reopenMainWindow: (() -> Void)?
 
     func showMainWindow() {
+        // 先把 Dock 图标/activation policy 拉回 .regular 再激活：accessory 状态下反过来
+        // 调，activate 抢不到前台。
+        DockVisibility.shared.showDockIcon()
         NSApp.activate(ignoringOtherApps: true)
         if let window = NSApp.windows.first(where: { $0.identifier?.rawValue == Self.mainWindowIdentifier }) {
             window.makeKeyAndOrderFront(nil)

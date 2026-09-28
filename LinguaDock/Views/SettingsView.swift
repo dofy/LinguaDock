@@ -6,6 +6,16 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            Section(String(localized: "settings.section.general", defaultValue: "General")) {
+                Toggle(String(localized: "settings.general.hidedock",
+                              defaultValue: "Hide the Dock icon when the window is closed"),
+                       isOn: $appState.hidesDockWhenClosed)
+                Text(String(localized: "settings.general.hidedock.hint",
+                            defaultValue: "LinguaDock keeps running either way. The menu bar icon and the shortcuts stay available, and the Dock icon comes back with the window."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             Section(String(localized: "settings.section.service", defaultValue: "Model service")) {
                 Picker(String(localized: "settings.protocol", defaultValue: "Protocol"),
                        selection: providerBinding) {

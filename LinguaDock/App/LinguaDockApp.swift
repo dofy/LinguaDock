@@ -33,6 +33,16 @@ struct LinguaDockApp: App {
         Settings {
             SettingsView()
                 .environmentObject(appState)
+                .background(SettingsWindowAccessor())
+        }
+
+        // 状态栏图标。窗口全收起后 Dock 图标会消失（见 DockVisibility），这是回到 app 的
+        // 主要入口。用 SF Symbol 而不是资源图：自动跟随浅色/深色和菜单栏尺寸，无需素材。
+        MenuBarExtra {
+            MenuBarMenuView()
+                .environmentObject(appState)
+        } label: {
+            Image(systemName: "translate")
         }
     }
 }
