@@ -20,9 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
-        if !hasVisibleWindows {
-            AppState.shared.showMainWindow()
-        }
+        AppState.shared.showMainWindow()
         return false
     }
 

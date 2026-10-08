@@ -7,9 +7,11 @@ import SwiftUI
 /// 所以两个取词动作和设置都得在这个菜单里够得着，不能只留「打开」。
 struct MenuBarMenuView: View {
     @EnvironmentObject private var appState: AppState
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         Button(String(localized: "menubar.open", defaultValue: "Open LinguaDock")) {
+            appState.reopenMainWindow = { openWindow(id: "translator") }
             appState.showMainWindow()
         }
         .keyboardShortcut("o", modifiers: [.command])

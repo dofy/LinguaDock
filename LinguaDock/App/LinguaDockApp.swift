@@ -46,6 +46,7 @@ struct LinguaDockApp: App {
                 .environmentObject(appState)
         } label: {
             Image("MenuBarIcon")
+                .background(MainWindowOpener())
         }
     }
 }
@@ -56,12 +57,20 @@ struct LinguaDockApp: App {
 /// 视图的 environment 取，AppState 自己拿不到。
 private struct MainWindowRoot: View {
     @EnvironmentObject private var appState: AppState
+    var body: some View {
+        TranslatorView()
+            .background(MainWindowOpener())
+    }
+}
+
+/// The menu bar label exists even when login launches without a main window.
+private struct MainWindowOpener: View {
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
-        TranslatorView()
+        Color.clear.frame(width: 0, height: 0)
             .onAppear {
-                appState.reopenMainWindow = { openWindow(id: "translator") }
+                AppState.shared.reopenMainWindow = { openWindow(id: "translator") }
             }
     }
 }
