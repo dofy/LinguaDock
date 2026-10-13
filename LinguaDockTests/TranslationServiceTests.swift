@@ -59,4 +59,17 @@ final class TranslationServiceTests: XCTestCase {
             "https://example.com/v1/chat/completions"
         )
     }
+    func testRejectsNonHTTPAndEmbeddedCredentials() {
+        for url in ["file:///tmp/api", "ftp://example.com/v1", "https://user:password@example.com/v1"] {
+            XCTAssertThrowsError(try TranslationService.endpoint(baseURL: url, path: "chat/completions"))
+        }
+    }
+
+    func testFullEndpointWithTrailingSlashAndQuery() throws {
+        XCTAssertEqual(
+            try TranslationService.endpoint(baseURL: "https://example.com/v1/chat/completions/?version=1", path: "chat/completions").absoluteString,
+            "https://example.com/v1/chat/completions?version=1"
+        )
+    }
+
 }

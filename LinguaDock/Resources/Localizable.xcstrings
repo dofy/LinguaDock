@@ -1387,19 +1387,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The input language is detected automatically. The target language defaults to Simplified Chinese and can be changed in the main window at any time. Each protocol's API key is stored separately in the macOS Keychain."
+            "value": "The input language is detected automatically. The target language defaults to Simplified Chinese and can be changed in the main window at any time. The current service settings are saved automatically. The API key stays in the macOS Keychain."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "自动检测输入语言；目标语言默认为简体中文，可在主窗口随时切换。各协议的 API Key 分别保存在 macOS Keychain。"
+            "value": "自动检测输入语言。目标语言默认为简体中文，可随时在主窗口修改。当前服务配置自动保存，API Key 保存在 macOS 钥匙串中。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "輸入語言會自動偵測；目標語言預設是簡體中文，可以在主視窗隨時切換。各協定的 API Key 分別存在 macOS 鑰匙串裡。"
+            "value": "自動偵測輸入語言。目標語言預設為簡體中文，可隨時在主視窗修改。目前服務設定自動儲存，API Key 儲存在 macOS 鑰匙圈中。"
           }
         }
       }
@@ -1939,19 +1939,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Connected"
+            "value": "Translation verified"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "连接成功"
+            "value": "翻译测试通过"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "連線成功"
+            "value": "翻譯測試通過"
           }
         }
       }
@@ -1985,19 +1985,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Test connection"
+            "value": "Test translation"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "测试连接"
+            "value": "测试翻译"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "測試連線"
+            "value": "測試翻譯"
           }
         }
       }
@@ -2474,6 +2474,29 @@
         }
       }
     },
+    "translator.imageinput": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Image translation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图片翻译"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圖片翻譯"
+          }
+        }
+      }
+    },
     "translator.pasteboard": {
       "extractionState": "manual",
       "localizations": {
@@ -2677,6 +2700,213 @@
           "stringUnit": {
             "state": "translated",
             "value": "翻譯"
+          }
+        }
+      }
+    },
+    "settings.service.custom": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自訂"
+          }
+        }
+      }
+    },
+    "settings.service": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Service"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服務"
+          }
+        }
+      }
+    },
+    "settings.models.choose": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose model"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择模型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇模型"
+          }
+        }
+      }
+    },
+    "settings.models.fetch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fetch models"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "获取模型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取得模型"
+          }
+        }
+      }
+    },
+    "settings.models.hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose an available text model or enter its ID manually. Some services do not provide a model list."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择可用的文本模型，也可以手动填写模型 ID。部分服务不提供模型列表。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇可用的文字模型，也可以手動填寫模型 ID。部分服務不提供模型清單。"
+          }
+        }
+      }
+    },
+    "settings.advanced.hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the API base URL or full endpoint. For regional services, enter the endpoint matching your API key."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持 API 基础地址或完整接口地址。使用区域服务时，请填写与 API Key 对应的区域地址。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支援 API 基礎網址或完整介面網址。使用區域服務時，請填寫與 API Key 對應的區域網址。"
+          }
+        }
+      }
+    },
+    "settings.test.hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sends “Hello” to the selected model to verify translation. Your API provider may charge for this request."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向所选模型发送“Hello”以验证翻译。API 服务商可能对该请求收费。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向所選模型傳送「Hello」以驗證翻譯。API 服務商可能對該請求收費。"
+          }
+        }
+      }
+    },
+    "settings.status.modelsLoaded": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Models loaded"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型列表已获取"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已取得模型清單"
+          }
+        }
+      }
+    },
+    "error.truncated": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model reached its output limit. Try a shorter text."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型已达到输出上限，请缩短文本后重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型已達到輸出上限，請縮短文字後重試。"
           }
         }
       }

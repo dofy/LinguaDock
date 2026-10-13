@@ -22,17 +22,24 @@ struct TranslatorView: View {
                     .padding(.top, 14)
             }
 
-            VStack(spacing: 14) {
-                directionBar
-                editorCard(
-                    title: String(localized: "translator.source", defaultValue: "Source"),
-                    text: $appState.sourceText,
-                    placeholder: sourcePlaceholder,
-                    editable: true
-                )
-                resultCard
+            GeometryReader { geometry in
+                VStack(spacing: 10) {
+                    directionBar
+                    let layout = geometry.size.width >= 1100
+                        ? AnyLayout(HStackLayout(spacing: 12))
+                        : AnyLayout(VStackLayout(spacing: 12))
+                    layout {
+                        editorCard(
+                            title: String(localized: "translator.source", defaultValue: "Source"),
+                            text: $appState.sourceText,
+                            placeholder: sourcePlaceholder,
+                            editable: true
+                        )
+                        resultCard
+                    }
+                }
             }
-            .padding(20)
+            .padding(16)
 
             footer
         }
@@ -72,21 +79,11 @@ struct TranslatorView: View {
         HStack(spacing: 14) {
             Image("BrandIcon")
                 .resizable()
-                .frame(width: 40, height: 40)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: "LinguaDock")
-                    .font(.system(size: 17, weight: .semibold))
-                Text(String(localized: "app.tagline", defaultValue: "Read any language with ease"))
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(.secondary)
-            }
+                .frame(width: 28, height: 28)
+            Text(verbatim: "LinguaDock")
+                .font(.system(size: 15, weight: .semibold))
+                .help(String(localized: "app.tagline", defaultValue: "Read any language with ease"))
             Spacer()
-            Label(appState.model, systemImage: "cpu")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .lineLimit(1)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(.quaternary, in: Capsule())
             SettingsLink {
                 Image(systemName: "gearshape")
                     .font(.title3)
@@ -95,7 +92,7 @@ struct TranslatorView: View {
             .help(String(localized: "common.settings", defaultValue: "Settings"))
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 14)
+        .padding(.vertical, 10)
     }
 
     private var accessibilityBanner: some View {
@@ -135,33 +132,42 @@ struct TranslatorView: View {
 
     /// 图片入口：框选截屏识别 + 识别剪贴板里的图片。
     private var imageInputButtons: some View {
-        HStack(spacing: 2) {
-            Button { appState.captureScreenAndTranslate() } label: {
-                Label(String(localized: "translator.capture", defaultValue: "Capture the screen"),
-                      systemImage: "viewfinder")
-            }
-            .help(captureHelp)
-
-            Button { appState.translatePasteboardImage() } label: {
-                Label(String(localized: "translator.pasteboard",
-                             defaultValue: "Recognize a clipboard image"),
-                      systemImage: "photo.on.rectangle")
-            }
-            .keyboardShortcut("v", modifiers: [.command, .shift])
-            .help(String(localized: "translator.pasteboard.help",
-                         defaultValue: "Recognize the image on the clipboard and translate it (⌘⇧V)"))
+        HStack(spacing: 8) {
+            imageInputActions
         }
-        .labelStyle(.iconOnly)
-        .font(.system(size: 12, weight: .medium))
-        .buttonStyle(.borderless)
-        .controlSize(.small)
+        .labelStyle(.titleAndIcon)
+        .font(.system(size: 12, weight: .semibold))
+        .buttonStyle(.bordered)
+        .tint(.accentColor)
+        .controlSize(.regular)
         .disabled(appState.isRecognizing)
     }
 
+    @ViewBuilder
+    private var imageInputActions: some View {
+        Button { appState.captureScreenAndTranslate() } label: {
+            Label(String(localized: "translator.capture", defaultValue: "Capture the screen"),
+                  systemImage: "text.viewfinder")
+                .padding(.horizontal, 4)
+                .padding(.vertical, 2)
+        }
+        .help(captureHelp)
+
+        Button { appState.translatePasteboardImage() } label: {
+            Label(String(localized: "translator.pasteboard",
+                         defaultValue: "Recognize a clipboard image"),
+                  systemImage: "photo.on.rectangle.angled")
+                .padding(.horizontal, 4)
+                .padding(.vertical, 2)
+        }
+        .keyboardShortcut("v", modifiers: [.command, .shift])
+        .help(String(localized: "translator.pasteboard.help",
+                     defaultValue: "Recognize the image on the clipboard and translate it (⌘⇧V)"))
+    }
+
     private var directionBar: some View {
-        HStack {
+        HStack(spacing: 10) {
             Text(String(localized: "translator.detect", defaultValue: "Detect language"))
-                .frame(maxWidth: .infinity)
             Image(systemName: "arrow.right")
                 .accessibilityHidden(true)
             Picker(String(localized: "translator.target", defaultValue: "Target language"),
@@ -172,7 +178,19 @@ struct TranslatorView: View {
             }
             .labelsHidden()
             .pickerStyle(.menu)
-            .frame(maxWidth: .infinity)
+            .fixedSize()
+            Spacer(minLength: 12)
+            ViewThatFits(in: .horizontal) {
+                imageInputButtons.fixedSize()
+                Menu {
+                    imageInputActions
+                } label: {
+                    Label(String(localized: "translator.imageinput", defaultValue: "Image translation"),
+                          systemImage: "photo.on.rectangle.angled")
+                }
+                .fixedSize()
+                .disabled(appState.isRecognizing)
+            }
         }
         .font(.system(size: 13, weight: .semibold))
         .foregroundStyle(.secondary)
@@ -189,10 +207,7 @@ struct TranslatorView: View {
                 Text(title)
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.secondary)
-                Spacer()
-                if editable {
-                    imageInputButtons
-                }
+                Spacer(minLength: 6)
                 Text(String(localized: "translator.charcount",
                             defaultValue: "\(text.wrappedValue.count) characters"))
                     .font(.system(size: 11, weight: .medium))
@@ -292,7 +307,7 @@ struct TranslatorView: View {
             }
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 14)
+        .padding(.vertical, 10)
         .background(.bar)
     }
 

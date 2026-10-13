@@ -6,9 +6,15 @@ enum TranslationServiceError: LocalizedError {
     case server(status: Int, message: String)
     case emptyTranslation
     case contentFiltered
+    case missingModel
+    case truncatedTranslation
 
     var errorDescription: String? {
         switch self {
+        case .missingModel:
+            String(localized: "error.nomodel", defaultValue: "Fill in a model name in Settings first.")
+        case .truncatedTranslation:
+            String(localized: "error.truncated", defaultValue: "The model reached its output limit. Try a shorter text.")
         case .invalidBaseURL:
             String(localized: "error.invalidBaseURL",
                    defaultValue: "The API URL isn’t valid. Check it in Settings.")
@@ -36,6 +42,9 @@ struct TranslationService: Sendable {
     }
 
     func translate(_ text: String, using configuration: ProviderConfiguration) async throws -> String {
+        guard !configuration.model.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw TranslationServiceError.missingModel
+        }
         // 默认用 <source> 把待译文本和对话结构隔开。裸发时，正文首行如果恰好是
         // "User" 这类词，模型会把它读成对话里的角色标记而不是待译内容，整行凭空
         // 消失（实测 4 行输入只回 3 行，且只在首行触发）。
@@ -86,9 +95,18 @@ struct TranslationService: Sendable {
                         .init(role: "system", content: systemPrompt),
                         .init(role: "user", content: payload),
                     ],
-                    temperature: 0.2
+                    stream: false
                 )
             )
+        case .anthropic:
+            endpoint = try Self.endpoint(baseURL: configuration.baseURL, path: "messages")
+            body = try JSONEncoder().encode(AnthropicRequest(
+                model: configuration.model,
+                system: systemPrompt,
+                messages: [.init(role: "user", content: payload)],
+                max_tokens: 8192,
+                stream: false
+            ))
         }
 
         var request = URLRequest(url: endpoint)
@@ -96,9 +114,7 @@ struct TranslationService: Sendable {
         request.httpBody = body
         request.timeoutInterval = 120
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if !configuration.apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            request.setValue("Bearer \(configuration.apiKey)", forHTTPHeaderField: "Authorization")
-        }
+        Self.setAuthentication(on: &request, using: configuration)
 
         let (data, response) = try await session.data(for: request)
         try Self.validate(response: response, data: data)
@@ -115,6 +131,13 @@ struct TranslationService: Sendable {
             else { throw TranslationServiceError.invalidResponse }
             result = choice.message.content ?? ""
             finishReason = choice.finishReason
+        case .anthropic:
+            let decoded = try JSONDecoder().decode(AnthropicResponse.self, from: data)
+            result = decoded.content.filter { $0.type == "text" }.compactMap(\.text).joined()
+            finishReason = decoded.stop_reason
+        }
+        guard finishReason != "length", finishReason != "max_tokens" else {
+            throw TranslationServiceError.truncatedTranslation
         }
 
         let trimmed = result.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -148,20 +171,59 @@ struct TranslationService: Sendable {
         """
     }
 
-    func checkConnection(using configuration: ProviderConfiguration) async throws {
+    /// Model discovery is separate from a translation test: some gateways disable this endpoint.
+    func fetchModels(using configuration: ProviderConfiguration) async throws -> [String] {
+        let chatPath: String
+        switch configuration.provider {
+        case .ollama: chatPath = "api/chat"
+        case .openAICompatible: chatPath = "chat/completions"
+        case .anthropic: chatPath = "messages"
+        }
+        let base = try Self.removingEndpoint(chatPath, from: configuration.baseURL)
         let path = configuration.provider == .ollama ? "api/tags" : "models"
-        var connectionBaseURL = configuration.baseURL
-        if configuration.provider == .openAICompatible {
-            connectionBaseURL = Self.removingSuffix("chat/completions", from: connectionBaseURL)
+        let firstURL = try Self.endpoint(baseURL: base, path: path)
+        var nextURL: URL? = firstURL
+        var models: [String] = []
+        var visited = Set<URL>()
+        while let url = nextURL {
+            guard visited.insert(url).inserted else { throw TranslationServiceError.invalidResponse }
+            var request = URLRequest(url: url)
+            request.timeoutInterval = 15
+            Self.setAuthentication(on: &request, using: configuration)
+            let (data, response) = try await session.data(for: request)
+            try Self.validate(response: response, data: data)
+            if configuration.provider == .ollama {
+                models = try JSONDecoder().decode(OllamaModels.self, from: data).models.map(\.name)
+                nextURL = nil
+            } else {
+                let page = try JSONDecoder().decode(ModelList.self, from: data)
+                models += page.data.map(\.id)
+                if configuration.provider == .anthropic, page.has_more == true {
+                    guard let last = page.last_id, !last.isEmpty,
+                          var components = URLComponents(url: firstURL, resolvingAgainstBaseURL: false)
+                    else { throw TranslationServiceError.invalidResponse }
+                    var query = components.queryItems?.filter { $0.name != "after_id" } ?? []
+                    query.append(URLQueryItem(name: "after_id", value: last))
+                    components.queryItems = query
+                    nextURL = components.url
+                } else {
+                    nextURL = nil
+                }
+            }
         }
-        let endpoint = try Self.endpoint(baseURL: connectionBaseURL, path: path)
-        var request = URLRequest(url: endpoint)
-        request.timeoutInterval = 15
-        if !configuration.apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            request.setValue("Bearer \(configuration.apiKey)", forHTTPHeaderField: "Authorization")
+        let result = Set(models.filter { !$0.isEmpty }).sorted()
+        guard !result.isEmpty else { throw TranslationServiceError.invalidResponse }
+        return result
+    }
+
+    private static func setAuthentication(on request: inout URLRequest, using configuration: ProviderConfiguration) {
+        let key = configuration.apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        if configuration.provider == .anthropic {
+            request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
+            if !key.isEmpty { request.setValue(key, forHTTPHeaderField: "x-api-key") }
+        } else if !key.isEmpty {
+            request.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization")
         }
-        let (data, response) = try await session.data(for: request)
-        try Self.validate(response: response, data: data)
     }
 
     static func endpoint(baseURL: String, path: String) throws -> URL {
@@ -169,23 +231,29 @@ struct TranslationService: Sendable {
             .trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         let normalizedPath = path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         guard var components = URLComponents(string: trimmedBase),
-              components.scheme != nil,
+              ["http", "https"].contains(components.scheme?.lowercased() ?? ""),
+              components.user == nil, components.password == nil,
               components.host != nil
         else { throw TranslationServiceError.invalidBaseURL }
 
         let currentPath = components.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        if !currentPath.hasSuffix(normalizedPath) {
+        if currentPath == normalizedPath || currentPath.hasSuffix("/" + normalizedPath) {
+            components.path = "/" + currentPath
+        } else {
             components.path = "/" + [currentPath, normalizedPath].filter { !$0.isEmpty }.joined(separator: "/")
         }
         guard let url = components.url else { throw TranslationServiceError.invalidBaseURL }
         return url
     }
 
-    private static func removingSuffix(_ suffix: String, from value: String) -> String {
-        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
-            .trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        guard trimmed.lowercased().hasSuffix(suffix.lowercased()) else { return value }
-        return String(trimmed.dropLast(suffix.count)).trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+    private static func removingEndpoint(_ suffix: String, from value: String) throws -> String {
+        let url = try endpoint(baseURL: value, path: suffix)
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            throw TranslationServiceError.invalidBaseURL
+        }
+        components.path = String(components.path.dropLast(suffix.count))
+        guard let base = components.string else { throw TranslationServiceError.invalidBaseURL }
+        return base
     }
 
     private static func validate(response: URLResponse, data: Data) throws {
@@ -216,6 +284,26 @@ private struct ChatMessage: Encodable, Sendable {
 /// 而不是「模型没有返回译文」。
 private struct ResponseMessage: Decodable {
     let content: String?
+
+    enum CodingKeys: String, CodingKey { case content }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let text = try? container.decode(String.self, forKey: .content) {
+            content = text
+        } else if let parts = try? container.decode([TextPart].self, forKey: .content) {
+            content = parts.filter { $0.type == "text" || $0.type == "output_text" }
+                .compactMap(\.text).joined()
+        } else if try !container.contains(.content) || container.decodeNil(forKey: .content) {
+            content = nil
+        } else {
+            throw TranslationServiceError.invalidResponse
+        }
+    }
+}
+
+private struct TextPart: Decodable {
+    let type: String
+    let text: String?
 }
 
 private struct OllamaRequest: Encodable {
@@ -237,7 +325,33 @@ private struct OllamaResponse: Decodable {
 private struct OpenAIRequest: Encodable {
     let model: String
     let messages: [ChatMessage]
-    let temperature: Double
+    // Omit optional sampling/reasoning knobs for broad compatibility.
+    let stream: Bool
+}
+
+private struct AnthropicRequest: Encodable {
+    let model: String
+    let system: String
+    let messages: [ChatMessage]
+    let max_tokens: Int
+    let stream: Bool
+}
+
+private struct AnthropicResponse: Decodable {
+    let content: [TextPart]
+    let stop_reason: String?
+}
+
+private struct ModelList: Decodable {
+    struct Model: Decodable { let id: String }
+    let data: [Model]
+    let has_more: Bool?
+    let last_id: String?
+}
+
+private struct OllamaModels: Decodable {
+    struct Model: Decodable { let name: String }
+    let models: [Model]
 }
 
 private struct OpenAIResponse: Decodable {

@@ -6,6 +6,80 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            Section(String(localized: "settings.section.service", defaultValue: "Model service")) {
+                Picker(String(localized: "settings.service", defaultValue: "Service"),
+                       selection: serviceBinding) {
+                    ForEach(ServicePreset.allCases) { preset in
+                        Text(preset.title).tag(preset)
+                    }
+                }
+                .disabled(isBusy)
+
+                TextField(String(localized: "settings.apiurl", defaultValue: "API URL"),
+                          text: $appState.baseURL)
+                    .textFieldStyle(.roundedBorder)
+                    .disabled(isBusy)
+                    .accessibilityIdentifier("api-base-url")
+                Picker(String(localized: "settings.protocol", defaultValue: "Protocol"),
+                       selection: $appState.provider) {
+                    ForEach(APIProvider.allCases) { provider in
+                        Text(provider.title).tag(provider)
+                    }
+                }
+                .disabled(isBusy)
+                .accessibilityIdentifier("api-protocol")
+                Text(String(localized: "settings.advanced.hint",
+                            defaultValue: "Use the API base URL or full endpoint. For regional services, enter the endpoint matching your API key."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                SecureField(apiKeyPrompt, text: $appState.apiKey)
+                    .textFieldStyle(.roundedBorder)
+                    .disabled(isBusy)
+                HStack {
+                    TextField(String(localized: "settings.model", defaultValue: "Model"),
+                              text: $appState.model)
+                        .textFieldStyle(.roundedBorder)
+                    if !appState.availableModels.isEmpty {
+                        Menu(String(localized: "settings.models.choose", defaultValue: "Choose model")) {
+                            ForEach(appState.availableModels, id: \.self) { model in
+                                Button(model) { appState.model = model }
+                            }
+                        }
+                        .frame(maxWidth: 160)
+                    }
+                    Button(String(localized: "settings.models.fetch", defaultValue: "Fetch models")) {
+                        appState.fetchModels()
+                    }
+                }
+                .disabled(isBusy)
+                Text(String(localized: "settings.models.hint",
+                            defaultValue: "Choose an available text model or enter its ID manually. Some services do not provide a model list."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                HStack {
+                    Button(String(localized: "settings.test", defaultValue: "Test translation")) {
+                        appState.testConnection()
+                    }
+                    .disabled(isBusy || appState.model.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    if isBusy {
+                        ProgressView().controlSize(.small)
+                    }
+                    if let status = appState.settingsStatus {
+                        Text(status.message)
+                            .font(.caption)
+                            .foregroundStyle(status.isSuccess ? .green : .secondary)
+                            .lineLimit(3)
+                            .textSelection(.enabled)
+                    }
+                }
+                Text(String(localized: "settings.test.hint",
+                            defaultValue: "Sends “Hello” to the selected model to verify translation. Your API provider may charge for this request."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             Section(String(localized: "settings.section.general", defaultValue: "General")) {
                 Toggle(String(localized: "settings.general.hidedock",
                               defaultValue: "Hide the Dock icon when the window is closed"),
@@ -14,41 +88,6 @@ struct SettingsView: View {
                             defaultValue: "LinguaDock keeps running either way. The menu bar icon and the shortcuts stay available, and the Dock icon comes back with the window."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
-            }
-
-            Section(String(localized: "settings.section.service", defaultValue: "Model service")) {
-                Picker(String(localized: "settings.protocol", defaultValue: "Protocol"),
-                       selection: providerBinding) {
-                    ForEach(APIProvider.allCases) { provider in
-                        Text(provider.title).tag(provider)
-                    }
-                }
-                .pickerStyle(.segmented)
-
-                TextField(String(localized: "settings.apiurl", defaultValue: "API URL"),
-                          text: $appState.baseURL)
-                    .textFieldStyle(.roundedBorder)
-                SecureField(apiKeyPrompt, text: $appState.apiKey)
-                    .textFieldStyle(.roundedBorder)
-                TextField(String(localized: "settings.model", defaultValue: "Model"),
-                          text: $appState.model)
-                    .textFieldStyle(.roundedBorder)
-
-                HStack {
-                    Button(String(localized: "settings.test", defaultValue: "Test connection")) {
-                        appState.testConnection()
-                    }
-                    .disabled(appState.isTestingConnection)
-                    if appState.isTestingConnection {
-                        ProgressView().controlSize(.small)
-                    }
-                    if let status = appState.settingsStatus {
-                        Text(status.message)
-                            .font(.caption)
-                            .foregroundStyle(status.isSuccess ? .green : .secondary)
-                            .lineLimit(2)
-                    }
-                }
             }
 
             Section(String(localized: "settings.section.shortcuts", defaultValue: "Shortcuts")) {
@@ -146,7 +185,7 @@ struct SettingsView: View {
 
             Section(String(localized: "settings.section.defaults", defaultValue: "Default behavior")) {
                 Text(String(localized: "settings.defaults.body",
-                            defaultValue: "The input language is detected automatically. The target language defaults to Simplified Chinese and can be changed in the main window at any time. Each protocol's API key is stored separately in the macOS Keychain."))
+                            defaultValue: "The input language is detected automatically. The target language defaults to Simplified Chinese and can be changed in the main window at any time. The current service settings are saved automatically. The API key stays in the macOS Keychain."))
                     .foregroundStyle(.secondary)
                 Text(String(localized: "settings.defaults.ollama",
                             defaultValue: "Ollama defaults: \(APIProvider.ollama.defaultBaseURL) · \(APIProvider.ollama.defaultModel)"))
@@ -178,13 +217,15 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
         .padding(12)
-        .frame(width: 560, height: 610)
+        .frame(width: 600, height: 720)
     }
 
-    private var providerBinding: Binding<APIProvider> {
+    private var isBusy: Bool { appState.isTestingConnection || appState.isLoadingModels }
+
+    private var serviceBinding: Binding<ServicePreset> {
         Binding(
-            get: { appState.provider },
-            set: { appState.selectProvider($0) }
+            get: { appState.servicePreset },
+            set: { appState.selectService($0) }
         )
     }
 

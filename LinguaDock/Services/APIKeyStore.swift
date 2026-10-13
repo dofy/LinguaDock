@@ -19,11 +19,15 @@ enum APIKeyStore {
     }
 
     static func save(_ value: String, for provider: APIProvider) throws {
-        let account = account(for: provider)
+        try save(value, account: account(for: provider))
+    }
+
+    static func save(_ value: String, account: String) throws {
         let query = keychainQuery(account: account)
 
         if value.isEmpty {
-            SecItemDelete(query as CFDictionary)
+            let status = SecItemDelete(query as CFDictionary)
+            guard status == errSecSuccess || status == errSecItemNotFound else { throw keychainError(status) }
             return
         }
 
@@ -57,7 +61,7 @@ enum APIKeyStore {
         }
     }
 
-    private static func load(account: String) -> String {
+    static func load(account: String) -> String {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
@@ -94,4 +98,18 @@ enum APIKeyStore {
             ]
         )
     }
+}
+
+/// Injectable credentials keep configuration persistence testable without reading a user's Keychain.
+@MainActor
+struct ModelKeyStore {
+    var load: (String) -> String
+    var save: (String, String) throws -> Void
+    var migrate: () throws -> Void
+
+    static let keychain = ModelKeyStore(
+        load: { APIKeyStore.load(account: $0) },
+        save: { try APIKeyStore.save($0, account: $1) },
+        migrate: { try APIKeyStore.migrateLegacyKeyToOpenAICompatible() }
+    )
 }

@@ -51,7 +51,7 @@ LinguaDock 不綁定單一翻譯供應商：
 
 - 用 **Ollama**，讓文字和模型都留在這台機器上。
 - 用任何 **OpenAI-compatible API**，設定自己的 Base URL、API Key 和模型名稱。
-- 不同協定的 API Key 分開存在 macOS 鑰匙串裡。
+- 目前網址和模型自動儲存，API Key 儲存在 macOS 鑰匙圈中。
 
 App 不內建遙測。文字只會傳送到你在設定中選的服務；用本機的 Ollama 時，翻譯請求不需要
 離開 Mac。
@@ -83,11 +83,13 @@ ollama serve
 在 LinguaDock 設定中選 **Ollama**。預設位址是 `http://localhost:11434`，本機服務通常不需要
 API Key。
 
-### OpenAI-compatible 服務
+### 雲端或自訂服務
 
-在設定中選 **OpenAI Compatible**，填寫 Base URL、API Key 與模型。Base URL 可以是版本根路徑
-（例如 `https://api.openai.com/v1`）或完整的 `/chat/completions` 位址，LinguaDock 兩種都能
-正確補全請求路徑。
+在設定中選擇 **OpenAI、DeepSeek、Gemini、Qwen / DashScope、OpenRouter 或 Claude**，填寫 API Key，然後取得模型清單或手動填寫文字模型 ID。Claude 使用原生 Messages API，其餘雲端服務預設使用 OpenAI-compatible Chat Completions。
+
+其他服務商或閘道選擇 **自訂**，直接填寫 API URL 和協定。支援 API 基礎網址或完整介面網址。Qwen 預設使用中國內地網址，其他區域需修改為與 Key 對應的網址。
+
+**取得模型** 只讀取模型清單；**測試翻譯** 會向所選模型傳送「Hello」，可能產生 API 費用。無法取得清單時仍可手填模型。只儲存目前一套設定，修改自動儲存。API Key 儲存在鑰匙圈中。從多套設定版本升級時，會保留目前使用的設定和 Key。
 
 第一次從其他 App 讀取選取的文字時，請在「系統設定 → 隱私權與安全性 → 輔助使用」中允許
 LinguaDock。

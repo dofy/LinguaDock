@@ -62,7 +62,7 @@ LinguaDock isn't tied to one translation vendor:
 - Use **Ollama** and keep both the text and the model on this machine.
 - Use any **OpenAI-compatible API** with your own base URL, API key and model
   name.
-- API keys for different protocols are stored separately in the macOS Keychain.
+- The current address and model are saved automatically. The API key stays in the macOS Keychain.
 
 The app ships no telemetry. Text goes only to the service you chose in Settings;
 with a local Ollama, a translation request never has to leave the Mac.
@@ -102,12 +102,13 @@ ollama serve
 Pick **Ollama** in LinguaDock's settings. The default address is
 `http://localhost:11434`, and a local service usually needs no API key.
 
-### An OpenAI-compatible service
+### A cloud or custom service
 
-Pick **OpenAI Compatible** in Settings and fill in the base URL, API key and
-model. The base URL can be a version root (`https://api.openai.com/v1`, say) or a
-complete `/chat/completions` address — LinguaDock completes the request path
-correctly either way.
+Choose **OpenAI, DeepSeek, Gemini, Qwen / DashScope, OpenRouter, or Claude** in Settings, enter your API key, then fetch the model list or enter a text model ID manually. Claude uses its native Messages API; other cloud presets use OpenAI-compatible Chat Completions.
+
+For another provider or gateway, choose **Custom** and fill in the URL and protocol directly in Settings. Both API base URLs and full endpoints are accepted. Qwen defaults to the China mainland endpoint; change the address for other regions to match your key.
+
+**Fetch models** only retrieves the model list. **Test translation** sends “Hello” to the selected model and may incur API charges. If model discovery is unavailable, entering a model ID manually still works. Only the current configuration is saved automatically. The API key stays in Keychain. Updating from the multi-configuration version preserves the active configuration and its key.
 
 The first time it reads selected text from another app, allow LinguaDock under
 System Settings → Privacy & Security → Accessibility.

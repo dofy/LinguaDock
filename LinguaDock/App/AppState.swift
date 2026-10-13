@@ -10,6 +10,7 @@ import SwiftUI
 enum SettingsStatus: Equatable, Sendable {
     case connecting
     case connected
+    case modelsLoaded
     case failed(String)
 
     /// 展示给用户的文案。失败分支带的是上游已经本地化过的错误描述。
@@ -18,13 +19,15 @@ enum SettingsStatus: Equatable, Sendable {
         case .connecting:
             String(localized: "settings.status.connecting", defaultValue: "Connecting…")
         case .connected:
-            String(localized: "settings.status.connected", defaultValue: "Connected")
+            String(localized: "settings.status.connected", defaultValue: "Translation verified")
+        case .modelsLoaded:
+            String(localized: "settings.status.modelsLoaded", defaultValue: "Models loaded")
         case let .failed(reason):
             reason
         }
     }
 
-    var isSuccess: Bool { self == .connected }
+    var isSuccess: Bool { self == .connected || self == .modelsLoaded }
 }
 
 @MainActor
@@ -44,30 +47,42 @@ final class AppState: ObservableObject {
     /// 图片 OCR 进行中（截屏识别 / 剪贴板识图共用）。
     @Published var isRecognizing = false
 
+    @Published private(set) var servicePreset: ServicePreset
     @Published var provider: APIProvider {
-        didSet { defaults.set(provider.rawValue, forKey: Keys.provider) }
+        didSet { persistServiceProfile(clearModels: true) }
     }
     @Published var baseURL: String {
-        didSet { defaults.set(baseURL, forKey: Keys.baseURL) }
+        didSet { persistServiceProfile(clearModels: true) }
     }
     @Published var model: String {
-        didSet { defaults.set(model, forKey: Keys.model) }
+        didSet { persistServiceProfile() }
     }
     @Published var targetLanguage: TargetLanguage {
         didSet { defaults.set(targetLanguage.rawValue, forKey: Keys.targetLanguage) }
     }
     @Published var apiKey: String {
         didSet {
-            guard apiKey != oldValue else { return }
+            guard !isRestoringService, apiKey != oldValue else { return }
             do {
-                try APIKeyStore.save(apiKey, for: provider)
+                settingsStatus = nil
+                availableModels = []
+                try keyStore.save(apiKey, SavedServiceConfiguration.currentKeyAccount)
+                keyAccount = SavedServiceConfiguration.currentKeyAccount
+                persistServiceProfile()
             } catch {
                 errorMessage = error.localizedDescription
+                settingsStatus = .failed(error.localizedDescription)
             }
         }
     }
     @Published var settingsStatus: SettingsStatus?
     @Published var isTestingConnection = false
+    @Published var isLoadingModels = false
+    @Published var availableModels: [String] = []
+    private var isRestoringService = false
+    private var keyAccount: String
+    private var settingsTask: Task<Void, Never>?
+    private var settingsOperationID = UUID()
     @Published var globalShortcut: KeyboardShortcuts.Shortcut? {
         didSet {
             guard globalShortcut != oldValue else { return }
@@ -89,8 +104,9 @@ final class AppState: ObservableObject {
         }
     }
 
-    private let defaults = UserDefaults.standard
-    private let translationService = TranslationService()
+    private let defaults: UserDefaults
+    private let translationService: TranslationService
+    private let keyStore: ModelKeyStore
     private var translationTask: Task<Void, Never>?
     private var accessibilityRefreshTask: Task<Void, Never>?
     private var hotkeyConfigured = false
@@ -99,29 +115,32 @@ final class AppState: ObservableObject {
     private var captureInFlight = false
 
     private enum Keys {
-        static let provider = "provider"
-        static let baseURL = "baseURL"
-        static let model = "model"
         static let targetLanguage = "targetLanguage"
     }
 
-    private init() {
+    init(defaults: UserDefaults = .standard,
+         keyStore: ModelKeyStore = .keychain,
+         translationService: TranslationService = TranslationService()) {
+        self.defaults = defaults
+        self.keyStore = keyStore
+        self.translationService = translationService
         let migrationError: Error?
         do {
-            try APIKeyStore.migrateLegacyKeyToOpenAICompatible()
+            try keyStore.migrate()
             migrationError = nil
         } catch {
             migrationError = error
         }
 
-        let storedProvider = UserDefaults.standard.string(forKey: Keys.provider)
-            .flatMap(APIProvider.init(rawValue:)) ?? .ollama
-        provider = storedProvider
-        baseURL = UserDefaults.standard.string(forKey: Keys.baseURL) ?? storedProvider.defaultBaseURL
-        model = UserDefaults.standard.string(forKey: Keys.model) ?? storedProvider.defaultModel
-        targetLanguage = UserDefaults.standard.string(forKey: Keys.targetLanguage)
+        let current = ServiceConfigurationStore(defaults: defaults).load()
+        servicePreset = current.preset
+        provider = current.profile.provider
+        baseURL = current.profile.baseURL
+        model = current.profile.model
+        keyAccount = current.keyAccount
+        targetLanguage = defaults.string(forKey: Keys.targetLanguage)
             .flatMap(TargetLanguage.init(rawValue:)) ?? .default
-        apiKey = APIKeyStore.load(for: storedProvider)
+        apiKey = keyStore.load(current.keyAccount)
         globalShortcut = KeyboardShortcuts.getShortcut(for: .openTranslator)
         captureShortcut = KeyboardShortcuts.getShortcut(for: .captureAndTranslate)
         if let migrationError {
@@ -144,13 +163,45 @@ final class AppState: ObservableObject {
         hotkeyConfigured = true
     }
 
-    func selectProvider(_ newProvider: APIProvider) {
-        guard provider != newProvider else { return }
-        provider = newProvider
-        baseURL = newProvider.defaultBaseURL
-        model = newProvider.defaultModel
-        apiKey = APIKeyStore.load(for: newProvider)
+    private func persistServiceProfile(clearModels: Bool = false) {
+        guard !isRestoringService else { return }
+        ServiceConfigurationStore(defaults: defaults).save(SavedServiceConfiguration(
+            preset: servicePreset,
+            profile: ServiceProfile(provider: provider, baseURL: baseURL, model: model),
+            keyAccount: keyAccount))
         settingsStatus = nil
+        if clearModels { availableModels = [] }
+    }
+
+    private func cancelSettingsOperation() {
+        settingsTask?.cancel()
+        settingsTask = nil
+        settingsOperationID = UUID()
+        isTestingConnection = false
+        isLoadingModels = false
+        settingsStatus = nil
+        availableModels = []
+    }
+
+    func selectService(_ preset: ServicePreset) {
+        guard servicePreset != preset else { return }
+        do {
+            // A new service must not receive the previous service's credential.
+            try keyStore.save("", SavedServiceConfiguration.currentKeyAccount)
+        } catch {
+            settingsStatus = .failed(error.localizedDescription)
+            return
+        }
+        cancelSettingsOperation()
+        isRestoringService = true
+        servicePreset = preset
+        provider = preset.provider
+        baseURL = preset.baseURL
+        model = preset.model
+        keyAccount = SavedServiceConfiguration.currentKeyAccount
+        apiKey = ""
+        isRestoringService = false
+        persistServiceProfile()
     }
 
     func captureSelectionAndTranslate() {
@@ -379,24 +430,49 @@ final class AppState: ObservableObject {
     }
 
     func testConnection() {
-        guard !isTestingConnection else { return }
+        guard !isTestingConnection, !isLoadingModels else { return }
         isTestingConnection = true
         settingsStatus = .connecting
         let configuration = ProviderConfiguration(
             provider: provider,
             baseURL: baseURL,
             apiKey: apiKey,
-            model: model,
+            model: model.trimmingCharacters(in: .whitespacesAndNewlines),
             targetLanguage: targetLanguage
         )
-        Task { @MainActor in
+        let operationID = settingsOperationID
+        settingsTask = Task { @MainActor in
             do {
-                try await translationService.checkConnection(using: configuration)
+                _ = try await translationService.translate("Hello", using: configuration)
+                guard operationID == settingsOperationID, !Task.isCancelled else { return }
                 settingsStatus = .connected
             } catch {
+                guard operationID == settingsOperationID, !Task.isCancelled else { return }
                 settingsStatus = .failed(error.localizedDescription)
             }
             isTestingConnection = false
+        }
+    }
+
+    func fetchModels() {
+        guard !isLoadingModels, !isTestingConnection else { return }
+        isLoadingModels = true
+        settingsStatus = .connecting
+        let configuration = ProviderConfiguration(provider: provider, baseURL: baseURL,
+                                                  apiKey: apiKey, model: model,
+                                                  targetLanguage: targetLanguage)
+        let operationID = settingsOperationID
+        settingsTask = Task { @MainActor in
+            do {
+                let models = try await translationService.fetchModels(using: configuration)
+                guard operationID == settingsOperationID, !Task.isCancelled else { return }
+                availableModels = models
+                settingsStatus = .modelsLoaded
+            } catch {
+                guard operationID == settingsOperationID, !Task.isCancelled else { return }
+                settingsStatus = .failed(error.localizedDescription)
+            }
+            isLoadingModels = false
         }
     }
 
