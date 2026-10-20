@@ -19,6 +19,38 @@ private final class ProviderURLProtocol: URLProtocol, @unchecked Sendable {
 }
 
 final class ProviderRequestTests: XCTestCase, @unchecked Sendable {
+    @MainActor
+    func testSmartDirectionIsUsedByTheRequestAndFixedTargetOverridesIt() async throws {
+        let name = "LinguaDockTests.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: name))
+        defer { defaults.removePersistentDomain(forName: name) }
+        let keys = ModelKeyStore(load: { _ in "fixture-key" }, save: { _, _ in }, migrate: {})
+        let state = AppState(defaults: defaults, keyStore: keys, translationService: service())
+        state.selectService(.openai)
+        state.baseURL = "https://example.com/v1"
+        state.model = "fixture-model"
+        state.sourceText = "请先确认付款是否成功，再决定是否重新扣款。"
+        var prompts: [String] = []
+        ProviderURLProtocol.handler = { request in
+            let messages = try XCTUnwrap(self.body(request)["messages"] as? [[String: String]])
+            prompts.append(try XCTUnwrap(messages.first?["content"]))
+            return (200, #"{"choices":[{"message":{"content":"translated"},"finish_reason":"stop"}]}"#)
+        }
+        for smart in [true, false] {
+            state.smartTranslationEnabled = smart
+            state.translate()
+            for _ in 0..<100 where state.isTranslating {
+                try await Task.sleep(for: .milliseconds(10))
+            }
+            XCTAssertFalse(state.isTranslating)
+            XCTAssertNil(state.errorMessage)
+            XCTAssertEqual(state.translatedText, "translated")
+        }
+        XCTAssertEqual(prompts.count, 2)
+        XCTAssertTrue(prompts.first?.contains("precise English") == true)
+        XCTAssertTrue(prompts.last?.contains("precise Simplified Chinese") == true)
+    }
+
     private func service() -> TranslationService {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [ProviderURLProtocol.self]

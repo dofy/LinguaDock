@@ -167,18 +167,26 @@ struct TranslatorView: View {
 
     private var directionBar: some View {
         HStack(spacing: 10) {
-            Text(String(localized: "translator.detect", defaultValue: "Detect language"))
+            Text(appState.detectedSourceLanguage?.displayName
+                 ?? String(localized: "translator.detect", defaultValue: "Detect language"))
             Image(systemName: "arrow.right")
                 .accessibilityHidden(true)
             Picker(String(localized: "translator.target", defaultValue: "Target language"),
-                   selection: $appState.targetLanguage) {
+                   selection: translationTargetBinding) {
+                Text(String(localized: "translator.smart.target",
+                            defaultValue: "Smart · \(appState.smartTranslationDirection.target.displayName)"))
+                    .tag("auto")
+                Divider()
                 ForEach(TargetLanguage.allCases) { language in
-                    Text(language.displayName).tag(language)
+                    Text(language.displayName).tag(language.rawValue)
                 }
             }
             .labelsHidden()
             .pickerStyle(.menu)
             .fixedSize()
+            .help(String(localized: "translator.smart.help",
+                         defaultValue: "Smart translation uses your preferred language, switching to the alternate when the source already matches. Configure both in Settings, or select a fixed target here."))
+            .accessibilityIdentifier("translation-target")
             Spacer(minLength: 12)
             ViewThatFits(in: .horizontal) {
                 imageInputButtons.fixedSize()
@@ -194,6 +202,20 @@ struct TranslatorView: View {
         }
         .font(.system(size: 13, weight: .semibold))
         .foregroundStyle(.secondary)
+    }
+
+    private var translationTargetBinding: Binding<String> {
+        Binding(
+            get: { appState.smartTranslationEnabled ? "auto" : appState.targetLanguage.rawValue },
+            set: { value in
+                if value == "auto" {
+                    appState.smartTranslationEnabled = true
+                } else if let language = TargetLanguage(rawValue: value) {
+                    appState.targetLanguage = language
+                    appState.smartTranslationEnabled = false
+                }
+            }
+        )
     }
 
     private func editorCard(

@@ -31,6 +31,7 @@ targets:
       - sdk: ApplicationServices.framework
       - sdk: Security.framework
       - sdk: Vision.framework            # 图片 OCR：文字识别
+      - sdk: NaturalLanguage.framework   # 本地识别原文语言
       - sdk: ScreenCaptureKit.framework  # 截屏识别：屏幕区域截图
     settings:
       base:

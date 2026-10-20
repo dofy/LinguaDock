@@ -27,6 +27,12 @@ enum TargetLanguage: String, CaseIterable, Codable, Identifiable, Sendable {
 
     var id: String { rawValue }
 
+    var languageFamily: String { rawValue.split(separator: "-").first.map(String.init) ?? rawValue }
+
+    func isSameLanguage(as other: TargetLanguage) -> Bool {
+        languageFamily == other.languageFamily
+    }
+
     /// 选择器里显示的语言名。**不要**拿它当 prompt 用——发给模型的名字是
     /// `promptName`，必须保持英文。
     var displayName: String {

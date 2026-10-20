@@ -89,6 +89,29 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
+            Section(String(localized: "settings.section.translation", defaultValue: "Translation")) {
+                Toggle(String(localized: "settings.translation.smart", defaultValue: "Smart translation"),
+                       isOn: $appState.smartTranslationEnabled)
+                Picker(String(localized: "settings.translation.primary", defaultValue: "Preferred target language"),
+                       selection: $appState.primaryTranslationLanguage) {
+                    ForEach(TargetLanguage.allCases) { language in
+                        Text(language.displayName).tag(language)
+                    }
+                }
+                Picker(String(localized: "settings.translation.fallback", defaultValue: "When the source matches, translate into"),
+                       selection: $appState.fallbackTranslationLanguage) {
+                    ForEach(TargetLanguage.allCases.filter {
+                        !$0.isSameLanguage(as: appState.primaryTranslationLanguage)
+                    }) { language in
+                        Text(language.displayName).tag(language)
+                    }
+                }
+                Text(String(localized: "settings.translation.hint",
+                            defaultValue: "Smart mode detects the main language on this Mac. If detection is uncertain, it keeps your preferred target. Simplified and Traditional Chinese count as the same source language. Select a fixed target in the main window for script conversion or a specific translation direction."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             Section(String(localized: "settings.section.general", defaultValue: "General")) {
                 Toggle(String(localized: "settings.general.hidedock",
                               defaultValue: "Hide the Dock icon when the window is closed"),
@@ -194,7 +217,7 @@ struct SettingsView: View {
 
             Section(String(localized: "settings.section.defaults", defaultValue: "Default behavior")) {
                 Text(String(localized: "settings.defaults.body",
-                            defaultValue: "The input language is detected automatically. The target language defaults to Simplified Chinese and can be changed in the main window at any time. The current service settings are saved automatically. The API key stays in the macOS Keychain."))
+                            defaultValue: "Smart translation defaults to Simplified Chinese, or English when the source is Chinese. You can configure both languages above or choose a fixed target in the main window. Settings are saved automatically. The API key stays in the macOS Keychain."))
                     .foregroundStyle(.secondary)
                 Text(String(localized: "settings.defaults.ollama",
                             defaultValue: "Ollama defaults: \(APIProvider.ollama.defaultBaseURL) · \(APIProvider.ollama.defaultModel)"))

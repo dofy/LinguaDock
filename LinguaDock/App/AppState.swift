@@ -34,7 +34,10 @@ enum SettingsStatus: Equatable, Sendable {
 final class AppState: ObservableObject {
     static let shared = AppState()
 
-    @Published var sourceText = ""
+    @Published var sourceText = "" {
+        didSet { detectedSourceLanguage = TranslationDirection.detectSource(in: sourceText) }
+    }
+    @Published private(set) var detectedSourceLanguage: TargetLanguage?
     @Published var translatedText = ""
     @Published var isTranslating = false
     @Published var errorMessage: String?
@@ -59,6 +62,37 @@ final class AppState: ObservableObject {
     }
     @Published var targetLanguage: TargetLanguage {
         didSet { defaults.set(targetLanguage.rawValue, forKey: Keys.targetLanguage) }
+    }
+    @Published var smartTranslationEnabled: Bool {
+        didSet { defaults.set(smartTranslationEnabled, forKey: Keys.smartTranslationEnabled) }
+    }
+    @Published var primaryTranslationLanguage: TargetLanguage {
+        didSet {
+            if fallbackTranslationLanguage.isSameLanguage(as: primaryTranslationLanguage) {
+                fallbackTranslationLanguage = primaryTranslationLanguage == .english ? .simplifiedChinese : .english
+            }
+            defaults.set(primaryTranslationLanguage.rawValue, forKey: Keys.primaryTranslationLanguage)
+        }
+    }
+    @Published var fallbackTranslationLanguage: TargetLanguage {
+        didSet {
+            if fallbackTranslationLanguage.isSameLanguage(as: primaryTranslationLanguage) {
+                fallbackTranslationLanguage = primaryTranslationLanguage == .english ? .simplifiedChinese : .english
+            }
+            defaults.set(fallbackTranslationLanguage.rawValue, forKey: Keys.fallbackTranslationLanguage)
+        }
+    }
+
+    var translationDirection: TranslationDirection {
+        TranslationDirection.resolve(source: detectedSourceLanguage, smart: smartTranslationEnabled,
+                                     fixed: targetLanguage, primary: primaryTranslationLanguage,
+                                     fallback: fallbackTranslationLanguage)
+    }
+
+    var smartTranslationDirection: TranslationDirection {
+        TranslationDirection.resolve(source: detectedSourceLanguage, smart: true,
+                                     fixed: targetLanguage, primary: primaryTranslationLanguage,
+                                     fallback: fallbackTranslationLanguage)
     }
     @Published var apiKey: String {
         didSet {
@@ -116,6 +150,9 @@ final class AppState: ObservableObject {
 
     private enum Keys {
         static let targetLanguage = "targetLanguage"
+        static let smartTranslationEnabled = "smartTranslationEnabled.v1"
+        static let primaryTranslationLanguage = "primaryTranslationLanguage.v1"
+        static let fallbackTranslationLanguage = "fallbackTranslationLanguage.v1"
     }
 
     init(defaults: UserDefaults = .standard,
@@ -140,6 +177,14 @@ final class AppState: ObservableObject {
         keyAccount = current.keyAccount
         targetLanguage = defaults.string(forKey: Keys.targetLanguage)
             .flatMap(TargetLanguage.init(rawValue:)) ?? .default
+        smartTranslationEnabled = defaults.object(forKey: Keys.smartTranslationEnabled) as? Bool ?? true
+        let primary = defaults.string(forKey: Keys.primaryTranslationLanguage)
+            .flatMap(TargetLanguage.init(rawValue:)) ?? .default
+        primaryTranslationLanguage = primary
+        let fallback = defaults.string(forKey: Keys.fallbackTranslationLanguage)
+            .flatMap(TargetLanguage.init(rawValue:)) ?? .english
+        fallbackTranslationLanguage = fallback.isSameLanguage(as: primary)
+            ? (primary == .english ? .simplifiedChinese : .english) : fallback
         apiKey = keyStore.load(current.keyAccount)
         globalShortcut = KeyboardShortcuts.getShortcut(for: .openTranslator)
         captureShortcut = KeyboardShortcuts.getShortcut(for: .captureAndTranslate)
@@ -351,7 +396,7 @@ final class AppState: ObservableObject {
             baseURL: baseURL,
             apiKey: apiKey,
             model: model.trimmingCharacters(in: .whitespacesAndNewlines),
-            targetLanguage: targetLanguage
+            targetLanguage: translationDirection.target
         )
         guard !configuration.model.isEmpty else {
             errorMessage = String(localized: "error.nomodel",
