@@ -36,21 +36,30 @@ struct SettingsView: View {
                 SecureField(apiKeyPrompt, text: $appState.apiKey)
                     .textFieldStyle(.roundedBorder)
                     .disabled(isBusy)
-                HStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text(String(localized: "settings.model", defaultValue: "Model"))
+                        Spacer()
+                        if !appState.availableModels.isEmpty {
+                            Menu(String(localized: "settings.models.choose", defaultValue: "Choose model")) {
+                                ForEach(appState.availableModels, id: \.self) { model in
+                                    Button(model) { appState.model = model }
+                                }
+                            }
+                            .fixedSize()
+                        }
+                        Button(String(localized: "settings.models.fetch", defaultValue: "Fetch models")) {
+                            appState.fetchModels()
+                        }
+                        .fixedSize()
+                    }
                     TextField(String(localized: "settings.model", defaultValue: "Model"),
                               text: $appState.model)
+                        .labelsHidden()
                         .textFieldStyle(.roundedBorder)
-                    if !appState.availableModels.isEmpty {
-                        Menu(String(localized: "settings.models.choose", defaultValue: "Choose model")) {
-                            ForEach(appState.availableModels, id: \.self) { model in
-                                Button(model) { appState.model = model }
-                            }
-                        }
-                        .frame(maxWidth: 160)
-                    }
-                    Button(String(localized: "settings.models.fetch", defaultValue: "Fetch models")) {
-                        appState.fetchModels()
-                    }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .help(appState.model)
+                        .accessibilityIdentifier("api-model")
                 }
                 .disabled(isBusy)
                 Text(String(localized: "settings.models.hint",
