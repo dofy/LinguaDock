@@ -3,6 +3,7 @@ import SwiftUI
 
 struct TranslatorView: View {
     @EnvironmentObject private var appState: AppState
+    @StateObject private var speech = SpeechService()
     @FocusState private var sourceFocused: Bool
 
     var body: some View {
@@ -55,6 +56,29 @@ struct TranslatorView: View {
         .onAppear {
             appState.refreshAccessibilityStatus()
             sourceFocused = appState.sourceText.isEmpty
+        }
+        .onDisappear { speech.stop() }
+        .onChange(of: appState.sourceText) {
+            if speech.activeContent == .source { speech.stop() }
+        }
+        .onChange(of: appState.translatedText) {
+            if speech.activeContent == .translation { speech.stop() }
+        }
+        .onChange(of: appState.isTranslating) {
+            if appState.isTranslating { speech.stop() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSWindow.willCloseNotification)) { notification in
+            if let window = notification.object as? NSWindow,
+               window.identifier?.rawValue == AppState.mainWindowIdentifier {
+                speech.stop()
+            }
+        }
+        .alert(String(localized: "speech.error.title", defaultValue: "Unable to read aloud"),
+               isPresented: Binding(get: { speech.errorMessage != nil },
+                                    set: { if !$0 { speech.errorMessage = nil } })) {
+            Button(String(localized: "common.ok", defaultValue: "OK")) { speech.errorMessage = nil }
+        } message: {
+            Text(speech.errorMessage ?? "")
         }
         .alert(
             String(localized: "translator.alert.title", defaultValue: "Translation failed"),
@@ -234,6 +258,7 @@ struct TranslatorView: View {
                             defaultValue: "\(text.wrappedValue.count) characters"))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.tertiary)
+                speechButton(content: .source)
             }
             ZStack(alignment: .topLeading) {
                 if text.wrappedValue.isEmpty {
@@ -267,6 +292,7 @@ struct TranslatorView: View {
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
+                speechButton(content: .translation)
                 if !appState.translatedText.isEmpty {
                     Button { appState.copyTranslation() } label: {
                         Label(String(localized: "translator.copy", defaultValue: "Copy"),
@@ -295,6 +321,29 @@ struct TranslatorView: View {
         .frame(maxWidth: .infinity, minHeight: 145, maxHeight: .infinity)
         .background(Color.accentColor.opacity(0.055), in: RoundedRectangle(cornerRadius: 16))
         .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.accentColor.opacity(0.22)))
+    }
+
+    private func speechButton(content: SpeechService.Content) -> some View {
+        let isSource = content == .source
+        let text = isSource ? appState.sourceText : appState.translatedText
+        let isActive = speech.activeContent == content
+        let label = isActive
+            ? String(localized: "speech.stop", defaultValue: "Stop reading")
+            : String(localized: "speech.read", defaultValue: "Read aloud")
+        return Button {
+            speech.toggle(text,
+                          language: isSource ? appState.detectedSourceLanguage?.rawValue
+                              : appState.translatedLanguage?.rawValue,
+                          content: content)
+        } label: {
+            Label(label, systemImage: isActive ? "stop.fill" : "speaker.wave.2")
+        }
+        .font(.system(size: 12, weight: .medium))
+        .buttonStyle(.borderless)
+        .controlSize(.small)
+        .disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+        .help(label)
+        .accessibilityIdentifier(isSource ? "speech-source" : "speech-translation")
     }
 
     private var footer: some View {

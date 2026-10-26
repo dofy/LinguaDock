@@ -39,6 +39,8 @@ final class AppState: ObservableObject {
     }
     @Published private(set) var detectedSourceLanguage: TargetLanguage?
     @Published var translatedText = ""
+    /// Keep the language of the displayed result, even if the next target changes.
+    @Published private(set) var translatedLanguage: TargetLanguage?
     @Published var isTranslating = false
     @Published var errorMessage: String?
     @Published var statusMessage: String?
@@ -415,6 +417,7 @@ final class AppState: ObservableObject {
                 let result = try await translationService.translate(text, using: configuration)
                 try Task.checkCancellation()
                 translatedText = result
+                translatedLanguage = configuration.targetLanguage
                 statusMessage = String(localized: "status.done", defaultValue: "Translation complete")
             } catch is CancellationError {
                 return

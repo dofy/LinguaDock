@@ -45,7 +45,11 @@ final class ProviderRequestTests: XCTestCase, @unchecked Sendable {
             XCTAssertFalse(state.isTranslating)
             XCTAssertNil(state.errorMessage)
             XCTAssertEqual(state.translatedText, "translated")
+            XCTAssertEqual(state.translatedLanguage, smart ? .english : .simplifiedChinese)
         }
+        state.targetLanguage = .japanese
+        XCTAssertEqual(state.translatedLanguage, .simplifiedChinese,
+                       "Changing the next target must not change the displayed result's speech language")
         XCTAssertEqual(prompts.count, 2)
         XCTAssertTrue(prompts.first?.contains("precise English") == true)
         XCTAssertTrue(prompts.last?.contains("precise Simplified Chinese") == true)
