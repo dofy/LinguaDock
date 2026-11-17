@@ -138,7 +138,7 @@ pnpm dev
 - **`TargetLanguage.promptName` 必須保持英文** —— 它會進到發給模型的 system prompt。只有
   `displayName` 本機化，`LinguaDockTests/TargetLanguageTests.swift` 守著這個差別。
 - PopClip 擴充功能自己帶三語文案，在 `PopClip/LinguaDock.popclipext/Config.yaml` 與
-  `Main.js`。Raycast 擴充功能沒有本機化機制，按慣例保持英文。
+  `Main.ts`。Raycast 擴充功能沒有本機化機制，按慣例保持英文。
 
 ## 本機開發
 

@@ -165,7 +165,7 @@ Settings → General → Language & Region.
   prompt sent to the model. Only `displayName` is localized, and
   `LinguaDockTests/TargetLanguageTests.swift` guards the difference.
 - The PopClip extension carries its own trilingual strings in
-  `PopClip/LinguaDock.popclipext/Config.yaml` and `Main.js`. Raycast extensions
+  `PopClip/LinguaDock.popclipext/Config.yaml` and `Main.ts`. Raycast extensions
   have no localization mechanism and stay English by convention.
 
 ## Local development

@@ -128,7 +128,7 @@ pnpm dev
   Swift 里硬编码中文时失败。合法例外在行尾加 `// i18n-exempt`。
 - **`TargetLanguage.promptName` 必须保持英文**——它会进到发给模型的 system prompt。只有
   `displayName` 走本地化，`LinguaDockTests/TargetLanguageTests.swift` 守着这个区别。
-- PopClip 扩展自带三语文案，在 `PopClip/LinguaDock.popclipext/Config.yaml` 与 `Main.js`。
+- PopClip 扩展自带三语文案，在 `PopClip/LinguaDock.popclipext/Config.yaml` 与 `Main.ts`。
   Raycast 扩展没有本地化机制，按惯例保持英文。
 
 ## 本地开发
