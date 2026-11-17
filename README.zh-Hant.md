@@ -7,7 +7,7 @@
 <p align="center"><strong>選取，喚起，讀懂。</strong></p>
 
 <p align="center">
-  <a href="https://linguadock.phpz.org/">LinguaDock</a> 是一款原生 macOS 翻譯工具。它把你在其他 App 中選取的文字、在螢幕上框選的區域，
+  <a href="https://linguadock.phpz.org/zh-Hant/">LinguaDock</a> 是一款原生 macOS 翻譯工具。它把你在其他 App 中選取的文字、在螢幕上框選的區域，
   或剪貼板裡的圖片帶進一個乾淨的翻譯視窗，並用你選擇的本機模型或雲端服務完成翻譯。
 </p>
 
@@ -184,7 +184,7 @@ swift scripts/generate_menubar_icon.swift
 
 - GitHub：[github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
 - 問題回報：[GitHub Issues](https://github.com/dofy/LinguaDock/issues)
-- 網站原始碼：[`website/`](website/README.md)
+- [官方網站](https://linguadock.phpz.org/zh-Hant/)
 - License：[MIT](LICENSE)
 
 其他語言：[English](README.md) · [简体中文](README.zh-Hans.md)。

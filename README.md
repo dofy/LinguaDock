@@ -246,7 +246,7 @@ notarization requires. Notarization itself (`xcrun notarytool submit` and
 
 - GitHub: [github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
 - Issues: [GitHub Issues](https://github.com/dofy/LinguaDock/issues)
-- Website source: [`website/`](website/README.md)
+- [Official website](https://linguadock.phpz.org/)
 - License: [MIT](LICENSE)
 
 Read this README in [简体中文](README.zh-Hans.md) or [繁體中文](README.zh-Hant.md).
