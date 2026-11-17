@@ -1,8 +1,8 @@
-# LinguaDock
-
 <p align="center">
   <img src="Design/icon-master.png" width="156" alt="LinguaDock app icon">
 </p>
+
+<h1 align="center">LinguaDock</h1>
 
 <p align="center"><strong>選取，喚起，讀懂。</strong></p>
 
@@ -11,10 +11,15 @@
   或剪貼板裡的圖片帶進一個乾淨的翻譯視窗，並用你選擇的本機模型或雲端服務完成翻譯。
 </p>
 
+<p align="center"><a href="README.md">English</a> · <a href="README.zh-Hans.md">简体中文</a> · <strong>繁體中文</strong><br />
+<a href="https://github.com/dofy/LinguaDock">GitHub</a> · <a href="https://github.com/dofy/LinguaDock/issues">Issues</a></p>
+
 <p align="center">
-  <img alt="macOS 14+" src="https://img.shields.io/badge/macOS-14%2B-171614?logo=apple&logoColor=white">
-  <img alt="Swift 6" src="https://img.shields.io/badge/Swift-6-FF6554?logo=swift&logoColor=white">
-  <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-52717A">
+  <img src="https://img.shields.io/badge/macOS-14%2B-171614?style=flat-square" alt="macOS 14 or later" />
+  <img src="https://img.shields.io/badge/Swift-6-ef654f?style=flat-square" alt="Swift 6" />
+  <img src="https://img.shields.io/badge/OCR-on--device-52717a?style=flat-square" alt="On-device OCR" />
+  <img src="https://img.shields.io/badge/translation-local%20%2B%20cloud-536b83?style=flat-square" alt="Local and cloud translation" />
+  <img src="https://img.shields.io/badge/license-MIT-6b7b5d?style=flat-square" alt="MIT license" />
 </p>
 
 ## 一條更短的翻譯路徑
