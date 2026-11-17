@@ -1,9 +1,5 @@
 # LinguaDock
 
-[English](README.md) · [简体中文](README.zh-Hans.md) · **繁體中文**
-
-[**linguadock.phpz.org** ↗](https://linguadock.phpz.org)
-
 <p align="center">
   <img src="Design/icon-master.png" width="156" alt="LinguaDock app icon">
 </p>
@@ -11,8 +7,8 @@
 <p align="center"><strong>選取，喚起，讀懂。</strong></p>
 
 <p align="center">
-  LinguaDock 是一款原生 macOS 翻譯工具。它把你在其他 App 中選取的文字、在螢幕上框選的區域，
-  或剪貼板裡的圖片帶進一個乾淨的翻譯視窗，並用你選擇的本機模型或 OpenAI-compatible 服務完成翻譯。
+  <a href="https://linguadock.phpz.org/">LinguaDock</a> 是一款原生 macOS 翻譯工具。它把你在其他 App 中選取的文字、在螢幕上框選的區域，
+  或剪貼板裡的圖片帶進一個乾淨的翻譯視窗，並用你選擇的本機模型或雲端服務完成翻譯。
 </p>
 
 <p align="center">
@@ -64,7 +60,8 @@ App 不內建遙測。文字只會傳送到你在設定中選的服務；用本�
   快速鍵照常運作，重新打開時視窗和你離開時一樣。可在「設定 > 一般」關掉
 - 可錄製、可隨時修改的全域快速鍵（讀取選取文字 / 擷取螢幕各一組）
 - 基於系統 Vision 框架的本機 OCR，涵蓋中英日韓等常見語言，並自動偵測語種
-- 主要目標語言清單，你的選擇會被記住
+- 智慧翻譯會在本機偵測原文語言，通常譯成偏好的目標語言；若原文已是偏好的語言，就改用備用語言。也可以在主視窗固定目標語言。
+- 點擊原文或譯文旁的揚聲器按鈕，即可用 macOS 系統語音朗讀。
 - 輔助使用授權狀態會自動重新整理
 - `linguadock://translate?text=...` URL Scheme
 - 隨 repo 提供可安裝的 PopClip 擴充功能，以及可獨立執行的 Raycast 擴充功能
@@ -181,5 +178,7 @@ swift scripts/generate_menubar_icon.swift
 
 - GitHub：[github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
 - 問題回報：[GitHub Issues](https://github.com/dofy/LinguaDock/issues)
-- 網站：[`website/`](website/README.md) → [linguadock.phpz.org](https://linguadock.phpz.org)
+- 網站原始碼：[`website/`](website/README.md)
 - License：[MIT](LICENSE)
+
+其他語言：[English](README.md) · [简体中文](README.zh-Hans.md)。

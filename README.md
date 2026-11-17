@@ -1,9 +1,5 @@
 # LinguaDock
 
-**English** · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md)
-
-[**linguadock.phpz.org** ↗](https://linguadock.phpz.org)
-
 <p align="center">
   <img src="Design/icon-master.png" width="156" alt="LinguaDock app icon">
 </p>
@@ -11,10 +7,10 @@
 <p align="center"><strong>Select, summon, understand.</strong></p>
 
 <p align="center">
-  LinguaDock is a native macOS translation tool. It carries text you selected in
+  <a href="https://linguadock.phpz.org/">LinguaDock</a> is a native macOS translation tool. It carries text you selected in
   another app, a region you dragged out on screen, or an image on the clipboard
   into one clean translation window, and translates it with the local model or
-  OpenAI-compatible service of your choice.
+  cloud service of your choice.
 </p>
 
 <p align="center">
@@ -80,7 +76,11 @@ with a local Ollama, a translation request never has to leave the Mac.
   for screen capture
 - On-device OCR through the system Vision framework, covering Chinese, English,
   Japanese, Korean and other common languages, with automatic detection
-- A list of the major target languages; your choice is remembered
+- Smart translation detects the source language on your Mac. It uses your preferred
+  target unless the source matches it, then uses the fallback language. You can
+  also choose a fixed target in the main window.
+- Use the speaker button beside the source or translation to read it aloud with
+  a macOS system voice.
 - Accessibility authorization status refreshes itself
 - A `linguadock://translate?text=...` URL scheme
 - An installable PopClip extension and a standalone Raycast extension, both in
@@ -241,5 +241,7 @@ notarization requires. Notarization itself (`xcrun notarytool submit` and
 
 - GitHub: [github.com/dofy/LinguaDock](https://github.com/dofy/LinguaDock)
 - Issues: [GitHub Issues](https://github.com/dofy/LinguaDock/issues)
-- Website: [`website/`](website/README.md) → [linguadock.phpz.org](https://linguadock.phpz.org)
+- Website source: [`website/`](website/README.md)
 - License: [MIT](LICENSE)
+
+Read this README in [简体中文](README.zh-Hans.md) or [繁體中文](README.zh-Hant.md).
