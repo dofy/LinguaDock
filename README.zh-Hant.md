@@ -15,6 +15,7 @@
 <a href="https://github.com/dofy/LinguaDock">GitHub</a> · <a href="https://github.com/dofy/LinguaDock/issues">Issues</a></p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Mac-Apple%20Silicon-536b83?style=flat-square" alt="Mac: Apple Silicon" />
   <img src="https://img.shields.io/badge/macOS-14%2B-171614?style=flat-square" alt="macOS 14 or later" />
   <img src="https://img.shields.io/badge/Swift-6-ef654f?style=flat-square" alt="Swift 6" />
   <img src="https://img.shields.io/badge/OCR-on--device-52717a?style=flat-square" alt="On-device OCR" />

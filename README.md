@@ -17,6 +17,7 @@
 <a href="https://github.com/dofy/LinguaDock">GitHub</a> · <a href="https://github.com/dofy/LinguaDock/issues">Issues</a></p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Mac-Apple%20Silicon-536b83?style=flat-square" alt="Mac: Apple Silicon" />
   <img src="https://img.shields.io/badge/macOS-14%2B-171614?style=flat-square" alt="macOS 14 or later" />
   <img src="https://img.shields.io/badge/Swift-6-ef654f?style=flat-square" alt="Swift 6" />
   <img src="https://img.shields.io/badge/OCR-on--device-52717a?style=flat-square" alt="On-device OCR" />
@@ -215,8 +216,7 @@ Packaging a build for someone else:
 ./scripts/package-release.sh          # → dist/LinguaDock-<version>.dmg
 ```
 
-That script builds Release as a universal binary (both `x86_64` and `arm64`, and
-it fails rather than shipping one slice), signs it, and writes a DMG containing
+That script builds Release as an Apple Silicon (`arm64`) binary, signs it, and writes a DMG containing
 the app, an `Applications` symlink and a trilingual first-run note covering
 Gatekeeper, the Accessibility and Screen Recording grants, and pointing the app
 at Ollama or an OpenAI-compatible endpoint.
