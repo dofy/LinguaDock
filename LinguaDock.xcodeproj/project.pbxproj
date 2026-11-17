@@ -34,6 +34,7 @@
 		AE1F275AA4413CA7290EB90D /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 977537C9669A3BE72152ECEF /* Vision.framework */; };
 		B50A97B2F064F74D4DFA713C /* WindowAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0002452BD63D4D0B064E7570 /* WindowAccessor.swift */; };
 		B52C0C02C99F50AB0C9AA95D /* NaturalLanguage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DE5DF85CEB189FABCCBEC8 /* NaturalLanguage.framework */; };
+		B6033EE85AB6AD09EDF27C6E /* KeychainServiceMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57189BF10233AE76EAED78BF /* KeychainServiceMigrationTests.swift */; };
 		B8CB22F7AF396459A7019816 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */; };
 		BC87422117025133D7D937B1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C7169CE7623B7B0329BAA7F /* Security.framework */; };
 		CBFDA3D5CE97E93D015FCDF9 /* TargetLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1DB3DC058EEE9BFF8D5464 /* TargetLanguage.swift */; };
@@ -71,6 +72,7 @@
 		483786DC0DA5EEB8F427D8D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F18011C4E18D5E91C0265FA /* URLRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRoute.swift; sourceTree = "<group>"; };
 		54984B16E48F2A59D07D9381 /* LinguaDock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinguaDock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		57189BF10233AE76EAED78BF /* KeychainServiceMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainServiceMigrationTests.swift; sourceTree = "<group>"; };
 		5825C95CAA0BF4CB800EB083 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		69178290541A0C33BBEAAA98 /* TranslationDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationDirection.swift; sourceTree = "<group>"; };
 		719B130AD3E67D96CAB8D578 /* ImageTextRecognizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTextRecognizerTests.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				73C47DC8A97FBE607F0390B6 /* APIKeyStoreTests.swift */,
 				D1BEFC04BF82B3C8AFCEC6E1 /* DockVisibilityTests.swift */,
 				719B130AD3E67D96CAB8D578 /* ImageTextRecognizerTests.swift */,
+				57189BF10233AE76EAED78BF /* KeychainServiceMigrationTests.swift */,
 				74E6E5324E94C8679935ED83 /* ProviderRequestTests.swift */,
 				1C296C93F9498ABA69CEE06E /* ServiceConfigurationStoreTests.swift */,
 				799006A2F82294F8F3DA3C88 /* TargetLanguageTests.swift */,
@@ -369,6 +372,7 @@
 				79AC75267064D5185DB6E98D /* APIKeyStoreTests.swift in Sources */,
 				F255C51A08951B1CB0D9255A /* DockVisibilityTests.swift in Sources */,
 				0534DF467AF627114D6C3E3A /* ImageTextRecognizerTests.swift in Sources */,
+				B6033EE85AB6AD09EDF27C6E /* KeychainServiceMigrationTests.swift in Sources */,
 				5969D6A346B58FE72145CB7B /* ProviderRequestTests.swift in Sources */,
 				90F4413273D403B5FFEE97A0 /* ServiceConfigurationStoreTests.swift in Sources */,
 				08EF4B6AF0D8F8D3B1656F2F /* TargetLanguageTests.swift in Sources */,
@@ -493,7 +497,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -557,7 +561,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
