@@ -2,12 +2,8 @@ import Foundation
 import Security
 
 enum APIKeyStore {
-    /// 钥匙串 service 名，故意停留在旧的 bundle ID 上。
-    ///
-    /// bundle ID 已改为 `xyz.phpz.app.linguadock`（去掉了 `mac` 一层），但这个
-    /// 字符串只是钥匙串条目的查找键，改了会让已存的 API key 读不回来。除非补一
-    /// 段迁移逻辑，否则保持原值。
-    private static let service = "xyz.phpz.app.mac.linguadock"
+    private static let service = "xyz.phpz.app.linguadock"
+    private static let legacyService = "xyz.phpz.app.mac.linguadock"
     private static let legacyAccount = "translation-api-key"
 
     static func account(for provider: APIProvider) -> String {
@@ -28,6 +24,13 @@ enum APIKeyStore {
         if value.isEmpty {
             let status = SecItemDelete(query as CFDictionary)
             guard status == errSecSuccess || status == errSecItemNotFound else { throw keychainError(status) }
+            let legacyQuery: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrService as String: legacyService,
+                kSecAttrAccount as String: account,
+            ]
+            let legacyStatus = SecItemDelete(legacyQuery as CFDictionary)
+            guard legacyStatus == errSecSuccess || legacyStatus == errSecItemNotFound else { throw keychainError(legacyStatus) }
             return
         }
 
@@ -48,6 +51,7 @@ enum APIKeyStore {
     }
 
     static func migrateLegacyKeyToOpenAICompatible() throws {
+        try migrateLegacyService()
         let legacyValue = load(account: legacyAccount)
         guard !legacyValue.isEmpty else { return }
 
@@ -62,6 +66,12 @@ enum APIKeyStore {
     }
 
     static func load(account: String) -> String {
+        // If a protected legacy item could not be renamed, keep it readable
+        // rather than silently treating the credential as absent.
+        read(account: account, service: service) ?? read(account: account, service: legacyService) ?? ""
+    }
+
+    private static func read(account: String, service: String) -> String? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
@@ -69,13 +79,36 @@ enum APIKeyStore {
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne,
         ]
-
         var result: CFTypeRef?
         guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
-              let data = result as? Data,
-              let value = String(data: data, encoding: .utf8)
-        else { return "" }
-        return value
+              let data = result as? Data else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+
+    private static func migrateLegacyService() throws {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: legacyService,
+            kSecReturnAttributes as String: true,
+            kSecMatchLimit as String: kSecMatchLimitAll,
+        ]
+        var result: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &result)
+        if status == errSecItemNotFound { return }
+        guard status == errSecSuccess else { throw keychainError(status) }
+        guard let items = result as? [[String: Any]] else { throw keychainError(errSecInternalError) }
+        let accounts = try items.map { item -> String in
+            guard let account = item[kSecAttrAccount as String] as? String else { throw keychainError(errSecInternalError) }
+            return account
+        }
+        try KeychainServiceMigration.run(accounts: accounts) { account in
+            let item: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrService as String: legacyService,
+                kSecAttrAccount as String: account,
+            ]
+            return SecItemUpdate(item as CFDictionary, [kSecAttrService as String: service] as CFDictionary)
+        }
     }
 
     private static func keychainQuery(account: String) -> [String: Any] {
@@ -112,4 +145,19 @@ struct ModelKeyStore {
         save: { try APIKeyStore.save($0, account: $1) },
         migrate: { try APIKeyStore.migrateLegacyKeyToOpenAICompatible() }
     )
+}
+
+/// Renaming an item preserves its value and access controls. A collision or
+/// locked Keychain stops the migration without deleting either item.
+enum KeychainServiceMigration {
+    static func run(accounts: [String], rename: (String) -> OSStatus) throws {
+        for account in accounts {
+            let status = rename(account)
+            guard status == errSecSuccess || status == errSecItemNotFound else {
+                throw NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: [
+                    NSLocalizedDescriptionKey: String(localized: "error.keychain.save", defaultValue: "The Keychain migration could not be completed (\(status)).")
+                ])
+            }
+        }
+    }
 }
