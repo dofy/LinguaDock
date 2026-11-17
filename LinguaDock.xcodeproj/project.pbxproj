@@ -14,6 +14,7 @@
 		24A1E4BC046D1B3FEAAEC4A7 /* RegionSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A903F262B5A9BDBF4F546 /* RegionSelector.swift */; };
 		31BE2A0AB96F1934F615A3FC /* DockVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C785121A9B9CCE41F46235DF /* DockVisibility.swift */; };
 		3C17DF571AB4D039CA8C86AD /* ShortcutRecorderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A942CB8F848BAC434944567 /* ShortcutRecorderField.swift */; };
+		45F3BE7375A95BD99444EBA5 /* OverlayScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FA42DD38F76571BD5A1972 /* OverlayScroller.swift */; };
 		49DB42D9E409ED44E7B71A60 /* ImageTextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4BCA33582BD004E2549C8BD /* ImageTextRecognizer.swift */; };
 		5969D6A346B58FE72145CB7B /* ProviderRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5324E94C8679935ED83 /* ProviderRequestTests.swift */; };
 		6156FF476EA4AAE6333CFE3A /* TranslationDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69178290541A0C33BBEAAA98 /* TranslationDirection.swift */; };
@@ -103,6 +104,7 @@
 		E15DBEF058E04D55F6F21DD4 /* ScreenCaptureKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenCaptureKit.framework; path = System/Library/Frameworks/ScreenCaptureKit.framework; sourceTree = SDKROOT; };
 		E4417FF92A497F358062C8E5 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
 		E4ABE8ED1148D9FE65F5B470 /* TranslatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorView.swift; sourceTree = "<group>"; };
+		F0FA42DD38F76571BD5A1972 /* OverlayScroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayScroller.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				A891461B49FE9AE6FEE5ED90 /* MenuBarMenuView.swift */,
+				F0FA42DD38F76571BD5A1972 /* OverlayScroller.swift */,
 				A8BEAFCAF3180C42B6D3D4A7 /* SettingsView.swift */,
 				3A942CB8F848BAC434944567 /* ShortcutRecorderField.swift */,
 				E4ABE8ED1148D9FE65F5B470 /* TranslatorView.swift */,
@@ -348,6 +351,7 @@
 				49DB42D9E409ED44E7B71A60 /* ImageTextRecognizer.swift in Sources */,
 				7368EF9B766559CBDBBD4D9F /* LinguaDockApp.swift in Sources */,
 				AA32C2F7FE7F959DDF77BC9E /* MenuBarMenuView.swift in Sources */,
+				45F3BE7375A95BD99444EBA5 /* OverlayScroller.swift in Sources */,
 				F83CC4C5886A8143D32031DB /* PasteboardImage.swift in Sources */,
 				8B2F49F4359418BC943D33C8 /* ProviderConfiguration.swift in Sources */,
 				24A1E4BC046D1B3FEAAEC4A7 /* RegionSelector.swift in Sources */,

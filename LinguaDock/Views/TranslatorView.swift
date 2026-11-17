@@ -274,6 +274,7 @@ struct TranslatorView: View {
                     .font(.system(size: 16, weight: .regular))
                     .lineSpacing(4)
                     .scrollContentBackground(.hidden)
+                    .overlayScrollers()
                     .padding(.vertical, 8)
                     .focused($sourceFocused)
                     .disabled(!editable)
@@ -316,6 +317,7 @@ struct TranslatorView: View {
                     .padding(.horizontal, 5)
                     .padding(.vertical, 8)
             }
+            .overlayScrollers()
         }
         .padding(14)
         .frame(maxWidth: .infinity, minHeight: 145, maxHeight: .infinity)
